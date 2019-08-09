@@ -1,6 +1,6 @@
 {
-  "name": "dw-input",
-  "version": "1.0.0",
+  "name": "@dreamworld/dw-input",
+  "version": "1.0.0-SNAPSHOT",
   "description": "",
   "main": "index.js",
   "scripts": {
