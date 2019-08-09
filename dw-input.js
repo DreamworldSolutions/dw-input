@@ -14,7 +14,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 
-class DwInput extends LitElement {
+export class DwInput extends LitElement {
   static get styles() {
     return [
       TextfieldStyle,
