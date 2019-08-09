@@ -31,6 +31,8 @@ It supports all the properties of html input element. Extra properies supported 
 
 - autoSelect
 
+- isTextField
+
 
 ###validation
 

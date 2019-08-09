@@ -158,7 +158,17 @@ export class DwInput extends LitElement {
       /**
        * Set to true to auto-select text on focus
        */
-      autoSelect: { type: Boolean }
+      autoSelect: { type: Boolean },
+
+      /**
+       * Set to true show input as a text-area
+       */
+      isTextField: { type: Boolean },
+      
+      /**
+       * The initial number of rows for text-field
+       */
+      rows: { type: Number },
     };
   }
 
@@ -168,7 +178,8 @@ export class DwInput extends LitElement {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': this.noLabel,
       'mdc-text-field--with-leading-icon': this.prefixIcon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.sufixIcon ? true : false
+      'mdc-text-field--with-trailing-icon': this.sufixIcon ? true : false,
+      'mdc-text-field--textarea': this.isTextField
     };
 
     const classesForLabel = {
@@ -189,20 +200,36 @@ export class DwInput extends LitElement {
           : html``
         }
 
-        <input type="text"
-          id="tf-outlined"
-          class="mdc-text-field__input"
-          .value="${this.value}"
-          .name="${this.name}"
-          ?disabled="${this.disabled}"
-          ?required="${this.required}"
-          ?readonly="${this.readOnly}"
-          .pattern="${this.pattern}"
-          .placeholder="${this.placeholder}"
-          @keypress="${this._preventInvalidInput}"
-          @input="${this._onInput}"
-          @blur="${this._onInputBlur}"
-          @focus="${this._onFocus}">
+        ${this.isTextField
+          ? html`
+            <textarea id="tf-outlined"
+            class="mdc-text-field__input"
+            rows="${this.rows}"
+            .value="${this.value}"
+            ?disabled="${this.disabled}"
+            ?required="${this.required}"
+            ?readonly="${this.readOnly}"
+            .placeholder="${this.placeholder}"
+            @blur="${this._onInputBlur}">
+            </textarea>
+
+          ` : html`
+            <input type="text"
+            id="tf-outlined"
+            class="mdc-text-field__input"
+            .value="${this.value}"
+            .name="${this.name}"
+            ?disabled="${this.disabled}"
+            ?required="${this.required}"
+            ?readonly="${this.readOnly}"
+            .pattern="${this.pattern}"
+            .placeholder="${this.placeholder}"
+            @keypress="${this._preventInvalidInput}"
+            @input="${this._onInput}"
+            @blur="${this._onInputBlur}"
+            @change="${this._triggerChangeEvent}"
+            @focus="${this._onFocus}">
+        `}
 
         <div class="mdc-notched-outline">
           <div class="mdc-notched-outline__leading"></div>
@@ -240,6 +267,8 @@ export class DwInput extends LitElement {
     this.pattern = '(.*?)';
     this.invalid = false;
     this.autoSelect = false;
+    this.isTextField = false;
+    this.rows = 2;
   }
 
   firstUpdated() {

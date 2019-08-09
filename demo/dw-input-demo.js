@@ -61,6 +61,9 @@ class DwInputDemo extends LitElement {
 
       <h4>Disabled text field</h4>
       <dw-input label="Animal name" value="Cat" disabled></dw-input>
+
+      <h4>text field</h4>
+      <dw-input label="Animal name" value="Cat" rows="5" isTextField></dw-input>
     `;
   }
 
