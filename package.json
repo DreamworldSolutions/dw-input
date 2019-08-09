@@ -1,0 +1,27 @@
+{
+  "name": "dw-input",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DreamworldSolutions/dw-input.git"
+  },
+  "keywords": [
+    "lit",
+    "input"
+  ],
+  "author": "Ruchita kheni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DreamworldSolutions/dw-input/issues"
+  },
+  "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
+  "dependencies": {
+    "@material/textfield": "^3.1.0",
+    "lit-element": "^2.2.1"
+  }
+}
