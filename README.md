@@ -1,7 +1,7 @@
 
 # dw-input
 
-A material input element mde with lit-html.
+A material input element made with lit-html.
 
 ## Usage
 
