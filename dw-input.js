@@ -13,13 +13,19 @@ import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
 import { TextfieldStyle } from './mdc-text-field-css.js';
+import { DwFormElement } from '@dw/dw-form/dw-form-element';
 
-export class DwInput extends LitElement {
+export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
     return [
       TextfieldStyle,
       css`
         :host {
+          --mdc-theme-primary: var(--primary-color);
+          --mdc-theme-secondary: var(--accent-color);
+          --mdc-theme-on-primary: var(--primary-text-color);
+          --mdc-theme-on-secondary: var(--secondary-text-color);
+          
           display: block;
           outline:none;
         }
@@ -304,7 +310,12 @@ export class DwInput extends LitElement {
   validate() { 
     let isValid = this._getInputValidity();
 
-    this.textFieldInstance.valid = isValid;
+    //Updating value only if it's changed because it's setting label as float
+    // on `textFieldInstance.valid` set which shows jerk in label. 
+    if (this.textFieldInstance.valid !== isValid) { 
+      this.textFieldInstance.valid = isValid;
+    }
+
     this.invalid = !isValid;
     return isValid;
   }

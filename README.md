@@ -1,12 +1,16 @@
 
 # dw-input
 
-A material input element made with lit-html.
+A material input element made with lit-html. For more detail visit https://material.io/develop/web/components/input-controls/text-field/.
+
+#Installation
+
+npm install @dw/dw-input
 
 ## Usage
 
 ```html
-<dw-input  label="Name"  placeholder="Enter name here"  required></dw-input>
+<dw-input label="Name" placeholder="Enter name here" required></dw-input>
 ```
 
 ## Properties
@@ -32,6 +36,10 @@ It supports all the properties of html input element. Extra properies supported 
 - autoSelect
 
 - isTextField
+
+## Events
+
+Triggers `value-changed` event on value change.
 
 
 ###validation
