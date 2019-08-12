@@ -25,6 +25,7 @@ export class DwInput extends DwFormElement(LitElement) {
           --mdc-theme-secondary: var(--accent-color);
           --mdc-theme-on-primary: var(--primary-text-color);
           --mdc-theme-on-secondary: var(--secondary-text-color);
+          --mdc-theme-error: var(--error-color);
           
           display: block;
           outline:none;
