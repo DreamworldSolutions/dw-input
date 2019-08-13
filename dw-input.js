@@ -129,12 +129,12 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * A name of prefix icon
        */
-      prefixIcon: { type: String },
+      prefixSvgIcon: { type: String },
 
        /**
        * A name of suffix icon
        */
-      sufixIcon: { type: String },
+      sufixSvgIcon: { type: String },
 
       /**
        * A placeholder text in addition to the label.
@@ -184,8 +184,8 @@ export class DwInput extends DwFormElement(LitElement) {
     const classes = {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': this.noLabel,
-      'mdc-text-field--with-leading-icon': this.prefixIcon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.sufixIcon ? true : false,
+      'mdc-text-field--with-leading-icon': this.prefixSvgIcon ? true : false,
+      'mdc-text-field--with-trailing-icon': this.sufixSvgIcon ? true : false,
       'mdc-text-field--textarea': this.isTextField
     };
 
@@ -197,13 +197,13 @@ export class DwInput extends DwFormElement(LitElement) {
     
       <div class="mdc-text-field mdc-text-field--outlined ${classMap(classes)}">
 
-        ${this.prefixIcon
-          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.prefixIcon)}</span>`
+        ${this.prefixSvgIcon
+          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.prefixSvgIcon)}</span>`
           : html``
         }
 
-        ${this.sufixIcon
-          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.sufixIcon)}</span>`
+        ${this.sufixSvgIcon
+          ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.sufixSvgIcon)}</span>`
           : html``
         }
 

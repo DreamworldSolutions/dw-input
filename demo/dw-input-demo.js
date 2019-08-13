@@ -45,10 +45,10 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" allowedPattern="[a-zA-Z]"></dw-input>
 
       <h4>Text field with prefix icon</h4>
-      <dw-input label="Name" prefixIcon=${this._getPrefixIcon()}></dw-input>
+      <dw-input label="Name" prefixSvgIcon=${this._getPrefixIcon()}></dw-input>
 
       <h4>Text field with suffix icon</h4>
-      <dw-input label="Name" sufixIcon="${this._getSuffixIcon()}"></dw-input>
+      <dw-input label="Name" sufixSvgIcon="${this._getSuffixIcon()}"></dw-input>
 
       <h4>Readonly</h4>
       <dw-input label="Animal name" value="Cat" readOnly></dw-input>

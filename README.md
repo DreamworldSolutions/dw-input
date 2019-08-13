@@ -3,59 +3,41 @@
 
 A material input element made with lit-html. For more detail visit https://material.io/develop/web/components/input-controls/text-field/.
 
-#Installation
+## Installation
 
-npm install @dw/dw-input
+```html
+	npm install @dw/dw-input
+```
 
 ## Usage
 
 ```html
-<dw-input label="Name" placeholder="Enter name here" required></dw-input>
+	@import '@dw/dw-input/dw-input';
 ```
 
-## Properties
+## Features
 
-It supports all the properties of html input element. Extra properies supported by this element are below:
-
-- noLabel
-
-- hintText
-
-- prefixIcon
-
-- sufixIcon
-
-- errorMessage
-
-- readOnly
-
-- validator
-
-- invalid
-
-- autoSelect
-
-- isTextField
+- It follows material design outlines input style and provides all features of it. [know more](https://material.io/develop/web/components/input-controls/text-field/)
+- It auto select's text if `autoSelect` property is true
+- Provides a `validator` property to add custom validations
+- Set `isTextField` to true to show input as text area
+- Set `prefixSvgIcon` and `suffixSvgIcon` to show prefix and suffix icon
+- Performs validation on blur. It also performs validation on User type if input is invalid.
 
 ## Events
 
 Triggers `value-changed` event on value change.
 
-
-###validation
-
-It performs validation on blur. It also performs validation on User type if input is invalid.
-
-set `validator` property for custom validation.
-
 ## Theme
 Configure color of the icon using `--icon-fill-color` css variable.  
-```
 
+#### Example css to change icon color
+```html
 dw-input{
 --icon-fill-color: green;
 }
 ```
+
 ## Custom input
 
 Override dwInput class to create a custom input
@@ -75,4 +57,16 @@ class CustomInput extends DwInput {
 customElements.define('custom-input', CustomInput);
 
 <custom-input></custom-input>
+```
+
+## Examples
+
+```html
+<dw-input label="Name" validator="<VALIDATION_FN>" placeholder="Enter name here" autoSelect required hintText="Hint text"></dw-input>
+
+<dw-input label="Number" disabled allowedPattern="[0-9]" value="12"></dw-input>
+
+<dw-input label="Number" readOnly prefixSvgIcon='<SVG_PATH>'  suffixSvgIcon='<SVG_PATH>'></dw-input>
+
+<dw-input noLabel isTextField></dw-input>
 ```
