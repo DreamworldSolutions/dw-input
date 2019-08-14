@@ -77,7 +77,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * A reference to the input element.
        */
-      textFieldInstance: {
+      _textFieldInstance: {
         type: Object
       },
 
@@ -213,10 +213,12 @@ export class DwInput extends DwFormElement(LitElement) {
             class="mdc-text-field__input"
             rows="${this.rows}"
             .value="${this.value}"
+            .name="${this.name}"
             ?disabled="${this.disabled}"
             ?required="${this.required}"
             ?readonly="${this.readOnly}"
             .placeholder="${this.placeholder}"
+            @input="${this._onInput}"
             @blur="${this._onInputBlur}">
             </textarea>
 
@@ -280,14 +282,14 @@ export class DwInput extends DwFormElement(LitElement) {
 
   firstUpdated() {
     const el = this.shadowRoot.querySelector('.mdc-text-field');
-    this.textFieldInstance = new MDCTextField(el);
-    this.textFieldInstance.useNativeValidation = false;
+    this._textFieldInstance = new MDCTextField(el);
+    this._textFieldInstance.useNativeValidation = false;
   }
 
   disconnectedCallback() {
-    if (this.textFieldInstance) {
-      this.textFieldInstance.destroy();
-      this.textFieldInstance = null;
+    if (this._textFieldInstance) {
+      this._textFieldInstance.destroy();
+      this._textFieldInstance = null;
     }
   }
 
@@ -299,12 +301,12 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to set focus in the input */
   focus() {
-    this.textFieldInstance.focus();
+    this._textFieldInstance.focus();
   }
 
   /* Call this to select text of the input */
   selectText(){
-    this.textFieldInstance.input_.select();
+    this._textFieldInstance.input_.select();
   }
 
   /* Call this to perform validation of the input */
@@ -312,9 +314,9 @@ export class DwInput extends DwFormElement(LitElement) {
     let isValid = this._getInputValidity();
 
     //Updating value only if it's changed because it's setting label as float
-    // on `textFieldInstance.valid` set which shows jerk in label. 
-    if (this.textFieldInstance.valid !== isValid) { 
-      this.textFieldInstance.valid = isValid;
+    // on `_textFieldInstance.valid` set which shows jerk in label. 
+    if (this._textFieldInstance.valid !== isValid) { 
+      this._textFieldInstance.valid = isValid;
     }
 
     this.invalid = !isValid;
@@ -362,11 +364,11 @@ export class DwInput extends DwFormElement(LitElement) {
    * If value is invalid, clears input value
    */
   _checkPatternValidity() { 
-    for (let i = 0; i < this.textFieldInstance.value.length; i++) {
-      let isValid = this._isValidValue(this.textFieldInstance.value[i]);
+    for (let i = 0; i < this._textFieldInstance.value.length; i++) {
+      let isValid = this._isValidValue(this._textFieldInstance.value[i]);
 
       if (!isValid) {
-        this.textFieldInstance.value = '';
+        this._textFieldInstance.value = '';
       }
     }
   }
@@ -383,7 +385,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Sets value of `dw-input`
    */
   _setValue() { 
-    this.value = this.textFieldInstance.value;
+    this.value = this._textFieldInstance.value;
   }
 
   /**
@@ -412,7 +414,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns true if validation is passed
    */
   _getInputValidity() { 
-    let isValid = this.textFieldInstance.input_.checkValidity();
+    let isValid = this._textFieldInstance.input_.checkValidity();
 
     if (!isValid) { 
       return false;

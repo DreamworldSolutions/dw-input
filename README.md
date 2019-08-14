@@ -15,6 +15,8 @@ A material input element made with lit-html. For more detail visit https://mater
 	@import '@dw/dw-input/dw-input';
 ```
 
+## [Demo](https://dreamworldsolutions.github.io/dw-input/demo/index.html)
+
 ## Features
 
 - It follows material design outlines input style and provides all features of it. [know more](https://material.io/develop/web/components/input-controls/text-field/)
