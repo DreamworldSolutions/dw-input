@@ -27,5 +27,8 @@
     "@dw/dw-form": "^0.1.0",
     "@material/textfield": "^3.1.0",
     "lit-element": "^2.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
