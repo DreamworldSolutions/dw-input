@@ -43,6 +43,15 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field{
           width: 100%;
         }
+        
+        .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
+        .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
+          color: var(--primary-color, rgba(98, 0, 238, 0.87));
+        }
+        
+        textarea{
+          resize: none;
+        }
 
         /* STARTS style for hide helper text when input is invalid */
         .mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-helper-text--validation-msg {
