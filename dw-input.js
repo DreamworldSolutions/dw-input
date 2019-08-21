@@ -97,12 +97,12 @@ export class DwInput extends DwFormElement(LitElement) {
       label: { type: String },
 
       /**
-       * Set to true to disable this input.
+       * Set to `true` to disable this input.
        */
       disabled: { type: Boolean },
 
       /**
-       * Set to true for input without label.
+       * Set to `true` for input without label.
        */
       noLabel: { type: Boolean },
 
@@ -112,17 +112,18 @@ export class DwInput extends DwFormElement(LitElement) {
       hintText: { type: String },
 
       /**
-       * Set to true to mark the input as required.
+       * Set to `true` to mark the input as required.
        */
       required: { type: Boolean },
 
       /**
-       * A pattern to validate the `input` with.
+       * A pattern to validate the `input` with. Checked during `validate()`.
+       * 
        */
       pattern: { type: String },
 
       /**
-       * Set this to specify the pattern allowed by user.
+       * Set this to specify the pattern allowed by user. Checked at the time user types in the textfield.
        */
       allowedPattern: { type: String },
       
