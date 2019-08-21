@@ -77,6 +77,11 @@ export class DwInput extends DwFormElement(LitElement) {
           fill: var(--icon-fill-color, rgba(0, 0, 0, 0.54));
           color: var(--icon-fill-color, rgba(0, 0, 0, 0.54));
         }
+  
+        :host([disabled]) .mdc-text-field--outlined .mdc-text-field__icon {
+          fill: var(--disabled-text-color, rgba(0, 0, 0, 0.38));
+          color: var(--disabled-text-color, rgba(0, 0, 0, 0.38));
+        }
       `
     ];
   }
