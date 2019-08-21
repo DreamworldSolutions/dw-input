@@ -287,6 +287,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback && super.disconnectedCallback();
     if (this._textFieldInstance) {
       this._textFieldInstance.destroy();
       this._textFieldInstance = null;
