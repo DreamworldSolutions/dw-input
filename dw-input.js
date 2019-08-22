@@ -369,9 +369,10 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     this.dispatchEvent(new CustomEvent('value-changed', {
-      detail: { value: this.value }
+      detail: { value: this._textFieldInstance.value }
     }));
 
+    this.value = this._textFieldInstance.value;
     this._patternAlreadyChecked = false;
   }
 
@@ -398,13 +399,6 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Sets value of `dw-input`
-   */
-  _setValue() { 
-    this.value = this._textFieldInstance.value;
-  }
-
-  /**
    * Invokes on input focus
    * Selects input text if `autoSelect` property is true
    */
@@ -416,11 +410,9 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /**
    * Invokes on input blur
-   * Sets value of `dw-input`
    * Validates input value
    */
   _onInputBlur() { 
-    this._setValue();
     this.validate();
   }
 
