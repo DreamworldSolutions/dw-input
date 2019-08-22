@@ -1,6 +1,6 @@
 {
-  "name": "@dreamworld/dw-input",
-  "version": "0.1.0",
+  "name": "@dw/dw-input",
+  "version": "1.0.5-SNAPSHOT",
   "description": "Material design styled input text-field & text-area implemented in LitElement",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
-    "@dw/dw-form": "^0.1.0",
+    "@dw/dw-form": "^1.0.0-SNAPSHOT",
     "@material/textfield": "^3.1.0",
     "lit-element": "^2.2.1"
   },

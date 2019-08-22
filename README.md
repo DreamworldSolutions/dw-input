@@ -22,7 +22,7 @@ A material input element made with lit-html. For more detail visit https://mater
 - It follows material design outlines input style and provides all features of it. [know more](https://material.io/develop/web/components/input-controls/text-field/)
 - It auto select's text if `autoSelect` property is true
 - Provides a `validator` property to add custom validations
-- Set `isTextField` to true to show input as text area
+- Set `multiline` to true to show input as text area
 - Set `prefixSvgIcon` and `suffixSvgIcon` to show prefix and suffix icon
 - Performs validation on blur. It also performs validation on User type if input is invalid.
 
@@ -30,10 +30,24 @@ A material input element made with lit-html. For more detail visit https://mater
 
 Triggers `value-changed` event on value change.
 
+## Methods
+
+- focus - Focuses the input
+
+- selectText - Selected input's text
+
+- validate - Call this to validate input. Returns false if value is invalid.
+
+- formattedValueGetter - This function invokes on blur. Returned  value by this will be set as a input's value.
+  e.g. formattedValueGetter(value) {return value.toFixed(2)}
+  
+- formattedValueGetter - This function invokes on focus. Returned value by this will be set as a input's value
+
 ## Theme
 Configure color of the icon using `--icon-fill-color` css variable.  
 
 #### Example css to change icon color
+
 ```html
 dw-input{
 --icon-fill-color: green;
@@ -70,5 +84,5 @@ customElements.define('custom-input', CustomInput);
 
 <dw-input label="Number" readOnly prefixSvgIcon='<SVG_PATH>'  suffixSvgIcon='<SVG_PATH>'></dw-input>
 
-<dw-input noLabel isTextField></dw-input>
+<dw-input noLabel multiline></dw-input>
 ```

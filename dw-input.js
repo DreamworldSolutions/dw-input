@@ -44,11 +44,13 @@ export class DwInput extends DwFormElement(LitElement) {
           width: 100%;
         }
         
+        /* Add a way to customize label color */
         .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
           color: var(--primary-color, rgba(98, 0, 238, 0.87));
         }
         
+        /* Hide right bottom corner icon */
         textarea{
           resize: none;
         }
@@ -67,21 +69,49 @@ export class DwInput extends DwFormElement(LitElement) {
         }
         /* ENDS style for hide helper text when input is invalid */
 
+
         /* Change prefix color icon when input is invalid */
         .mdc-text-field--invalid.mdc-text-field--with-leading-icon:not(.mdc-text-field--disabled) .mdc-text-field__icon{
           color: var(--mdc-theme-error, #b00020)
         }
 
+        /* Add a way to configure icon color */
         .mdc-text-field--outlined .mdc-text-field__icon{
           height: 24px;
           fill: var(--icon-fill-color, rgba(0, 0, 0, 0.54));
           color: var(--icon-fill-color, rgba(0, 0, 0, 0.54));
         }
-  
+        
+         /* Add a way to configure disabled icon color */
         :host([disabled]) .mdc-text-field--outlined .mdc-text-field__icon {
           fill: var(--disabled-text-color, rgba(0, 0, 0, 0.38));
           color: var(--disabled-text-color, rgba(0, 0, 0, 0.38));
         }
+
+        /* Add a way to configure idle border color */
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+          border-color: var(--input-outlined-idle-border-color, rgba(0, 0, 0, 0.38));
+        }
+
+        /* Add a way to configure disabled border color */
+        .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__leading,
+        .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__notch,
+        .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__trailing {
+          border-color: var(--input-outlined-disabled-border-color, rgba(0, 0, 0, 0.06));
+        }
+
+        /* Add a way to configure hover border color */
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing {
+          border-color: var(--input-outlined-hover-border-color, rgba(0, 0, 0, 0.87));
+        }
+
       `
     ];
   }
@@ -185,7 +215,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Set to true show input as a text-area
        */
-      isTextField: { type: Boolean },
+      multiline: { type: Boolean },
       
       /**
        * The initial number of rows for text-field
@@ -201,7 +231,7 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--no-label': this.noLabel,
       'mdc-text-field--with-leading-icon': this.prefixSvgIcon ? true : false,
       'mdc-text-field--with-trailing-icon': this.sufixSvgIcon ? true : false,
-      'mdc-text-field--textarea': this.isTextField
+      'mdc-text-field--textarea': this.multiline
     };
 
     const classesForLabel = {
@@ -222,38 +252,7 @@ export class DwInput extends DwFormElement(LitElement) {
           : html``
         }
 
-        ${this.isTextField
-          ? html`
-            <textarea id="tf-outlined"
-            class="mdc-text-field__input"
-            rows="${this.rows}"
-            .value="${this.value}"
-            .name="${this.name}"
-            ?disabled="${this.disabled}"
-            ?required="${this.required}"
-            ?readonly="${this.readOnly}"
-            .placeholder="${this.placeholder}"
-            @input="${this._onInput}"
-            @blur="${this._onInputBlur}">
-            </textarea>
-
-          ` : html`
-            <input type="text"
-            id="tf-outlined"
-            class="mdc-text-field__input"
-            .value="${this.value}"
-            .name="${this.name}"
-            ?disabled="${this.disabled}"
-            ?required="${this.required}"
-            ?readonly="${this.readOnly}"
-            .pattern="${this.pattern}"
-            .placeholder="${this.placeholder}"
-            @keypress="${this._preventInvalidInput}"
-            @input="${this._onInput}"
-            @blur="${this._onInputBlur}"
-            @change="${this._triggerChangeEvent}"
-            @focus="${this._onFocus}">
-        `}
+        ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
 
         <div class="mdc-notched-outline">
           <div class="mdc-notched-outline__leading"></div>
@@ -291,8 +290,45 @@ export class DwInput extends DwFormElement(LitElement) {
     this.pattern = '(.*?)';
     this.invalid = false;
     this.autoSelect = false;
-    this.isTextField = false;
+    this.multiline = false;
     this.rows = 2;
+  }
+
+  get inputTemplate() { 
+    return html`
+      <input type="text"
+        id="tf-outlined"
+        class="mdc-text-field__input"
+        .value="${this.value}"
+        .name="${this.name}"
+        ?disabled="${this.disabled}"
+        ?required="${this.required}"
+        ?readonly="${this.readOnly}"
+        .pattern="${this.pattern}"
+        .placeholder="${this.placeholder}"
+        @keypress="${this._preventInvalidInput}"
+        @input="${this._onInput}"
+        @blur="${this._onInputBlur}"
+        @change="${this._triggerChangeEvent}"
+        @focus="${this._onFocus}">
+    `;
+  }
+
+  get textareaTemplate() {
+    return html`
+      <textarea id="tf-outlined"
+        class="mdc-text-field__input"
+        rows="${this.rows}"
+        .value="${this.value}"
+        .name="${this.name}"
+        ?disabled="${this.disabled}"
+        ?required="${this.required}"
+        ?readonly="${this.readOnly}"
+        .placeholder="${this.placeholder}"
+        @input="${this._onInput}"
+        @blur = "${this._onInputBlur}" >
+      </textarea>
+    `;
   }
 
   firstUpdated() {
@@ -368,6 +404,10 @@ export class DwInput extends DwFormElement(LitElement) {
       this._checkPatternValidity();
     }
 
+    if (this.invalid) { 
+      this.validate();
+    }
+
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this._textFieldInstance.value }
     }));
@@ -406,6 +446,9 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.autoSelect) { 
       this.selectText();
     }
+    if (this.focusedValueGetter) { 
+      this.value = this.focusedValueGetter(this.value);
+    }
   }
 
   /**
@@ -414,10 +457,13 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _onInputBlur() { 
     this.validate();
+    if (this.formattedValueGetter) { 
+      this.value = this.formattedValueGetter(this.value);
+    }
   }
 
   /**
-   * Perfomrs validatio of input
+   * Performs validatio of input
    * It also invokes `validator` if provided
    * Returns true if validation is passed
    */
