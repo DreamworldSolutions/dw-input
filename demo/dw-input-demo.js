@@ -53,6 +53,9 @@ class DwInputDemo extends LitElement {
       <h4>Custom validation</h4>
       <dw-input id="customValidatorInupt" hintText="Type cat here" errorMessage="Value must be a 'cat'" label="Animal name" palceholder="Type cat"></dw-input>
 
+      <h4>Dense field</h4>
+      <dw-input label="Name" isDense></dw-input>
+      
       <h4>Auto-select text on focus</h4>
       <dw-input label="First name" value="Hello" originalValue="Hello" autoSelect required errorMessage="Required"></dw-input>
 

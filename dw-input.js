@@ -221,6 +221,8 @@ export class DwInput extends DwFormElement(LitElement) {
        * The initial number of rows for text-field
        */
       rows: { type: Number },
+      
+      isDense: { type: Boolean } 
     };
   }
 
@@ -231,7 +233,8 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--no-label': this.noLabel,
       'mdc-text-field--with-leading-icon': this.prefixSvgIcon ? true : false,
       'mdc-text-field--with-trailing-icon': this.sufixSvgIcon ? true : false,
-      'mdc-text-field--textarea': this.multiline
+      'mdc-text-field--textarea': this.multiline,
+      'mdc-text-field--dense': this.isDense && !this.multiline
     };
 
     const classesForLabel = {
@@ -292,6 +295,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.autoSelect = false;
     this.multiline = false;
     this.rows = 2;
+    this.isDense = false;
   }
 
   get inputTemplate() { 
