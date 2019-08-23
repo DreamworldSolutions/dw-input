@@ -446,9 +446,6 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.autoSelect) { 
       this.selectText();
     }
-    if (this.focusedValueGetter) { 
-      this.value = this.focusedValueGetter(this.value);
-    }
   }
 
   /**
@@ -457,9 +454,6 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _onInputBlur() { 
     this.validate();
-    if (this.formattedValueGetter) { 
-      this.value = this.formattedValueGetter(this.value);
-    }
   }
 
   /**

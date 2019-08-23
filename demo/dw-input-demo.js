@@ -56,9 +56,6 @@ class DwInputDemo extends LitElement {
       <h4>Auto-select text on focus</h4>
       <dw-input label="First name" value="Hello" originalValue="Hello" autoSelect required errorMessage="Required"></dw-input>
 
-      <h4>Auto-format value on blur</h4>
-      <dw-input label="Currency" allowedPattern="[0-9]" .focusedValueGetter="${this._getValueOnFocus}" .formattedValueGetter="${this._getValueOnBlur}"></dw-input>
-
       <h4>Text field</h4>
       <dw-input label="Notes" rows="5" multiline></dw-input>
 
@@ -83,37 +80,6 @@ class DwInputDemo extends LitElement {
 
   _getSuffixIcon() {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0zm0 0h24v24H0V0z"/><path d="M9 21h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2zM9 9l4.34-4.34L12 10h9v2l-3 7H9V9zM1 9h4v12H1z"/></svg>';
-  }
-
-  _getValueOnBlur(value) { 
-    if (!value && value !== 0) { 
-      return '';
-    }
-
-    if (isNaN(Number(value))) { 
-      return value;
-    }
-
-    value = Number(value);
-
-    let formattedValue = value.toLocaleString();
-    let decimalIndex = formattedValue.indexOf('.');
-
-    decimalIndex = decimalIndex === -1 ? undefined : decimalIndex;
-    formattedValue = formattedValue.substr(0, decimalIndex);
-
-    if (!this.decimalAllowed) {
-      return formattedValue;
-    }
-     
-    let formattedValueWithDecimal = value.toFixed(this.precision);
-    let decimalIdx = formattedValueWithDecimal.indexOf('.');
-
-    return formattedValue + formattedValueWithDecimal.substr(decimalIdx);
-  }
-
-  _getValueOnFocus(value) { 
-    return value.replace(/,/g, '');
   }
 }
 

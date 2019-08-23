@@ -38,11 +38,6 @@ Triggers `value-changed` event on value change.
 
 - validate - Call this to validate input. Returns false if value is invalid.
 
-- formattedValueGetter - This function invokes on blur. Returned  value by this will be set as a input's value.
-  e.g. formattedValueGetter(value) {return value.toFixed(2)}
-  
-- formattedValueGetter - This function invokes on focus. Returned value by this will be set as a input's value
-
 ## Theme
 Configure color of the icon using `--icon-fill-color` css variable.  
 
