@@ -19,6 +19,15 @@ class DwInputDemo extends LitElement {
           margin-bottom: 16px;
           max-width: 300px;
         }
+
+        .horizontal-layout{
+          display: flex;
+          flex-direction: row;
+        }
+
+        .col{
+          margin-right: 30px;
+        }
       `
     ];
   }
@@ -33,7 +42,10 @@ class DwInputDemo extends LitElement {
       <dw-input noLabel placeholder="Enter Name here"></dw-input>
 
       <h4>Text field with helper text</h4>
-      <dw-input label="Name" hintText="Helper Text" required errorMessage="Required"></dw-input>
+      <div class="horizontal-layout">
+        <dw-input class="col" label="Name" hint="Helper Text" required errorMessage="Required"></dw-input>
+        <dw-input label="Name" hintPersistent hint="Helper Text"></dw-input>
+      </div>
 
       <h4>Text field with prefilled value</h4>
       <dw-input label="Name" value="Simmy"></dw-input>
@@ -51,7 +63,10 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" allowedPattern="[a-zA-Z]"></dw-input>
 
       <h4>Custom validation</h4>
-      <dw-input id="customValidatorInupt" hintText="Type cat here" errorMessage="Value must be a 'cat'" label="Animal name" palceholder="Type cat"></dw-input>
+      <dw-input id="customValidatorInupt" hint="Type cat here" errorMessage="Value must be a 'cat'" label="Animal name" palceholder="Type cat"></dw-input>
+
+      <h4>Max length</h4>
+      <dw-input maxLength="5" label="Name" charCounter></dw-input>
 
       <h4>Dense field</h4>
       <dw-input label="Name" isDense></dw-input>
@@ -59,13 +74,13 @@ class DwInputDemo extends LitElement {
       <h4>Auto-select text on focus</h4>
       <dw-input label="First name" value="Hello" originalValue="Hello" autoSelect required errorMessage="Required"></dw-input>
 
-      <h4>Text field</h4>
+      <h4>Textarea</h4>
       <dw-input label="Notes" rows="5" multiline></dw-input>
 
       <h4>Readonly</h4>
       <dw-input label="Animal name" value="Cat" readOnly></dw-input>
 
-      <h4>Disabled text field</h4>
+      <h4>Disabled</h4>
       <dw-input label="Animal name" value="Cat" disabled prefixSvgIcon=${this._getSuffixIcon()}></dw-input>
     `;
   }

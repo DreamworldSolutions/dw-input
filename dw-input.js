@@ -12,6 +12,7 @@ import { LitElement, html, css } from 'lit-element';
 import {unsafeHTML} from 'lit-html/directives/unsafe-html.js';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
+import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dw/dw-form/dw-form-element';
 
@@ -21,12 +22,6 @@ export class DwInput extends DwFormElement(LitElement) {
       TextfieldStyle,
       css`
         :host {
-          --mdc-theme-primary: var(--primary-color);
-          --mdc-theme-secondary: var(--accent-color);
-          --mdc-theme-on-primary: var(--primary-text-color);
-          --mdc-theme-on-secondary: var(--secondary-text-color);
-          --mdc-theme-error: var(--error-color);
-          
           display: block;
           outline:none;
         }
@@ -47,7 +42,7 @@ export class DwInput extends DwFormElement(LitElement) {
         /* Add a way to customize label color */
         .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
-          color: var(--primary-color, rgba(98, 0, 238, 0.87));
+          color: var(--mdc-theme-primary, rgba(98, 0, 238, 0.87));
         }
         
         /* Hide right bottom corner icon */
@@ -60,7 +55,7 @@ export class DwInput extends DwFormElement(LitElement) {
           display: block;  
         }
 
-        .mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-helper-text--persistent {
+        .mdc-text-field--invalid + .mdc-text-field-helper-line .helper-text {
           display: none;  
         }
 
@@ -69,37 +64,31 @@ export class DwInput extends DwFormElement(LitElement) {
         }
         /* ENDS style for hide helper text when input is invalid */
 
-
-        /* Change prefix color icon when input is invalid */
-        .mdc-text-field--invalid.mdc-text-field--with-leading-icon:not(.mdc-text-field--disabled) .mdc-text-field__icon{
-          color: var(--mdc-theme-error, #b00020)
-        }
-
         /* Add a way to configure icon color */
         .mdc-text-field--outlined .mdc-text-field__icon{
           height: 24px;
-          fill: var(--icon-fill-color, rgba(0, 0, 0, 0.54));
-          color: var(--icon-fill-color, rgba(0, 0, 0, 0.54));
+          fill: var(--dw-icon-color, rgba(0, 0, 0, 0.54));
+          color: var(--dw-icon-color, rgba(0, 0, 0, 0.54));
         }
         
          /* Add a way to configure disabled icon color */
         :host([disabled]) .mdc-text-field--outlined .mdc-text-field__icon {
-          fill: var(--disabled-text-color, rgba(0, 0, 0, 0.38));
-          color: var(--disabled-text-color, rgba(0, 0, 0, 0.38));
+          fill: var(--dw-icon-color-disabled, rgba(0, 0, 0, 0.38));
+          color: var(--dw-icon-color-disabled, rgba(0, 0, 0, 0.38));
         }
 
         /* Add a way to configure idle border color */
         .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
         .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
         .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-          border-color: var(--input-outlined-idle-border-color, rgba(0, 0, 0, 0.38));
+          border-color: var(--dw-input-outlined-idle-border-color, rgba(0, 0, 0, 0.38));
         }
 
         /* Add a way to configure disabled border color */
         .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__leading,
         .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__notch,
         .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__trailing {
-          border-color: var(--input-outlined-disabled-border-color, rgba(0, 0, 0, 0.06));
+          border-color: var(--dw-input-outlined-disabled-border-color, rgba(0, 0, 0, 0.06));
         }
 
         /* Add a way to configure hover border color */
@@ -109,7 +98,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
         .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
         .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing {
-          border-color: var(--input-outlined-hover-border-color, rgba(0, 0, 0, 0.87));
+          border-color: var(--dw-input-outlined-hover-border-color, rgba(0, 0, 0, 0.87));
         }
 
       `
@@ -136,7 +125,7 @@ export class DwInput extends DwFormElement(LitElement) {
       value: { type: String },
 
       /**
-       * The label for this element.
+       * Sets floating label value.
        */
       label: { type: String },
 
@@ -146,17 +135,12 @@ export class DwInput extends DwFormElement(LitElement) {
       disabled: { type: Boolean },
 
       /**
-       * Set to `true` for input without label.
+       * Helper text to display below the input. Display default only when focused.
        */
-      noLabel: { type: Boolean },
+      hint: { type: String },
 
       /**
-       * Set this to show input with helper text
-       */
-      hintText: { type: String },
-
-      /**
-       * Set to `true` to mark the input as required.
+       * Set to `true` to mark the input as required. Displays error state if value is empty and input is blurred.
        */
       required: { type: Boolean },
 
@@ -172,12 +156,12 @@ export class DwInput extends DwFormElement(LitElement) {
       allowedPattern: { type: String },
       
       /**
-       * A name of prefix icon
+       * Leading icon to display in input
        */
       prefixSvgIcon: { type: String },
 
        /**
-       * A name of suffix icon
+       * Trailing icon to display in input
        */
       sufixSvgIcon: { type: String },
 
@@ -187,7 +171,7 @@ export class DwInput extends DwFormElement(LitElement) {
       placeholder: { type: String },
       
       /**
-       * The error message to display when the input is invalid.
+       * Message to show in the error color when the textfield is invalid. 
        */
       errorMessage: { type: String },
 
@@ -222,28 +206,47 @@ export class DwInput extends DwFormElement(LitElement) {
        */
       rows: { type: Number },
       
-      isDense: { type: Boolean } 
+      isDense: { type: Boolean },
+
+      /**
+       * Always show the helper text despite focus.
+       */
+      hintPersistent: { type: Boolean },
+
+      /**
+       * Maximum length to accept input.
+       */
+      maxLength: { type: Number },
+
+      /**
+       * Display character counter with max length. Note: requries maxLength to be set.
+       */
+      charCounter: { type: Boolean },
     };
   }
 
   render() {
     
-    const classes = {
+    const wrapperClasses = {
       'mdc-text-field--disabled': this.disabled,
-      'mdc-text-field--no-label': this.noLabel,
+      'mdc-text-field--no-label': !this.label,
       'mdc-text-field--with-leading-icon': this.prefixSvgIcon ? true : false,
       'mdc-text-field--with-trailing-icon': this.sufixSvgIcon ? true : false,
       'mdc-text-field--textarea': this.multiline,
       'mdc-text-field--dense': this.isDense && !this.multiline
     };
 
-    const classesForLabel = {
+    const labelClasses = {
       'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0
+    };
+
+    const helperTextClasses = {
+      'mdc-text-field-helper-text--persistent': this.hintPersistent
     };
     
     return html`
     
-      <div class="mdc-text-field mdc-text-field--outlined ${classMap(classes)}">
+      <div class="mdc-text-field mdc-text-field--outlined ${classMap(wrapperClasses)}">
 
         ${this.prefixSvgIcon
           ? html`<span class="mdc-text-field__icon">${unsafeHTML(this.prefixSvgIcon)}</span>`
@@ -260,20 +263,21 @@ export class DwInput extends DwFormElement(LitElement) {
         <div class="mdc-notched-outline">
           <div class="mdc-notched-outline__leading"></div>
           <div class="mdc-notched-outline__notch">
-            ${this.noLabel
-              ? html``
-              : html`<label for="tf-outlined" class="mdc-floating-label ${classMap(classesForLabel)}">${this.label}</label>`
+            ${this.label
+              ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
+              : html``
             }
           </div>
           <div class="mdc-notched-outline__trailing"></div>
         </div>
       </div>
       
-      ${this.hintText || this.errorMessage
+      ${this.hint || this.errorMessage || this.charCounter
         ? html` 
           <div class="mdc-text-field-helper-line">
             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent">${this.hintText}</div>
+            <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
+            ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
           </div>`
         : html``
       }
@@ -283,7 +287,6 @@ export class DwInput extends DwFormElement(LitElement) {
   constructor() {
     super();
     this.disabled = false;
-    this.noLabel = false;
     this.required = false;
     this.readOnly = false;
     this.placeholder = '';
@@ -296,6 +299,9 @@ export class DwInput extends DwFormElement(LitElement) {
     this.multiline = false;
     this.rows = 2;
     this.isDense = false;
+    this.hintPersistent = false;
+    this.charCounter = false;
+    this.maxLength = 524288;
   }
 
   get inputTemplate() { 
@@ -310,10 +316,11 @@ export class DwInput extends DwFormElement(LitElement) {
         ?readonly="${this.readOnly}"
         .pattern="${this.pattern}"
         .placeholder="${this.placeholder}"
+        .maxLength="${this.maxLength}"
+        ?charCounter="${this.charCounter}"
         @keypress="${this._preventInvalidInput}"
         @input="${this._onInput}"
         @blur="${this._onInputBlur}"
-        @change="${this._triggerChangeEvent}"
         @focus="${this._onFocus}">
     `;
   }
@@ -328,6 +335,8 @@ export class DwInput extends DwFormElement(LitElement) {
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
+        .maxLength="${this.maxLength}"
+        ?charCounter="${this.charCounter}"
         .placeholder="${this.placeholder}"
         @input="${this._onInput}"
         @blur = "${this._onInputBlur}" >
@@ -339,6 +348,7 @@ export class DwInput extends DwFormElement(LitElement) {
     const el = this.shadowRoot.querySelector('.mdc-text-field');
     this._textFieldInstance = new MDCTextField(el);
     this._textFieldInstance.useNativeValidation = false;
+    new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
   }
 
   disconnectedCallback() {
@@ -411,12 +421,13 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.invalid) { 
       this.validate();
     }
+    
+    this.value = this._textFieldInstance.value;
 
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this._textFieldInstance.value }
     }));
 
-    this.value = this._textFieldInstance.value;
     this._patternAlreadyChecked = false;
   }
 

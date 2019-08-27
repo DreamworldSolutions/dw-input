@@ -73,7 +73,7 @@ customElements.define('custom-input', CustomInput);
 ## Examples
 
 ```html
-<dw-input label="Name" validator="<VALIDATION_FN>" placeholder="Enter name here" autoSelect required hintText="Hint text"></dw-input>
+<dw-input label="Name" validator="<VALIDATION_FN>" placeholder="Enter name here" autoSelect required hint="Hint text"></dw-input>
 
 <dw-input label="Number" disabled allowedPattern="[0-9]" value="12"></dw-input>
 
