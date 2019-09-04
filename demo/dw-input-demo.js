@@ -50,6 +50,9 @@ class DwInputDemo extends LitElement {
       <h4>Text field with prefilled value</h4>
       <dw-input label="Name" value="Simmy"></dw-input>
 
+      <h4>Highlight field on value change</h4>
+      <dw-input label="First name" value="Ruchita" highLightOnChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
+
       <h4>Text field with prefix icon</h4>
       <dw-input label="Name" prefixSvgIcon=${this._getPrefixIcon()}></dw-input>
 
@@ -72,7 +75,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" isDense></dw-input>
       
       <h4>Auto-select text on focus</h4>
-      <dw-input label="First name" value="Hello" originalValue="Hello" autoSelect required errorMessage="Required"></dw-input>
+      <dw-input label="First name" value="Hello" autoSelect required errorMessage="Required"></dw-input>
 
       <h4>Textarea</h4>
       <dw-input label="Notes" rows="5" multiline></dw-input>

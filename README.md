@@ -80,4 +80,6 @@ customElements.define('custom-input', CustomInput);
 <dw-input label="Number" readOnly prefixSvgIcon='<SVG_PATH>'  suffixSvgIcon='<SVG_PATH>'></dw-input>
 
 <dw-input noLabel multiline></dw-input>
+
+<dw-input value="12" originalValue="12" highLightOnChanged></dw-input>
 ```

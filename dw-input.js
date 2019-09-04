@@ -102,19 +102,39 @@ export class DwInput extends DwFormElement(LitElement) {
           border-color: var(--dw-input-outlined-hover-border-color, rgba(0, 0, 0, 0.87));
         }
 
+        /* STARTS: Change border/label color when value is changed */
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__leading,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__notch,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
+        :host([_isValueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
+          border-color: var(--mdc-theme-secondary);
+          border-width: 2px;
+        }
+
+        :host([_isValueUpdated]) .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
+        :host([_isValueUpdated]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-floating-label{
+          color: var(--mdc-theme-secondary);
+        }
+        /* ENDS: Change  border/label color when value is changed */
+
+
+        /* STARTS: Style for dense field */
+        .mdc-text-field--outlined.mdc-text-field--dense .mdc-text-field__input{
+          padding-top: 7px;
+        }
+
+        .mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label{
+          font-size: 1rem;
+        }
+        /* ENDS: Style for dense field */
       `
     ];
   }
 
   static get properties() {
     return {
-      /**
-       * A reference to the input element.
-       */
-      _textFieldInstance: {
-        type: Object
-      },
-
       /**
        * The name of input element
        */
@@ -223,6 +243,29 @@ export class DwInput extends DwFormElement(LitElement) {
        * Display character counter with max length. Note: requries maxLength to be set.
        */
       charCounter: { type: Boolean },
+
+      /**
+       * A string which used to check whether user has updated value or not
+       * When `originalValue` and `value` is different input style is changed
+       */
+      originalValue: { type: String },
+
+      /**
+       * Set to true to highLight textfield when value is changed
+       * Make sure to provide `originalValue` when setting this to true
+       * It will highLight field when `value` and `originalValue` is not same
+       */
+      highLightOnChanged: { type: Boolean },
+
+      /**
+       * True when `originalValue` available and it's not equal to `value`
+       */
+      _isValueUpdated: { type: Boolean, reflect: true },
+
+      /**
+       * A reference to the input element.
+       */
+      _textFieldInstance: { type: Object }
     };
   }
 
@@ -360,10 +403,12 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  updated(changedProps) { 
-    if (changedProps.has('value') && this.invalid) { 
+  updated(changedProps) {
+    if (changedProps.has('value') && this.invalid) {
       this.validate();
     }
+
+    this._setIsValueUpdated();
   }
 
   /* Call this to set focus in the input */
@@ -489,6 +534,14 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     return isValid;
+  }
+
+  _setIsValueUpdated() { 
+    let value = this._textFieldInstance && this._textFieldInstance.value;
+    let originalValue = this.originalValue && this.originalValue.replace(/ /g, '');
+
+    value = value && value.replace(/ /g, '');
+    this._isValueUpdated = !!(this.highLightOnChanged && originalValue && value && originalValue !== value);
   }
 }
 
