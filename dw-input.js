@@ -258,6 +258,20 @@ export class DwInput extends DwFormElement(LitElement) {
       highLightOnChanged: { type: Boolean },
 
       /**
+       * Set this to auto-format value on blur.
+       * It provides user types value as a argument
+       * It must be return a string or null
+       */
+      formattedValueGetter: { type: Function },
+
+      /**
+       * Set this to change value on focus. e.g. on focus show original value instead formatted value
+       * It provides user types value as a argument
+       * It must be return a string or null
+       */
+      focusedValueGetter: { type: Function },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _isValueUpdated: { type: Boolean, reflect: true },
@@ -265,7 +279,12 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * A reference to the input element.
        */
-      _textFieldInstance: { type: Object }
+      _textFieldInstance: { type: Object },
+
+      /**
+       * Formatted string which is returned by `formattedValueGetter`
+       */
+      _formattedValue: { type: String }
     };
   }
 
@@ -281,13 +300,13 @@ export class DwInput extends DwFormElement(LitElement) {
     };
 
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0 || this._formattedValue
     };
 
     const helperTextClasses = {
       'mdc-text-field-helper-text--persistent': this.hintPersistent
     };
-    
+
     return html`
     
       <div class="mdc-text-field mdc-text-field--outlined ${classMap(wrapperClasses)}">
@@ -346,6 +365,14 @@ export class DwInput extends DwFormElement(LitElement) {
     this.hintPersistent = false;
     this.charCounter = false;
     this.maxLength = 524288;
+    this._formattedValue = '';
+    this.formattedValueGetter = function (value) {
+      return value;
+    };
+
+    this.focusedValueGetter = function (value) {
+      return value;
+    };
   }
 
   get inputTemplate() { 
@@ -353,7 +380,7 @@ export class DwInput extends DwFormElement(LitElement) {
       <input type="text"
         id="tf-outlined"
         class="mdc-text-field__input"
-        .value="${this.value}"
+        .value="${this._formattedValue}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -389,10 +416,13 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   firstUpdated() {
-    const el = this.shadowRoot.querySelector('.mdc-text-field');
-    this._textFieldInstance = new MDCTextField(el);
-    this._textFieldInstance.useNativeValidation = false;
-    new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
+    this._initMdcTextField();
+    this._setFormattedValue();
+
+    // Setting timeout here for proper label placement
+    setTimeout(() => {
+      this._textFieldInstance.layout();
+    });
   }
 
   disconnectedCallback() {
@@ -433,6 +463,23 @@ export class DwInput extends DwFormElement(LitElement) {
 
     this.invalid = !isValid;
     return isValid;
+  }
+
+  /**
+   * Intializes textfield
+   */
+  _initMdcTextField() { 
+    const el = this.shadowRoot.querySelector('.mdc-text-field');
+    this._textFieldInstance = new MDCTextField(el);
+    this._textFieldInstance.useNativeValidation = false;
+    new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
+  }
+
+  /**
+   * Sets formatted value
+   */
+  _setFormattedValue() { 
+    this._formattedValue = this.formattedValueGetter(this.value);
   }
 
   /**
@@ -504,6 +551,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Selects input text if `autoSelect` property is true
    */
   _onFocus() { 
+    this._formattedValue = this.focusedValueGetter(this.value, this._formattedValue);
     if (this.autoSelect) { 
       this.selectText();
     }
@@ -514,6 +562,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() { 
+    this._setFormattedValue();
     this.validate();
   }
 
@@ -536,6 +585,9 @@ export class DwInput extends DwFormElement(LitElement) {
     return isValid;
   }
 
+  /**
+   * Sets `_isValueUpdated` is value is changed. It's used to high-light textfield
+   */
   _setIsValueUpdated() { 
     let value = this._textFieldInstance && this._textFieldInstance.value;
     let originalValue = this.originalValue && this.originalValue.replace(/ /g, '');

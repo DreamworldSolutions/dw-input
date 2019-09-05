@@ -38,6 +38,10 @@ Triggers `value-changed` event on value change.
 
 - validate - Call this to validate input. Returns false if value is invalid.
 
+- formattedValueGetter - Use to auto-format value on blur. It provides value in argument. It must be return a string.
+
+- focusedValueGetter - Use to set value on focus. It provides value in argument. It must be return a string.
+
 ## Theme
 Configure color of the icon using `--icon-fill-color` css variable.  
 
