@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
-    "@dw/dw-form": "^1.0.2-SNAPSHOT",
+    "@dreamworld/dw-form": "^1.0.1",
     "@material/textfield": "^3.1.0",
     "lit-element": "^2.2.1"
   },
-   "devDependencies": {
+  "devDependencies": {
     "semantic-release": "beta"
   },
   "publishConfig": {

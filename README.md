@@ -6,13 +6,13 @@ A material input element made with lit-html. For more detail visit https://mater
 ## Installation
 
 ```html
-  npm install @dw/dw-input
+  npm install @dreamworld/dw-input
 ```
 
 ## Usage
 
 ```html
-  @import '@dw/dw-input/dw-input';
+  @import '@dreamworld/dw-input/dw-input';
 ```
 
 ## [Demo](https://dreamworldsolutions.github.io/dw-input/demo/index.html)

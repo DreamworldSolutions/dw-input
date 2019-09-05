@@ -14,7 +14,7 @@ import { classMap } from 'lit-html/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
-import { DwFormElement } from '@dw/dw-form/dw-form-element';
+import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
