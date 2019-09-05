@@ -6,13 +6,13 @@ A material input element made with lit-html. For more detail visit https://mater
 ## Installation
 
 ```html
-	npm install @dw/dw-input
+  npm install @dw/dw-input
 ```
 
 ## Usage
 
 ```html
-	@import '@dw/dw-input/dw-input';
+  @import '@dw/dw-input/dw-input';
 ```
 
 ## [Demo](https://dreamworldsolutions.github.io/dw-input/demo/index.html)
@@ -43,13 +43,13 @@ Triggers `value-changed` event on value change.
 - focusedValueGetter - Use to set value on focus. It provides value in argument. It must be return a string.
 
 ## Theme
-Configure color of the icon using `--icon-fill-color` css variable.  
+Configure color of the icon using `--dw-icon-color` css variable.  
 
 #### Example css to change icon color
 
 ```html
 dw-input{
---icon-fill-color: green;
+--dw-icon-color: green;
 }
 ```
 
@@ -59,15 +59,15 @@ Override dwInput class to create a custom input
 
 ```
 class CustomInput extends DwInput {
-	static get styles() {
-	return [
-		DwInput.styles,
-		css`
-			.mdc-text-field{
-				border-radius: 8px;
-			}`
-		];
-	}
+  static get styles() {
+  return [
+    DwInput.styles,
+    css`
+      .mdc-text-field{
+        border-radius: 8px;
+      }`
+    ];
+  }
 }
 customElements.define('custom-input', CustomInput);
 
