@@ -26,6 +26,11 @@ class DwInputDemo extends LitElement {
           padding: 24px;
         }
 
+        :host([dark-theme]){
+          --dw-input-fill-color: #333;
+          --dw-input-filled-bottom-border-color: rgba(255,255,255, 0.42);
+        }
+
         dw-input,
         formatted-input{
           margin-bottom: 16px;
@@ -73,6 +78,9 @@ class DwInputDemo extends LitElement {
 
       <h4>Required text field</h4>
       <dw-input label="First name" required errorMessage="Required"></dw-input>
+
+      <h4>Filled</h4>
+      <dw-input label="First name" showAsFilled required errorMessage="Required"></dw-input>
 
       <h4>Text field without label</h4>
       <dw-input noLabel placeholder="Enter Name here"></dw-input>
@@ -124,6 +132,25 @@ class DwInputDemo extends LitElement {
 
       <h4>Disabled</h4>
       <dw-input label="Animal name" value="Cat" disabled icon="insert_emoticon"></dw-input>
+
+      <h4>Hint Text in multiline</h4>
+      <dw-input 
+        label="Animal name" 
+        value="Cat" 
+        hintPersistent
+        .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
+        icon="insert_emoticon">
+      </dw-input>
+
+      <h4>Hint Text in Single line</h4>
+      <dw-input 
+        label="Animal name" 
+        value="Cat" 
+        hintPersistent
+        noHintWrap
+        .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
+        icon="insert_emoticon">
+      </dw-input>
     `;
   }
 

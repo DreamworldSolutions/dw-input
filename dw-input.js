@@ -175,7 +175,24 @@ export class DwInput extends DwFormElement(LitElement) {
           pointer-events: auto;
           cursor: pointer;
         }
+
+        /* Add a way to customize the background color of the text field when showAsFilled is true */
+        :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled) {
+          background-color: var(--dw-input-fill-color, whitesmoke);
+        }
   
+        :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input {
+          border-bottom-color: var(--dw-input-filled-bottom-border-color, rgba(0, 0, 0, 0.42));
+        }
+
+        :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input:hover {
+          border-bottom-color: var(--dw-input-filled-hover-bottom-border-color, rgba(0, 0, 0, 0.87));
+        }
+
+        :host([noHintWrap]) .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text,
+        :host([noHintWrap]) .mdc-text-field--disabled + .mdc-text-field-helper-line .mdc-text-field-helper-text {
+          white-space: nowrap;
+        }
       `
     ];
   }
@@ -340,6 +357,17 @@ export class DwInput extends DwFormElement(LitElement) {
       truncateOnBlur: { type: Boolean },
 
       /**
+       * Input property
+       * Set to true to render input in filled style
+       */
+      showAsFilled: { type: Boolean, value: false, reflect: true},
+
+      /**
+       * `true` if when to show hint text in oneline. Default hint text is shown in dropdown width area in multiline.
+       */
+      noHintWrap: { type: Boolean, reflect: true },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _valueUpdated: { type: Boolean, reflect: true },
@@ -359,7 +387,8 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--with-leading-icon': this.icon ? true : false,
       'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
       'mdc-text-field--textarea': this.multiline,
-      'mdc-text-field--dense': this.dense && !this.multiline
+      'mdc-text-field--dense': this.dense && !this.multiline,
+      'mdc-text-field--outlined' : !this.showAsFilled
     };
 
     const labelClasses = {
@@ -372,7 +401,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
     return html`
     
-      <div class="mdc-text-field mdc-text-field--outlined ${classMap(wrapperClasses)}">
+      <div class="mdc-text-field ${classMap(wrapperClasses)}">
 
         ${this.icon
         ? html`
@@ -390,16 +419,24 @@ export class DwInput extends DwFormElement(LitElement) {
           : html``
         }
 
-        <div class="mdc-notched-outline">
-          <div class="mdc-notched-outline__leading"></div>
-          <div class="mdc-notched-outline__notch">
-            ${this.label
-              ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
-              : html``
-            }
+        ${this.showAsFilled ? html`
+          ${this.label
+            ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
+            : html``
+          }
+        ` : html`
+          <div class="mdc-notched-outline">
+            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__notch">
+              ${this.label
+                ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
+                : html``
+              }
+            </div>
+            <div class="mdc-notched-outline__trailing"></div>
           </div>
-          <div class="mdc-notched-outline__trailing"></div>
-        </div>
+        ` }
+
       </div>
       
       ${this.hint || this.errorMessage || this.charCounter
@@ -441,6 +478,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.maxLength = 524288;
     this.minHeight = 42;
     this.truncateOnBlur = false;
+    this.showAsFilled = false;
 
     this.valueEqualityChecker = function (value, originalValue) { 
       return value != originalValue;
