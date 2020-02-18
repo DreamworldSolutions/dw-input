@@ -193,7 +193,9 @@ export class DwTextarea extends LitElement {
    * @public
    */
   focus() {
-    this._textarea.focus();
+    this.updateComplete.then(() => {
+      this._textarea.focus();
+    })
   }
 
   /**
