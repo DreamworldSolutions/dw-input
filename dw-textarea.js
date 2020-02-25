@@ -270,6 +270,11 @@ export class DwTextarea extends LitElement {
       this.style.height = this._textarea.style.height = this.minHeight + 'px';
       return;
     }
+
+    if(this.maxHeight && (scrollHeight > this.maxHeight)) {
+      this.style.height = this._textarea.style.height = this.maxHeight + 'px';
+      return;
+    }
     
     this.style.height = this._textarea.style.height = scrollHeight + 'px';
   }
