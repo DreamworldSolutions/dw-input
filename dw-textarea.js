@@ -230,7 +230,9 @@ export class DwTextarea extends LitElement {
    * @public
    */
   blur() {
-    this._textarea.blur();
+    this.updateComplete.then(() => {
+      this._textarea.blur();
+    })
   }
 
   /**
