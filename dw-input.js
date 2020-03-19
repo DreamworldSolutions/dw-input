@@ -481,6 +481,10 @@ export class DwInput extends DwFormElement(LitElement) {
     this.showAsFilled = false;
 
     this.valueEqualityChecker = function (value, originalValue) { 
+      if(originalValue){
+        originalValue = originalValue.trim();
+      }
+      
       return value != originalValue;
     }
   }
