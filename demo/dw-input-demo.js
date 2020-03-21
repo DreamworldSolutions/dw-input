@@ -18,7 +18,7 @@ import './formatted-input.js';
 class DwInputDemo extends LitElement {
   static get styles() {
     return [
-      ThemeStyle,,
+      ThemeStyle, ,
       css`
         :host{
           display: inline-block;
@@ -61,23 +61,27 @@ class DwInputDemo extends LitElement {
   }
 
   render() {
-    
+
     return html`
 
       <mwc-formfield label="Enable dark theme">
         <mwc-switch @change="${(e) => {
-          if (e.target.checked) { 
-            this.setAttribute('dark-theme', e.detail);
-            return;
-          }
-      
-          this.removeAttribute('dark-theme');
-          }}">
+        if (e.target.checked) {
+          this.setAttribute('dark-theme', e.detail);
+          return;
+        }
+
+        this.removeAttribute('dark-theme');
+      }}">
         </mwc-switch>
       </mwc-formfield>
 
       <h4>Required text field</h4>
-      <dw-input label="First name" required errorMessage="Required"></dw-input>
+      <dw-input label="First name" 
+        required 
+        errorMessage="Required" 
+        @enter="${this._onFirstNameEnter}"
+        @esc="${this._onFirstNameEsc}"></dw-input>
 
       <h4>Filled</h4>
       <dw-input label="First name" showAsFilled required errorMessage="Required"></dw-input>
@@ -125,7 +129,9 @@ class DwInputDemo extends LitElement {
       <dw-input label="First name" value="Hello" autoSelect required errorMessage="Required"></dw-input>
 
       <h4>Textarea</h4>
-      <dw-input label="Notes" rows="5" multiline></dw-input>
+      <dw-input label="Notes" rows="5" multiline
+        @enter="${this._onMultilineEnter}"
+        @esc="${this._onMultilineEsc}"></dw-input>
 
       <h4>Readonly</h4>
       <dw-input label="Animal name" value="Cat" readOnly></dw-input>
@@ -156,9 +162,25 @@ class DwInputDemo extends LitElement {
 
   firstUpdated() {
     let el = this.shadowRoot.querySelector('#customValidatorInupt');
-    el.validator = function(value){
+    el.validator = function (value) {
       return value === 'cat';
     }
+  }
+
+  _onFirstNameEnter(e) {
+    console.log('_onFirstNameEnter. value=' + e.detail.value, e.detail.event);
+  }
+
+  _onFirstNameEsc(e) {
+    console.log('_onFirstNameEsc. value=' + e.detail.value, e.detail.event);
+  }
+
+  _onMultilineEnter(e) {
+    console.log('_onMultilineEnter. value=' + e.detail.value, e.detail.event);
+  }
+
+  _onMultilineEsc(e) {
+    console.log('_onMultilineEsc. value=' + e.detail.value, e.detail.event);
   }
 }
 

@@ -503,6 +503,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .maxLength="${this.maxLength}"
         ?charCounter="${this.charCounter}"
         @keypress="${this._preventInvalidInput}"
+        @keydown="${this._onKeyDown}"
         @input="${this._onInput}"
         @blur="${this._onInputBlur}"
         @focus="${this._onFocus}">
@@ -522,6 +523,8 @@ export class DwInput extends DwFormElement(LitElement) {
         .minHeight="${this.minHeight}"
         .maxHeight="${this.maxHeight}"
         .disabledEnter="${this.disabledEnter}"
+        @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
+        @esc="${(e)=>this._dispatchEsc(e.detail.event)}"
         @input="${this._onInput}"
         @blur = "${this._onInputBlur}" >
       </dw-textarea>
@@ -695,6 +698,30 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     return RegExp(this.allowedPattern).test(value);
+  }
+
+  _onKeyDown(e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      this._dispatchEnter(e);
+      return;
+    }
+
+    if (keyCode === 27) {
+      this._dispatchEsc(e);
+    }
+  }
+
+  _dispatchEnter(e) {
+    this.dispatchEvent(new CustomEvent('enter', {
+      detail: { value: this.value, event: e }
+    }));
+  }
+
+  _dispatchEsc(e) {
+    this.dispatchEvent(new CustomEvent('esc', {
+      detail: { value: this.value, event: e }
+    }));
   }
 
   /**
