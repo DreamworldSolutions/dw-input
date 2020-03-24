@@ -503,6 +503,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .maxLength="${this.maxLength}"
         ?charCounter="${this.charCounter}"
         @keypress="${this._preventInvalidInput}"
+        @paste="${this._preventInvalidInput}"
         @keydown="${this._onKeyDown}"
         @input="${this._onInput}"
         @blur="${this._onInputBlur}"
