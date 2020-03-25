@@ -193,6 +193,44 @@ export class DwInput extends DwFormElement(LitElement) {
         :host([noHintWrap]) .mdc-text-field--disabled + .mdc-text-field-helper-line .mdc-text-field-helper-text {
           white-space: nowrap;
         }
+
+        /* START: prefix/suffix text style */
+        :host(:not([prefixText=''])) .mdc-notched-outline__leading{
+          width: auto;
+        }
+
+        .prefix-text.hide{
+          visibility: hidden;
+          padding-right: 8px;
+        }
+
+        .prefix-text,
+        .suffix-text{
+          font-family: Roboto, sans-serif;
+          font-size: 1rem;
+          line-height: 1.75rem;
+          font-weight: 400;
+          letter-spacing: 0.009375em;
+          padding-top: 13px;
+          padding-bottom: 14px;
+          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
+        }
+
+        .prefix-text{
+          padding-left: 16px;
+        }
+
+        .suffix-text{
+          padding-right: 16px;
+        }
+
+        .mdc-text-field--dense .prefix-text,
+        .mdc-text-field--dense .suffix-text{
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+        /* END: prefix/suffix text style */
+
       `
     ];
   }
@@ -368,6 +406,18 @@ export class DwInput extends DwFormElement(LitElement) {
       noHintWrap: { type: Boolean, reflect: true },
 
       /**
+       * Input property
+       * provided text will be shown as the prefix text of the input
+       */
+      prefixText: { type: String, reflect: true },
+
+       /**
+       * Input property
+       * provided text will be shown as the suffix text of the input
+       */
+      suffixText: { type: String },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _valueUpdated: { type: Boolean, reflect: true },
@@ -403,21 +453,11 @@ export class DwInput extends DwFormElement(LitElement) {
     
       <div class="mdc-text-field ${classMap(wrapperClasses)}">
 
-        ${this.icon
-        ? html`
-            <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
-            `
-          : html``
-        }
+        ${this._getPrefixTemplate}
 
         ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
-        
-        ${this.iconTrailing
-        ? html`
-            <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
-            `
-          : html``
-        }
+
+        ${this._getSuffixTemplate}
 
         ${this.showAsFilled ? html`
           ${this.label
@@ -426,7 +466,9 @@ export class DwInput extends DwFormElement(LitElement) {
           }
         ` : html`
           <div class="mdc-notched-outline">
-            <div class="mdc-notched-outline__leading"></div>
+            <div class="mdc-notched-outline__leading">
+              ${this.prefixText && !this.icon ? html`<span class="prefix-text hide">${this.prefixText}</span>` : ''}
+            </div>
             <div class="mdc-notched-outline__notch">
               ${this.label
                 ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
@@ -459,6 +501,26 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._value;
   }
 
+  set invalid(invalid){
+    let oldVal = this.invalid;
+
+    if(invalid === oldVal){
+      return;
+    }
+
+    if (this._textFieldInstance) { 
+      this._textFieldInstance.valid = !invalid;
+    }
+
+    this._invalid = invalid;
+
+    this.requestUpdate('invalid', oldVal);
+  }
+
+  get invalid(){
+    return this._invalid;
+  }
+
   constructor() {
     super();
     this.disabled = false;
@@ -479,6 +541,8 @@ export class DwInput extends DwFormElement(LitElement) {
     this.minHeight = 42;
     this.truncateOnBlur = false;
     this.showAsFilled = false;
+    this.prefixText = '';
+    this.suffixText = '';
 
     this.valueEqualityChecker = function (value, originalValue) { 
       if(originalValue){
@@ -531,6 +595,41 @@ export class DwInput extends DwFormElement(LitElement) {
     `;
   }
 
+  /**
+   * Returns prefix template based on `icon` and `prefixText` property
+   */
+  get _getPrefixTemplate(){
+    if(this.icon){
+      return html`
+        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+      `;
+    }
+
+    if(this.prefixText){
+      return html`
+        <span class="prefix-text">${this.prefixText}</span>
+      `;
+    }
+      
+  }
+
+  /**
+   * Returns suffix template based on `iconTrailing` and `suffixText` property
+   */
+  get _getSuffixTemplate(){
+    if(this.iconTrailing){
+      return html`
+        <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+      `;
+    }
+
+    if(this.suffixText){
+      return html`
+        <span class="suffix-text">${this.suffixText}</span>
+      `;
+    }
+  }
+
   firstUpdated() {
     this._initMdcTextField();
     this._updateTextfieldValue();
@@ -562,12 +661,6 @@ export class DwInput extends DwFormElement(LitElement) {
   /* Call this to perform validation of the input */
   validate() { 
     let isValid = this._getInputValidity();
-
-    //Updating value only if it's changed because it's setting label as float
-    // on `_textFieldInstance.valid` set which shows jerk in label. 
-    if (this._textFieldInstance && this._textFieldInstance.valid !== isValid) { 
-      this._textFieldInstance.valid = isValid;
-    }
 
     this.invalid = !isValid;
     return isValid;
