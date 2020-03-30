@@ -122,6 +122,12 @@ class DwInputDemo extends LitElement {
       <h4>Max length</h4>
       <dw-input maxLength="5" label="Name" charCounter></dw-input>
 
+      <h4>Prefix text</h4>
+      <dw-input label="Name" prefixText="Dr."></dw-input>
+
+      <h4>Suffix text</h4>
+      <dw-input label="Email" suffixText="@gmail.com"></dw-input>
+
       <h4>Dense field</h4>
       <dw-input label="Name" dense></dw-input>
       
