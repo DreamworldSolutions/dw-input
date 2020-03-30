@@ -459,6 +459,26 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._value;
   }
 
+  set invalid(invalid){
+    let oldVal = this.invalid;
+
+    if(invalid === oldVal){
+      return;
+    }
+
+    if (this._textFieldInstance) { 
+      this._textFieldInstance.valid = !invalid;
+    }
+
+    this._invalid = invalid;
+
+    this.requestUpdate('invalid', oldVal);
+  }
+
+  get invalid(){
+    return this._invalid;
+  }
+
   constructor() {
     super();
     this.disabled = false;
@@ -562,12 +582,6 @@ export class DwInput extends DwFormElement(LitElement) {
   /* Call this to perform validation of the input */
   validate() { 
     let isValid = this._getInputValidity();
-
-    //Updating value only if it's changed because it's setting label as float
-    // on `_textFieldInstance.valid` set which shows jerk in label. 
-    if (this._textFieldInstance && this._textFieldInstance.valid !== isValid) { 
-      this._textFieldInstance.valid = isValid;
-    }
 
     this.invalid = !isValid;
     return isValid;
