@@ -317,7 +317,7 @@ export class DwTextarea extends LitElement {
    */
   _onEnterKeyDown(e) {
     this.dispatchEvent(new CustomEvent('enter', {
-      detail: { value: this._textarea.value, event: e }
+      detail: { value: this.__getTextareaValue(), event: e }
     }));
 
     if (this.disabledEnter) {
@@ -332,7 +332,7 @@ export class DwTextarea extends LitElement {
    */
   _onEscKeyDown(e) {
     this.dispatchEvent(new CustomEvent('esc', {
-      detail: { value: this._textarea.value, event: e }
+      detail: { value: this.__getTextareaValue(), event: e }
     }));
   }
 
@@ -353,7 +353,7 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _onInput() {
-    this.value = this._textarea.value;
+    this.value = this.__getTextareaValue();
     this._resize();
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this.value }
@@ -368,9 +368,17 @@ export class DwTextarea extends LitElement {
    */
   _onInputBlur(e) {
     this.dispatchEvent(new CustomEvent('blur', {
-      detail: { value: this._textarea.value, event: e }
+      detail: { value: this.__getTextareaValue(), event: e }
     }));
     this.validate();
+  }
+
+  /**
+   * @returns {String} Return textarea value.
+   * @private
+   */
+  __getTextareaValue() {
+    return this._textarea && this._textarea.value || '';
   }
 }
 
