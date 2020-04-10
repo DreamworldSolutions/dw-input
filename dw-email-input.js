@@ -15,17 +15,17 @@ export class DwEmailInput extends DwInput {
   constructor() {
     super();
     this.errorMessage = "Invalid Email";
-    this.pattern = "^[a-zA-Z0-9.!#$%&’*+=?^_`{|}~-]+@[a-zA-Z0-9-]+[\.][a-zA-Z0-9-]+$";
+    this.pattern = "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
     this.validator = this._validator;
   }
 
   _validator(value) {
-    if (!this.required && !value) { 
+    if (!this.required && !value) {
       return true;
     }
 
     return true;
-    
+
   }
 
 }
