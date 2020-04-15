@@ -545,9 +545,8 @@ export class DwInput extends DwFormElement(LitElement) {
     this.suffixText = '';
 
     this.valueEqualityChecker = function (value, originalValue) { 
-      if(originalValue){
-        originalValue = originalValue.trim();
-      }
+	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
+      value = value ? value.toString().trim() : value;
       
       return value != originalValue;
     }
