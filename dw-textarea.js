@@ -175,17 +175,28 @@ export class DwTextarea extends LitElement {
     this._textarea = null;
   }
 
-  firstUpdated() {
-    super.firstUpdated && super.firstUpdated();
-    this._textarea = this.shadowRoot.querySelector('#textarea');
+  connectedCallback() {
+    super.connectedCallback && super.connectedCallback();
+
+    //Set textarea instance.
+    this.updateComplete.then(() => {
+      this._textarea = this.shadowRoot.querySelector('#textarea');
+    });
+  }
+
+  firstUpdated(changeProps) {
+    super.firstUpdated && super.firstUpdated(changeProps);
+
+    //If textarea instance is not set.
+    if(!this._textarea) {
+      this._textarea = this.shadowRoot.querySelector('#textarea');
+    }
     this._resize();
   }
 
   disconnectedCallback() {
-    if (this._textarea) {
-      this._textarea = null;
-    }
-    super.disconnectedCallback();
+    this._textarea = undefined;
+    super.disconnectedCallback && super.disconnectedCallback();
   }
 
   /**
@@ -247,14 +258,14 @@ export class DwTextarea extends LitElement {
    * Returns true if `value` is valid
    */
   validity() { 
-    return this.shadowRoot.querySelector('#textarea').validity();
+    return this._textarea.validity();
   }
 
   /**
    * Checkes input validity
    */
   checkValidity() { 
-    return this.shadowRoot.querySelector('#textarea').checkValidity();
+    return this._textarea.checkValidity();
   }
 
   /**
