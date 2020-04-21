@@ -697,7 +697,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * @param {Boolean} internal - True when element it self updates value
    */
   _setValue(value, internal) {
-    if (value == this._value) {
+    if (value === this._value) {
       return;
     }
 
