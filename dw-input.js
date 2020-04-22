@@ -418,6 +418,13 @@ export class DwInput extends DwFormElement(LitElement) {
       suffixText: { type: String },
 
       /**
+       * Input property
+       * By default, when anything is pasted in the input it cherry picks only valid characters and paste it.
+       * Set this to true, If you want to paste nothing when copied text is invalid
+       */
+      disableCherryPickPaste: { type: Boolean },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _valueUpdated: { type: Boolean, reflect: true },
@@ -543,6 +550,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.showAsFilled = false;
     this.prefixText = '';
     this.suffixText = '';
+    this.disableCherryPickPaste = false;
 
     this.valueEqualityChecker = function (value, originalValue) { 
 	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
@@ -566,7 +574,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .maxLength="${this.maxLength}"
         ?charCounter="${this.charCounter}"
         @keypress="${this._preventInvalidInput}"
-        @paste="${this._preventInvalidInput}"
+        @paste="${this._onPaste}"
         @keydown="${this._onKeyDown}"
         @input="${this._onInput}"
         @blur="${this._onInputBlur}"
@@ -753,6 +761,58 @@ export class DwInput extends DwFormElement(LitElement) {
     if (!isValid) {
       event.preventDefault();
     }
+  }
+
+  /**
+   * @param {Event} event 
+   * 
+   * This is the paste event handler function. It works as below:
+   * 
+   * If copied value is invalid and disableCherryPickPaste is true, it doesn't paste anything
+   * Otherwise pastes only valid characters which matches allowedPattern prop
+   */
+  _onPaste(event){
+    if (!this.allowedPattern) {
+      return;
+    }
+
+    let textTobePaste = event.clipboardData.getData('text');
+    let validStirng = this._getValidString(textTobePaste);
+
+
+    if(textTobePaste === validStirng){
+      return;
+    }
+
+    event.preventDefault();
+
+    if (this.disableCherryPickPaste) {
+      return;
+    }
+
+    this._setValue(validStirng);
+  }
+
+  /**
+   * This function removes invalid characters from the string.
+   * It used allowedPattern prop to indetify invalid characters.
+   * 
+   * @param {String} textTobePaste - copiedText which is to be pasted in the input
+   * 
+   * @returns {String} valid String by removing invalid characters
+   */
+  _getValidString(textTobePaste){
+    let validString = '';
+
+    textTobePaste.split('').forEach((char) => {
+
+      if(RegExp(this.allowedPattern).test(char)){
+        validString = `${validString}${char}`
+      }
+      
+     });
+
+     return validString;
   }
 
   /**
