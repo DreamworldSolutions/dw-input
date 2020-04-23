@@ -92,7 +92,6 @@ export class DwInput extends DwFormElement(LitElement) {
 
         /* Add a way to configure icon color */
         .mdc-text-field--outlined .mdc-text-field__icon{
-          height: 24px;
           fill: var(--dw-icon-color, rgba(0, 0, 0, 0.54));
           color: var(--dw-icon-color, rgba(0, 0, 0, 0.54));
         }
@@ -166,11 +165,6 @@ export class DwInput extends DwFormElement(LitElement) {
           outline: none;
         }
       
-        dw-icon-button{
-          width: 24px;
-          height: 24px;
-        }
-
         :host([clickableIcon]) dw-icon-button.mdc-text-field__icon{
           pointer-events: auto;
           cursor: pointer;
@@ -287,6 +281,16 @@ export class DwInput extends DwFormElement(LitElement) {
        * Trailing icon to display in input
        */
       iconTrailing: { type: String },
+
+      /**
+       * Trailing and Leading icon size.
+       */
+      iconSize: { type: Number },
+
+      /**
+       * Trailing and Leading icon button size.
+       */
+      iconButtonSize: { type: Number },
 
       /**
        * A placeholder text in addition to the label.
@@ -543,6 +547,8 @@ export class DwInput extends DwFormElement(LitElement) {
     this.showAsFilled = false;
     this.prefixText = '';
     this.suffixText = '';
+    this.iconButtonSize = 24;
+    this.iconSize = 24;
 
     this.valueEqualityChecker = function (value, originalValue) { 
 	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
@@ -601,7 +607,7 @@ export class DwInput extends DwFormElement(LitElement) {
   get _getPrefixTemplate(){
     if(this.icon){
       return html`
-        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
       `;
     }
 
@@ -619,7 +625,7 @@ export class DwInput extends DwFormElement(LitElement) {
   get _getSuffixTemplate(){
     if(this.iconTrailing){
       return html`
-        <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+        <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
       `;
     }
 
