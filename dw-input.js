@@ -642,7 +642,10 @@ export class DwInput extends DwFormElement(LitElement) {
 
     // Setting timeout here for proper label placement
     setTimeout(() => {
-      this._textFieldInstance.layout();
+      if (!this._textFieldInstance) {
+        console.warn('dw-input : Somehow execution of "_initMdcTextField" is not completed.');
+      }
+      this._textFieldInstance && this._textFieldInstance.layout();
     });
   }
 
