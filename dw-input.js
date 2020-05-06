@@ -642,7 +642,10 @@ export class DwInput extends DwFormElement(LitElement) {
 
     // Setting timeout here for proper label placement
     setTimeout(() => {
-      this._textFieldInstance.layout();
+      if (!this._textFieldInstance) {
+        console.warn('dw-input : Somehow element has been disconnected before finish layout.');
+      }
+      this._textFieldInstance && this._textFieldInstance.layout();
     });
   }
 
