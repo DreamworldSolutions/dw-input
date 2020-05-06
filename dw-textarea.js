@@ -242,6 +242,10 @@ export class DwTextarea extends LitElement {
    */
   blur() {
     this.updateComplete.then(() => {
+      if (!this._textarea) {
+        console.warn('dw-textarea: "textarea" element not found. Somehow "blur" method is triggered after "disconnectedCallback"');
+        return;
+      }
       this._textarea.blur();
     })
   }
