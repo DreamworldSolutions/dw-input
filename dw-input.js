@@ -664,6 +664,10 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to select text of the input */
   selectText(){
+    if(!this._textFieldInstance || !this._textFieldInstance.input_){
+      return;
+    }
+
     this._textFieldInstance.input_.select();
   }
 
@@ -676,7 +680,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   layout() {
-    this._textFieldInstance.layout();
+    this._textFieldInstance && this._textFieldInstance.layout();
   }
 
   parseValue(text) {  
