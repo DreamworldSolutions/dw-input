@@ -592,6 +592,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         .maxHeight="${this.maxHeight}"
+        .maxlength="${this.maxLength}"
         .disabledEnter="${this.disabledEnter}"
         @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
         @esc="${(e)=>this._dispatchEsc(e.detail.event)}"
