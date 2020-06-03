@@ -592,6 +592,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         .maxHeight="${this.maxHeight}"
+        .maxlength="${this.maxLength}"
         .disabledEnter="${this.disabledEnter}"
         @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
         @esc="${(e)=>this._dispatchEsc(e.detail.event)}"
@@ -659,7 +660,17 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to set focus in the input */
   focus() {
-    this._textFieldInstance.focus();
+    this.updateComplete.then(() => {
+      if (!this.multiline) {
+        this._textFieldInstance.focus();
+      } else {
+        const textarea = this.shadowRoot.querySelector('dw-textarea');
+        if (textarea) {
+          textarea.value = this.value;
+          textarea.moveToEnd();
+        }
+      }
+    })
   }
 
   /* Call this to select text of the input */
