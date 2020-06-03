@@ -242,6 +242,12 @@ export class DwInput extends DwFormElement(LitElement) {
       value: { type: String },
 
       /**
+       * Input type. e.g ("text", "email", "number")
+       * Default is "text"
+       */
+      type: { type: String },
+
+      /**
        * Sets floating label value.
        */
       label: { type: String },
@@ -549,6 +555,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.suffixText = '';
     this.iconButtonSize = 24;
     this.iconSize = 24;
+    this.type = "text"
 
     this.valueEqualityChecker = function (value, originalValue) { 
 	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
@@ -561,6 +568,7 @@ export class DwInput extends DwFormElement(LitElement) {
   get inputTemplate() { 
     return html`
       <input type="text"
+        type="${this.type}"
         id="tf-outlined"
         class="mdc-text-field__input"
         .name="${this.name}"
@@ -592,6 +600,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         .maxHeight="${this.maxHeight}"
+        .maxlength="${this.maxLength}"
         .disabledEnter="${this.disabledEnter}"
         @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
         @esc="${(e)=>this._dispatchEsc(e.detail.event)}"
@@ -659,7 +668,20 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to set focus in the input */
   focus() {
-    this._textFieldInstance.focus();
+    this.updateComplete.then(() => {
+      if (!this.multiline) {
+        if (!this._textFieldInstance) {
+          console.warn('dw-input : element has been disconnected before focus.');
+        }
+        this._textFieldInstance.focus();
+      } else {
+        const textarea = this.shadowRoot.querySelector('dw-textarea');
+        if (textarea) {
+          textarea.value = this.value;
+          textarea.moveToEnd();
+        }
+      }
+    })
   }
 
   /* Call this to select text of the input */
