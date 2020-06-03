@@ -646,7 +646,7 @@ export class DwInput extends DwFormElement(LitElement) {
         console.warn('dw-input : Somehow element has been disconnected before finish layout.');
       }
       this._textFieldInstance && this._textFieldInstance.layout();
-    });
+    }, 200);
   }
 
   disconnectedCallback() {
@@ -677,7 +677,12 @@ export class DwInput extends DwFormElement(LitElement) {
 
   layout() {
     this.updateComplete.then(() => {
-      this._textFieldInstance.layout();
+      setTimeout(() => {
+        if (!this._textFieldInstance) {
+          console.warn('dw-input : Somehow element has been disconnected before finish layout.');
+        }
+        this._textFieldInstance.layout();
+      }, 200);
     })
   }
 
