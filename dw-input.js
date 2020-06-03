@@ -646,7 +646,7 @@ export class DwInput extends DwFormElement(LitElement) {
         console.warn('dw-input : Somehow element has been disconnected before finish layout.');
       }
       this._textFieldInstance && this._textFieldInstance.layout();
-    });
+    }, 200);
   }
 
   disconnectedCallback() {
