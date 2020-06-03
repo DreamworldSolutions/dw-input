@@ -676,7 +676,9 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   layout() {
-    this._textFieldInstance.layout();
+    this.updateComplete.then(() => {
+      this._textFieldInstance.layout();
+    })
   }
 
   parseValue(text) {  
