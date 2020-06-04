@@ -659,7 +659,12 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to set focus in the input */
   focus() {
-    this._textFieldInstance.focus();
+    this.updateComplete.then(() => {
+      if (!this._textFieldInstance) {
+        console.warn('dw-input : element has been disconnected before focus.');
+      }
+      this._textFieldInstance.focus();
+    })
   }
 
   /* Call this to select text of the input */
