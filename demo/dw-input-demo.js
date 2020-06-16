@@ -77,7 +77,7 @@ class DwInputDemo extends LitElement {
       </mwc-formfield>
 
       <h4>Required text field</h4>
-      <dw-input label="First name" 
+      <dw-input label="First name" autoFocus
         required 
         errorMessage="Required" 
         @enter="${this._onFirstNameEnter}"

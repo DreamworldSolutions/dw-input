@@ -422,6 +422,12 @@ export class DwInput extends DwFormElement(LitElement) {
       suffixText: { type: String },
 
       /**
+       * Input proerty
+       * Set to true to set focus in the input when attached
+       */
+      autoFocus: { type: Boolean },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _valueUpdated: { type: Boolean, reflect: true },
@@ -525,6 +531,24 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._invalid;
   }
 
+  set autoFocus(value){
+    let oldVal = this.autoFocus;
+
+    if(value === oldVal){
+      return;
+    }
+
+    if(value){
+      this.focus();
+    }
+
+    this._autoFocus = value;
+  }
+
+  get autoFocus(){
+    return this._autoFocus;
+  }
+
   constructor() {
     super();
     this.disabled = false;
@@ -549,6 +573,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.suffixText = '';
     this.iconButtonSize = 24;
     this.iconSize = 24;
+    this.autoFocus = false;
 
     this.valueEqualityChecker = function (value, originalValue) { 
 	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
@@ -659,7 +684,14 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to set focus in the input */
   focus() {
-    this._textFieldInstance.focus();
+    this.updateComplete.then(() => {
+      if (!this._textFieldInstance) {
+        console.warn('dw-input : element has been disconnected before focus.');
+        return;
+      }
+       
+      this._textFieldInstance.focus();
+    });
   }
 
   /* Call this to select text of the input */
