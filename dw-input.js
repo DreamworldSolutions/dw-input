@@ -662,6 +662,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.updateComplete.then(() => {
       if (!this._textFieldInstance) {
         console.warn('dw-input : element has been disconnected before focus.');
+        return;
       }
       this._textFieldInstance.focus();
     })
@@ -669,6 +670,11 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /* Call this to select text of the input */
   selectText(){
+	if (!this._textFieldInstance) {
+	  console.warn('dw-input : element has been disconnected before select text.');
+	  return;
+	}
+	
     this._textFieldInstance.input_.select();
   }
 
