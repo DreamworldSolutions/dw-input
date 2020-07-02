@@ -133,11 +133,21 @@ export class DwTextarea extends LitElement {
    * Setter of `value` property.
    */
   set value(value) {
+    let oldValue = this._value;
+    if(oldValue == value) {
+      return;
+    }
+
     this._value = value;
+    this.requestUpdate('value', oldValue);
+
     if(this._textarea) {
       this._textarea.value = this._value;
     }
-    this._resize()
+
+    this.updateComplete.then(() => {
+      this._resize();
+    });
   }
 
   render() {
