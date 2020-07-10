@@ -242,6 +242,23 @@ export class DwInput extends DwFormElement(LitElement) {
       value: { type: String },
 
       /**
+       * Input type. e.g ("text", "email", "number")
+       * Default is "text"
+       */
+      type: { type: String },
+
+      /**
+       * When type is `password` & `_showVisibilityIcon` is `true`, toggle this to 'text' & 'password'
+       */
+      _type: { type: String },
+
+      /**
+       * Used to show visibility icon when type is 'password'. 
+       * Default is `true`
+       */
+      _showVisibilityIcon: { type: Boolean },
+
+      /**
        * Sets floating label value.
        */
       label: { type: String },
@@ -549,6 +566,8 @@ export class DwInput extends DwFormElement(LitElement) {
     this.suffixText = '';
     this.iconButtonSize = 24;
     this.iconSize = 24;
+    this.type = "text"
+    this._showVisibilityIcon = true;
 
     this.valueEqualityChecker = function (value, originalValue) { 
 	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
@@ -561,6 +580,7 @@ export class DwInput extends DwFormElement(LitElement) {
   get inputTemplate() { 
     return html`
       <input type="text"
+        type="${this._type || this.type}"
         id="tf-outlined"
         class="mdc-text-field__input"
         .name="${this.name}"
@@ -622,7 +642,17 @@ export class DwInput extends DwFormElement(LitElement) {
   /**
    * Returns suffix template based on `iconTrailing` and `suffixText` property
    */
-  get _getSuffixTemplate(){
+  get _getSuffixTemplate() {
+    if (this.type === 'password' && this._showVisibilityIcon) {
+      const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
+      return html`
+        <dw-icon-button
+          @click=${this._toggleType}
+          class="mdc-text-field__icon"
+          icon="${icon}" .iconSize=${this.iconSize} buttonSize="${this.offsetHeight}"  tabindex=""></dw-icon-button>
+      `;
+    }
+    
     if(this.iconTrailing){
       return html`
         <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
@@ -655,6 +685,13 @@ export class DwInput extends DwFormElement(LitElement) {
       this._textFieldInstance.destroy();
       this._textFieldInstance = null;
     }
+  }
+
+  /**
+   * When `type` is password & `_showVisibilityIcon` is `true`, then on click of icon toggle visibility of password.
+   */
+  _toggleType() {
+    this._type = this._type === 'text' ? 'password' : 'text';
   }
 
   /* Call this to set focus in the input */
