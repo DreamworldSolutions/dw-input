@@ -163,6 +163,10 @@ class DwInputDemo extends LitElement {
         .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
         icon="insert_emoticon">
       </dw-input>
+      <h4>Password</h4>
+      <dw-input 
+        label="Password" type='password' placeholder='Enter your password' >
+      </dw-input>
     `;
   }
 
