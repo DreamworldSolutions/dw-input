@@ -355,6 +355,11 @@ export class DwInput extends DwFormElement(LitElement) {
       hintPersistent: { type: Boolean },
 
       /**
+       * Mininum number of characters.
+       */
+      minLength: { type: Number },
+
+      /**
        * Maximum length to accept input.
        */
       maxLength: { type: Number },
@@ -558,6 +563,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.dense = false;
     this.hintPersistent = false;
     this.charCounter = false;
+    this.minLength = 0;
     this.maxLength = 524288;
     this.minHeight = 42;
     this.truncateOnBlur = false;
@@ -589,6 +595,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ?readonly="${this.readOnly}"
         .pattern="${this.pattern}"
         .placeholder="${this.placeholder}"
+        minlength=${this.minLength}
         .maxLength="${this.maxLength}"
         ?charCounter="${this.charCounter}"
         @keypress="${this._preventInvalidInput}"
@@ -611,6 +618,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ?readonly="${this.readOnly}"
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
+        minlength="${this.minLength}"
         .maxHeight="${this.maxHeight}"
         .disabledEnter="${this.disabledEnter}"
         @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
@@ -649,7 +657,7 @@ export class DwInput extends DwFormElement(LitElement) {
         <dw-icon-button
           @click=${this._toggleType}
           class="mdc-text-field__icon"
-          icon="${icon}" .iconSize=${this.iconSize} buttonSize="${this.offsetHeight}"  tabindex=""></dw-icon-button>
+          icon="${icon}" .iconSize=${this.iconSize} tabindex=""></dw-icon-button>
       `;
     }
     

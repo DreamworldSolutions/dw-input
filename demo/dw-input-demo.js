@@ -165,7 +165,10 @@ class DwInputDemo extends LitElement {
       </dw-input>
       <h4>Password</h4>
       <dw-input 
-        label="Password" type='password' placeholder='Enter your password' >
+        dense
+        label="Password" 
+        type='password' 
+        placeholder='Enter your password' >
       </dw-input>
     `;
   }
