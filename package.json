@@ -27,28 +27,27 @@
     "@dreamworld/dw-form": "^1.0.1",
     "@dreamworld/dw-icon-button": "^1.1.0",
     "@dreamworld/material-styles": "^1.1.0",
-    "@material/textfield": "^3.1.0",
-    "lit-element": "^2.2.1"
+    "@material/textfield": "^7.0.0",
+    "lit-element": "^2.3.1"
   },
   "devDependencies": {
     "@dreamworld/material-styles": "^1.1.0",
-    "@material/mwc-formfield": "^0.7.1",
-    "@material/mwc-switch": "^0.7.1",
-    "semantic-release": "16.0.0-beta.23"
+    "@material/mwc-formfield": "^0.17.2",
+    "@material/mwc-switch": "^0.17.2",
+    "semantic-release": "17.1.1"
   },
   "publishConfig": {
     "access": "public"
   },
   "resolutions": {
-    "@material/base": "3.1.0",
-    "@material/feature-targeting": "3.1.0",
-    "@material/ripple": "3.2.0",
-    "@material/rtl": "3.2.0",
-    "@material/theme": "3.1.0",
-    "@material/typography": "3.1.0",
-    "@material/animation": "3.1.0",
-    "@material/dom": "3.1.0",
-    "@semantic-release/npm": "5.2.0-beta.5",
-    "@material/mwc-base": "0.7.0"
+    "@material/mwc-base": "0.7.0",
+    "@material/base": "7.0.0",
+    "@material/feature-targeting": "7.0.0",
+    "@material/ripple": "7.0.0",
+    "@material/rtl": "7.0.0",
+    "@material/theme": "7.0.0",
+    "@material/typography": "7.0.0",
+    "@material/animation": "7.0.0",
+    "@material/dom": "7.0.0"
   }
 }
