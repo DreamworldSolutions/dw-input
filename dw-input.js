@@ -446,7 +446,7 @@ export class DwInput extends DwFormElement(LitElement) {
     };
 
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_ && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0
     };
 
     const helperTextClasses = {
