@@ -710,7 +710,7 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _initMdcTextField() { 
     const el = this.shadowRoot.querySelector('.mdc-text-field');
-    this._textFieldInstance = new MDCTextField(el);
+    this._textFieldInstance = new MDCTextField(el); 
     this._textFieldInstance.useNativeValidation = false;
     new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
   }
