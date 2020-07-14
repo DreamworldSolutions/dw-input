@@ -778,7 +778,7 @@ export class DwInput extends DwFormElement(LitElement) {
     let isValid = this._isValidValue(event.key);
 
     if (!isValid) {
-      event.preventDefault();
+      event.preventDefault && event.preventDefault();
     }
   }
 
