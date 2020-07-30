@@ -216,6 +216,7 @@ export class DwTextarea extends LitElement {
   focus() {
     this.updateComplete.then(() => {
       this._textarea.focus();
+      this._resize();
     })
   }
 
@@ -243,6 +244,7 @@ export class DwTextarea extends LitElement {
         range.collapse(false);
         range.select();
       }
+      this._resize();
     })
   }
 
