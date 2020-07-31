@@ -211,11 +211,13 @@ export class DwTextarea extends LitElement {
 
   /**
    * Call this to set focus in the input.
+   * Resize textarea once more after focus.
    * @public
    */
   focus() {
     this.updateComplete.then(() => {
       this._textarea.focus();
+      this._resize();
     })
   }
 
@@ -229,7 +231,7 @@ export class DwTextarea extends LitElement {
   }
 
   /**
-   * Move focus to end of text.
+   * Move focus to end of text & resize textarea
    * @protected
    */
   moveToEnd() {
@@ -243,6 +245,7 @@ export class DwTextarea extends LitElement {
         range.collapse(false);
         range.select();
       }
+      this._resize();
     })
   }
 
