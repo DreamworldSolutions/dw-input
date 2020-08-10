@@ -23,6 +23,7 @@ A material input element made with lit-html. For more detail visit https://mater
 - It auto select's text if `autoSelect` property is true
 - Provides a `validator` property to add custom validations
 - Set `multiline` to true to show input as text area
+- Provide `type` property to set type of input e.g ("text", "email", "number"). [List of all input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#%3Cinput%3E_types)
 - Set `icon` and `iconTrailing` to show prefix and suffix icon
 - Performs validation on blur. It also performs validation on User type if input is invalid.
 
