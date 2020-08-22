@@ -229,6 +229,24 @@ export class DwInput extends DwFormElement(LitElement) {
     ];
   }
 
+  connectedCallback() {
+    super.connectedCallback && super.connectedCallback();
+
+    this.updateComplete.then(() => {
+      this._initMdcTextField();
+      this._updateTextfieldValue();
+  
+      // Setting timeout here for proper label placement
+      setTimeout(() => {
+        if (!this._textFieldInstance) {
+          console.warn('dw-input : Somehow element has been disconnected before finish layout.');
+        }
+
+        this._textFieldInstance && this._textFieldInstance.layout();
+      }, 200);
+    });
+  }
+
   static get properties() {
     return {
       /**
@@ -675,19 +693,6 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  firstUpdated() {
-    this._initMdcTextField();
-    this._updateTextfieldValue();
-
-    // Setting timeout here for proper label placement
-    setTimeout(() => {
-      if (!this._textFieldInstance) {
-        console.warn('dw-input : Somehow element has been disconnected before finish layout.');
-      }
-      this._textFieldInstance && this._textFieldInstance.layout();
-    }, 200);
-  }
-
   disconnectedCallback() {
     super.disconnectedCallback && super.disconnectedCallback();
     if (this._textFieldInstance) {
@@ -710,7 +715,8 @@ export class DwInput extends DwFormElement(LitElement) {
         if (!this._textFieldInstance) {
           console.warn('dw-input : element has been disconnected before focus.');
         }
-        this._textFieldInstance.focus();
+
+        this._textFieldInstance && this._textFieldInstance.focus();
       } else {
         const textarea = this.shadowRoot.querySelector('dw-textarea');
         if (textarea) {
