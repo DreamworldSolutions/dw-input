@@ -847,7 +847,6 @@ export class DwInput extends DwFormElement(LitElement) {
    * Triggers `value-changed` event
    */
   _onInput() {
-       
     let value = this.parseValue(this._textFieldInstance.value);
 
     if(value !== undefined) {
