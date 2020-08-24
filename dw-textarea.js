@@ -382,6 +382,11 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _onInput() {
+    if(!this._textarea){
+      console.warn('dw-textarea: "textarea" element not found. Somehow "_onInput" method is triggered after "disconnectedCallback"');
+      return;
+    }
+
     this.value = this._textarea.value;
     this._resize();
     this.dispatchEvent(new CustomEvent('value-changed', {
