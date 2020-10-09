@@ -835,8 +835,10 @@ export class DwInput extends DwFormElement(LitElement) {
     if (!this.allowedPattern) {
       return;
     }
+   
+    let value = event.type === 'paste' ?  event.clipboardData.getData('text')  : event.key;
 
-    let isValid = this._isValidValue(event.key);
+    let isValid = this._isValidValue(value);
 
     if (!isValid) {
       event.preventDefault && event.preventDefault();
