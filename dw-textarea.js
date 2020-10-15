@@ -8,8 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css } from 'lit-element';
-import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
+import { LitElement, html, css } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
 export class DwTextarea extends LitElement {
   static get styles() {
@@ -42,7 +41,6 @@ export class DwTextarea extends LitElement {
           box-sizing: border-box;
           display: block;
           resize: none;
-          border: none;
           outline:none;
           background-color: transparent;
           color: inherit;
@@ -53,6 +51,10 @@ export class DwTextarea extends LitElement {
           line-height: inherit;
           padding: var(--dw-textarea-padding, 0px);
           width: 100%;
+          border: 1px solid var(--divider-color);
+          border-radius: 2px;
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
         }
 
         textarea:focus {
@@ -69,6 +71,15 @@ export class DwTextarea extends LitElement {
 
         ::placeholder {
           color: var(--mdc-theme-text-hint);
+        }
+
+        :host(:not([undecorated])) textarea:focus {
+          border: 1px solid var(--mdc-theme-secondary);
+        }
+        
+        :host([undecorated]), 
+        :host([undecorated]) textarea {
+          border: none;
         }
       `
     ];
@@ -119,7 +130,12 @@ export class DwTextarea extends LitElement {
       /**
        * Disabled enter in input.
        */
-      disabledEnter: { type: Boolean }
+      disabledEnter: { type: Boolean },
+
+      /**
+       * When it's `true`. It doesn not show border.
+       */
+      undecorated: { type: Boolean, reflect: true}
     };
   }
 
@@ -307,7 +323,10 @@ export class DwTextarea extends LitElement {
       return;
     }
     
-    this.style.height = this._textarea.style.height = scrollHeight + 'px';
+    //Note: When `textarea` has `box-sizing: border-box;` & it's `height` is same as it's `scrollHeight`, 
+    //      It produces scroll of it's border height, So including border height into it.
+    const borderHeight = this.undecorated ? 0 : 2;
+    this.style.height = this._textarea.style.height = (scrollHeight + borderHeight)+ 'px';
   }
 
   /**
