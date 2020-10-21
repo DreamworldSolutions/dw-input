@@ -850,7 +850,12 @@ export class DwInput extends DwFormElement(LitElement) {
    * Triggers `value-changed` event
    */
   _onInput() {
-    let value = this.parseValue(this._textFieldInstance && this._textFieldInstance.value);
+    if(!this._textFieldInstance){
+      console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
+      return;
+    }
+	  
+    let value = this.parseValue(this._textFieldInstance.value);
 
     if(value !== undefined) {
       this._setValue(value, true);
