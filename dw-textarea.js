@@ -51,7 +51,7 @@ export class DwTextarea extends LitElement {
           line-height: inherit;
           padding: var(--dw-textarea-padding, 0px);
           width: 100%;
-          border: 1px solid var(--divider-color);
+          border: var(--dw-textarea-border, 1px solid var(--divider-color));
           border-radius: 2px;
           -webkit-border-radius: 2px;
           -moz-border-radius: 2px;
@@ -74,7 +74,7 @@ export class DwTextarea extends LitElement {
         }
 
         :host(:not([undecorated])) textarea:focus {
-          border: 1px solid var(--mdc-theme-secondary);
+          border: var(--dw-textarea-border, 1px solid var(--mdc-theme-secondary));
         }
         
         :host([undecorated]), 
