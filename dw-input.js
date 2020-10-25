@@ -635,6 +635,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
+        .undecorated=${true}
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         minlength="${this.minLength}"
