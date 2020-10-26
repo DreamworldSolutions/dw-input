@@ -629,6 +629,7 @@ export class DwInput extends DwFormElement(LitElement) {
   get textareaTemplate() {
     return html`
       <dw-textarea id="tf-outlined"
+        undecorated
         class="mdc-text-field__input"
         .value="${this.value}"
         .name="${this.name}"
