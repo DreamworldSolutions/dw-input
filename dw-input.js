@@ -465,7 +465,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Input property.
        * When it's `true`. It doesn not show border in text area.
-       * Default value is true.
+       * Default value is false.
        */
       undecorated: { type: Boolean, reflect: true },
 
@@ -599,7 +599,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconButtonSize = 24;
     this.iconSize = 24;
     this.type = "text"
-    this.undecorated = true;
+    this.undecorated = false;
     this._showVisibilityIcon = true;
 
     this.valueEqualityChecker = function (value, originalValue) { 
