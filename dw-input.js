@@ -463,6 +463,13 @@ export class DwInput extends DwFormElement(LitElement) {
       suffixText: { type: String },
 
       /**
+       * Input property.
+       * When it's `true`. It does not show border in text area.
+       * Default value is false.
+       */
+      undecorated: { type: Boolean },
+
+      /**
        * True when `originalValue` available and it's not equal to `value`
        */
       _valueUpdated: { type: Boolean, reflect: true },
@@ -592,6 +599,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconButtonSize = 24;
     this.iconSize = 24;
     this.type = "text"
+    this.undecorated = false;
     this._showVisibilityIcon = true;
 
     this.valueEqualityChecker = function (value, originalValue) { 
@@ -636,12 +644,12 @@ export class DwInput extends DwFormElement(LitElement) {
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
-        .undecorated=${true}
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         minlength="${this.minLength}"
         .maxHeight="${this.maxHeight}"
         .maxlength="${this.maxLength}"
+        ?undecorated="${this.undecorated}"
         .disabledEnter="${this.disabledEnter}"
         @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
         @esc="${(e)=>this._dispatchEsc(e.detail.event)}"
