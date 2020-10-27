@@ -228,14 +228,10 @@ export class DwTextarea extends LitElement {
 
   /**
    * Call this to set focus in the input.
-   * Resize textarea once more after focus.
    * @public
    */
   focus() {
-    this.updateComplete.then(() => {
-      this._textarea.focus();
-      this._resize();
-    })
+    this.moveToEnd();
   }
 
   /**

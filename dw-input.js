@@ -629,14 +629,13 @@ export class DwInput extends DwFormElement(LitElement) {
   get textareaTemplate() {
     return html`
       <dw-textarea id="tf-outlined"
-        undecorated
         class="mdc-text-field__input"
         .value="${this.value}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
-        .undecorated=${true}
+        undecorated
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         minlength="${this.minLength}"
