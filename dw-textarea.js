@@ -252,11 +252,13 @@ export class DwTextarea extends LitElement {
       if (typeof this._textarea.selectionStart == "number") {
         this._textarea.selectionStart = this._textarea.selectionEnd = this._textarea.value.length;
         this._textarea.focus();
-      } else if (typeof ele.createTextRange != "undefined") {
+      } else if (typeof this._textarea.createTextRange != "undefined") {
         this._textarea.focus();
         let range = this._textarea.createTextRange();
         range.collapse(false);
         range.select();
+      } else {
+        console.error('dw-textarea: Error while moving cursor to end.');
       }
       this._resize();
     })
