@@ -10,6 +10,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html, css } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map.js';
+
+/**
+ * Behaviors:
+ *  - Provides way to undecorate textarea. 
+ *  - When minimum height is provided, it ocuupies that provided mminum height.
+ *  - When maximum height is provided & content is larger than it, it produces scroll of itself.
+ *  - When nothing provided by integrator (minimum / maximum height), It autogrows based on content.
+ *    - Note: To apply autogrow feature, hack is applied here. 
+ *      - It contains one dummy text field to calculate height of content.
+ * 
+ * 
+ * Usage pattern:
+ *  - `<dw-textarea undecorated .minHeight=${56} .maxHeight=${128} ></dw-textarea>`
+ */
 export class DwTextarea extends LitElement {
   static get styles() {
     return [
@@ -20,6 +34,7 @@ export class DwTextarea extends LitElement {
           -moz-box-sizing: border-box;
           box-sizing: border-box;
           color: var(--mdc-theme-text-primary);
+          position: relative;
         }
 
         :host[hidden] {
@@ -80,6 +95,13 @@ export class DwTextarea extends LitElement {
         :host([undecorated]), 
         :host([undecorated]) textarea {
           border: none;
+        }
+
+        #dummy-textarea {
+          position: absolute;
+          top: -99999px;
+          height: auto;
+          visibility: hidden;
         }
       `
     ];
@@ -167,6 +189,10 @@ export class DwTextarea extends LitElement {
     });
   }
 
+  get _dummyTextarea() {
+    return this.renderRoot.querySelector('#dummy-textarea');
+  }
+
   render() {
     return html`<textarea id="textarea" rows="1"
         style=${styleMap(this._textareaStyle())}
@@ -182,7 +208,10 @@ export class DwTextarea extends LitElement {
         @cut="${this._resize}"
         @paste="${this._resize}"
         @keypress="${this._onKeyPress}"
-        @keydown="${this._onKeyDown}"></textarea>`;
+        @keydown="${this._onKeyDown}"></textarea>
+        
+        <textarea rows="1" disabled id="dummy-textarea"></textarea>
+        `;
   }
 
   constructor() {
@@ -305,12 +334,12 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _resize() {
-    if(!this._textarea || this.minHeight === this.maxHeight) {
+    if(!this._textarea || !this._dummyTextarea || this.minHeight === this.maxHeight) {
       return;
     }
 
-    this.style.height = this._textarea.style.height = 'auto';
-    let scrollHeight = this._textarea.scrollHeight;
+    this._dummyTextarea.value = this._textarea.value;
+    const scrollHeight = this._dummyTextarea.scrollHeight;
     if(scrollHeight < this.minHeight) {
       this.style.height = this._textarea.style.height = this.minHeight + 'px';
       return;
