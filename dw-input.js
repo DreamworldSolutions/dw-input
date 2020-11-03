@@ -708,7 +708,9 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _toggleType() {
     this._type = this._type === 'text' ? 'password' : 'text';
-    this.focus();
+    setTimeout(() => {
+      this.focus();
+    }, 0);
   }
 
   /* Call this to set focus in the input */
