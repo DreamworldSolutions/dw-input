@@ -210,7 +210,7 @@ export class DwTextarea extends LitElement {
         @keypress="${this._onKeyPress}"
         @keydown="${this._onKeyDown}"></textarea>
         
-        <textarea rows="1" disabled id="dummy-textarea"></textarea>
+        <textarea .value="${this.value}" rows="1" disabled id="dummy-textarea"></textarea>
         `;
   }
 
@@ -338,7 +338,6 @@ export class DwTextarea extends LitElement {
       return;
     }
 
-    this._dummyTextarea.value = this._textarea.value;
     const scrollHeight = this._dummyTextarea.scrollHeight;
     if(scrollHeight < this.minHeight) {
       this.style.height = this._textarea.style.height = this.minHeight + 'px';
