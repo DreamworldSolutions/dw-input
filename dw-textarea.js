@@ -24,6 +24,7 @@ import { styleMap } from 'lit-html/directives/style-map.js';
  * Usage pattern:
  *  - `<dw-textarea undecorated .minHeight=${56} .maxHeight=${128} ></dw-textarea>`
  */
+
 export class DwTextarea extends LitElement {
   static get styles() {
     return [
