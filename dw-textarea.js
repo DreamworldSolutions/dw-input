@@ -19,6 +19,10 @@ import { styleMap } from 'lit-html/directives/style-map.js';
  *  - When nothing provided by integrator (minimum / maximum height), It autogrows based on content.
  *    - Note: To apply autogrow feature, hack is applied here. 
  *      - It contains one dummy text field to calculate height of content.
+ *      - Why this hack needed?
+ *        - To auto grow & auto shrink height of textarea based on it's content, there is no way to calculate content's height into textarea.
+ *          So to achieve this, We have attached 1 dummy textarea with single line & set it's value. From that dummy textarea, 
+ *          We can compute it's scrollHeight & set height of actaul visible textarea to that scrollHeight.
  * 
  * 
  * Usage pattern:
