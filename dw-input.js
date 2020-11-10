@@ -676,7 +676,7 @@ export class DwInput extends DwFormElement(LitElement) {
       const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
       return html`
         <dw-icon-button
-          @click=${this._toggleType}
+          @click=${this.toggleType}
           class="mdc-text-field__icon"
           icon="${icon}" .iconSize=${this.iconSize} tabindex=""></dw-icon-button>
       `;
@@ -704,9 +704,12 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * When `type` is password & `_showVisibilityIcon` is `true`, then on click of icon toggle visibility of password.
+   * When visibility icon is shown, toggle type between "text" & "password".
    */
-  _toggleType() {
+  toggleType() {
+    if (!this._showVisibilityIcon) {
+      return;
+    }
     this._type = this._type === 'text' ? 'password' : 'text';
     setTimeout(() => {
       this.focus();
