@@ -704,13 +704,14 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * When visibility icon is shown, toggle type between "text" & "password".
+   * When visibility icon is shown, toggle type between "text" & "password" & dispatch `toggle-type` event.
    */
   toggleType() {
     if (!this._showVisibilityIcon) {
       return;
     }
     this._type = this._type === 'text' ? 'password' : 'text';
+    this.dispatchEvent(new CustomEvent('toggle-type'));
     setTimeout(() => {
       this.focus();
     }, 0);
