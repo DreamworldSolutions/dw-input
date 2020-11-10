@@ -676,7 +676,7 @@ export class DwInput extends DwFormElement(LitElement) {
       const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
       return html`
         <dw-icon-button
-          @click=${this.showOrHidePassword}
+          @click=${this._toggleType}
           class="mdc-text-field__icon"
           icon="${icon}" .iconSize=${this.iconSize} tabindex=""></dw-icon-button>
       `;
@@ -704,17 +704,36 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * When visibility icon is shown, toggle type between "text" & "password" & dispatch `toggle-type` event.
+   * When visibility icon is shown, toggle type between "text" & "password" & dispatch `show-password`/`hide-password` event.
    */
-  showOrHidePassword() {
+  _toggleType() {
     if (!this._showVisibilityIcon) {
       return;
     }
-    this._type = this._type === 'text' ? 'password' : 'text';
-    this.dispatchEvent(new CustomEvent('toggle-type'));
+    if (this._type === 'text') {
+      this.dispatchEvent(new CustomEvent('hide-password'));
+      this.hidePassword();
+    } else {
+      this.dispatchEvent(new CustomEvent('show-password'));
+      this.showPassword();
+    }
     setTimeout(() => {
       this.focus();
     }, 0);
+  }
+
+  /**
+   * Shows password.
+   */
+  showPassword() {
+    this._type = 'text';
+  }
+
+  /**
+   * Hides password.
+   */
+  hidePassword() {
+    this._type = 'password';
   }
 
   /* Call this to set focus in the input */
