@@ -704,13 +704,36 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * When `type` is password & `_showVisibilityIcon` is `true`, then on click of icon toggle visibility of password.
+   * When visibility icon is shown, toggle type between "text" & "password" & dispatch `show-password`/`hide-password` event.
    */
   _toggleType() {
-    this._type = this._type === 'text' ? 'password' : 'text';
+    if (!this._showVisibilityIcon) {
+      return;
+    }
+    if (this._type === 'text') {
+      this.dispatchEvent(new CustomEvent('hide-password'));
+      this.hidePassword();
+    } else {
+      this.dispatchEvent(new CustomEvent('show-password'));
+      this.showPassword();
+    }
     setTimeout(() => {
       this.focus();
     }, 0);
+  }
+
+  /**
+   * Shows password.
+   */
+  showPassword() {
+    this._type = 'text';
+  }
+
+  /**
+   * Hides password.
+   */
+  hidePassword() {
+    this._type = 'password';
   }
 
   /* Call this to set focus in the input */
