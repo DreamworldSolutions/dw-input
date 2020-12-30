@@ -43,8 +43,9 @@ export class DwInput extends DwFormElement(LitElement) {
 
         .mdc-text-field{
           width: 100%;
+          height: var(--dw-input-height, auto);
         }
-        
+
         /* Add a way to customize label color */
         .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {

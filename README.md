@@ -139,7 +139,8 @@ import  '@dreamworld/dw-input/dw-textarea';
 -  `validate` - Call this to validate input. Returns false if value is invalid.
 
 ## Theme
-- Configure padding of the textarea `--dw-textarea-padding` css variable.  
+- Configure padding of the textarea `--dw-textarea-padding` css variable. 
+- Configure height of single line input: `--dw-input-height` cssvariable. 
 - For Borders, direclty apply to `dw-textarea` element at the time of usage. Default border hasn't provided as it's 
 raw element to be used for the custom purposes/UI.
 - It has no (transparent) background-color, so set background-color to `dw-textarea` as per your need.
