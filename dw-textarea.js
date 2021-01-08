@@ -283,6 +283,10 @@ export class DwTextarea extends LitElement {
    */
   moveToEnd() {
     this.updateComplete.then(() => {
+      if (!this._textarea) {
+        console.warn('dw-textarea: "textarea" element not found. Somehow "moveToEnd" method is triggered after "disconnectedCallback"');
+        return;
+      }
       if (typeof this._textarea.selectionStart == "number") {
         this._textarea.selectionStart = this._textarea.selectionEnd = this._textarea.value.length;
         this._textarea.focus();
