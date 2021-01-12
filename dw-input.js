@@ -485,9 +485,8 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--dense': this.dense && !this.multiline,
       'mdc-text-field--outlined' : !this.showAsFilled
     };
-
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation_.isFocused_) || this.value || this.value === 0
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0
     };
 
     const helperTextClasses = {
