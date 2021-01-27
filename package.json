@@ -24,32 +24,32 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
-    "@dreamworld/dw-form": "^1.0.1",
-    "@dreamworld/dw-icon-button": "^1.1.0",
+    "@dreamworld/dw-form": "^2.1.0",
+    "@dreamworld/dw-icon-button": "^2.1.0",
     "@dreamworld/material-styles": "^1.1.0",
-    "@material/textfield": "^3.1.0",
+    "@material/textfield": "9.0.0-canary.1c156d69d.0",
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
     "@dreamworld/material-styles": "^1.1.0",
     "@dreamworld/pwa-helpers": "^1.8.0",
-    "@material/mwc-formfield": "^0.7.1",
-    "@material/mwc-switch": "^0.7.1",
+    "@material/mwc-formfield": "0.20.0",
+    "@material/mwc-switch": "0.20.0",
     "semantic-release": "17.0.8"
   },
   "publishConfig": {
     "access": "public"
   },
   "resolutions": {
-    "@material/base": "3.1.0",
-    "@material/feature-targeting": "3.1.0",
-    "@material/ripple": "3.2.0",
-    "@material/rtl": "3.2.0",
-    "@material/theme": "3.1.0",
-    "@material/typography": "3.1.0",
-    "@material/animation": "3.1.0",
-    "@material/dom": "3.1.0",
-    "@material/mwc-base": "0.7.0"
+    "tslib": "2.1.0",
+    "@material/base": "9.0.0-canary.1c156d69d.0",
+    "@material/feature-targeting": "9.0.0-canary.1c156d69d.0",
+    "@material/ripple": "9.0.0-canary.1c156d69d.0",
+    "@material/rtl": "9.0.0-canary.1c156d69d.0",
+    "@material/theme": "9.0.0-canary.1c156d69d.0",
+    "@material/typography": "9.0.0-canary.1c156d69d.0",
+    "@material/animation": "9.0.0-canary.1c156d69d.0",
+    "@material/dom": "9.0.0-canary.1c156d69d.0"
   },
   "release": {
     "branches": [
