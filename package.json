@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
-    "@dreamworld/dw-form": "update-mwc",
-    "@dreamworld/dw-icon-button": "update-mwc",
+    "@dreamworld/dw-form": "^2.1.0",
+    "@dreamworld/dw-icon-button": "^2.1.0",
     "@dreamworld/material-styles": "^1.1.0",
     "@material/textfield": "9.0.0-canary.1c156d69d.0",
     "lit-element": "^2.2.1"
