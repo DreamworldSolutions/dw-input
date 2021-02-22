@@ -135,6 +135,11 @@ export class DwTextarea extends LitElement {
       maxLength: { type: Number },
 
       /**
+       * Mininum number of characters.
+       */
+      minLength: { type: Number },
+
+      /**
        * Set to true to make input field readonly.
        */
       readOnly: { type: Boolean, reflect: true},
@@ -203,6 +208,7 @@ export class DwTextarea extends LitElement {
         style=${styleMap(this._textareaStyle())}
         .value="${this.value}"
         .maxLength="${this.maxLength}"
+        .minLength="${this.minLength}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -229,6 +235,7 @@ export class DwTextarea extends LitElement {
     this.readOnly = false;
     this.minHeight = 42;
     this.maxLength = 524288;
+    this.minLength = 0;
 
     /**
      * A reference to the textarea element.
