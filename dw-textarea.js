@@ -132,7 +132,12 @@ export class DwTextarea extends LitElement {
       /**
        * Maximum length of textarea
        */
-      maxlength: { type: Number },
+      maxLength: { type: Number },
+
+      /**
+       * Mininum number of characters.
+       */
+      minLength: { type: Number },
 
       /**
        * Set to true to make input field readonly.
@@ -202,7 +207,8 @@ export class DwTextarea extends LitElement {
     return html`<textarea id="textarea" rows="1"
         style=${styleMap(this._textareaStyle())}
         .value="${this.value}"
-        maxlength="${this.maxlength}"
+        .maxLength="${this.maxLength}"
+        .minLength="${this.minLength}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -228,7 +234,8 @@ export class DwTextarea extends LitElement {
     this.placeholder = '';
     this.readOnly = false;
     this.minHeight = 42;
-    this.maxlength = 524288;
+    this.maxLength = 524288;
+    this.minLength = 0;
 
     /**
      * A reference to the textarea element.

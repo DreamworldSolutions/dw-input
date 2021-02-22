@@ -123,6 +123,10 @@ class DwInputDemo extends LitElement {
       <h4>Max length</h4>
       <dw-input maxLength="5" label="Name" charCounter></dw-input>
 
+
+      <h4>Shows Character count</h4>
+      <dw-input noLabel maxLength="50" multiline charCounter></dw-input>
+
       <h4>Prefix text</h4>
       <dw-input label="Name" prefixText="Dr."></dw-input>
 
