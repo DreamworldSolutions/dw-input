@@ -367,7 +367,7 @@ export const TextfieldStyle = css`
 .mdc-text-field--with-leading-icon .mdc-text-field__icon,
 .mdc-text-field--with-trailing-icon .mdc-text-field__icon {
   position: absolute;
-  bottom: 16px;
+  bottom: var(--dw-input-icon-bottom, 16px);
   cursor: pointer;
 }
 
@@ -389,7 +389,7 @@ export const TextfieldStyle = css`
   display: inline-flex;
   position: relative;
   box-sizing: border-box;
-  height: 56px;
+  height: var(--dw-input-height, 56px);
   overflow: hidden;
   /* @alternate */
   will-change: opacity, transform, color;
@@ -954,7 +954,7 @@ export const TextfieldStyle = css`
   /* @noflip */
   left: initial;
   /* @noflip */
-  right: 16px;
+  right: var(--dw-input-icon-right, 16px);
 }
 [dir=rtl] .mdc-text-field--with-trailing-icon.mdc-text-field--outlined .mdc-text-field__icon, .mdc-text-field--with-trailing-icon.mdc-text-field--outlined .mdc-text-field__icon[dir=rtl] {
   /* @noflip */
