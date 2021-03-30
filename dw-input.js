@@ -565,6 +565,19 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._invalid;
   }
 
+  set originalValue(val) {
+    if(val === this._originalValue){
+      return;
+    }
+
+    this._originalValue = val;
+    this._setIsValueUpdated();
+  }
+
+  get originalValue(){
+    return this._originalValue;
+  }
+
   constructor() {
     super();
     this.disabled = false;
