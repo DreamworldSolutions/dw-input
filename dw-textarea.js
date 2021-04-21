@@ -217,7 +217,7 @@ export class DwTextarea extends LitElement {
         @input="${this._onInput}"
         @blur="${this._onInputBlur}"
         @cut="${this._resize}"
-        @paste="${this._resize}"
+        @paste="${this._onPaste}"
         @keypress="${this._onKeyPress}"
         @keydown="${this._onKeyDown}"></textarea>
         
@@ -424,6 +424,22 @@ export class DwTextarea extends LitElement {
     this.dispatchEvent(new CustomEvent('esc', {
       detail: { value: this._textarea.value, event: e }
     }));
+  }
+
+  /**
+   * Invoked when user paste text on `texarea`.
+   * If `disabledEnter` property is true then replace all `enter` key to `space` key.
+   * @protected
+   */
+  _onPaste() {
+    this._resize();
+    if(this.disabledEnter) {
+      //Paste value is not get on paste value so use timeout.
+      setTimeout(()=> {
+        const value = this._textarea && this._textarea.value || '';
+        this.value = value.replace(/(\r\n|\n|\r)/gm, " ");
+      });
+    }
   }
 
   /**
