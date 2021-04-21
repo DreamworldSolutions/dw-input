@@ -459,7 +459,11 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _onInput() {
-    this.value = this._textarea.value;
+    let value = this._textarea.value;
+    if(value && this.disabledEnter) {
+      value = value.replace(/(\r\n|\n|\r)/gm, " ");
+    }
+    this.value = value;
     this._resize();
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this.value }
