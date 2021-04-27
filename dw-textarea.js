@@ -459,6 +459,10 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _onInput() {
+    if (this._textarea === undefined) {
+      console.warn('dw-textarea: Element is disconnected before `input` event handler call.');
+      return;
+    }
     let value = this._textarea.value;
     if(value && this.disabledEnter) {
       value = value.replace(/(\r\n|\n|\r)/gm, " ");
@@ -477,6 +481,10 @@ export class DwTextarea extends LitElement {
    * @protected
    */
   _onInputBlur(e) {
+    if (this._textarea === undefined) {
+      console.warn('dw-textarea: Element is disconnected before `blur` event handler call.');
+      return;
+    }
     this.dispatchEvent(new CustomEvent('blur', {
       detail: { value: this._textarea.value, event: e }
     }));
