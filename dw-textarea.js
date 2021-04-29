@@ -203,6 +203,10 @@ export class DwTextarea extends LitElement {
     return this.renderRoot.querySelector('#dummy-textarea');
   }
 
+  get _textarea() {
+    return this.renderRoot.querySelector('#textarea');
+  }
+
   render() {
     return html`<textarea id="textarea" rows="1"
         style=${styleMap(this._textareaStyle())}
@@ -236,35 +240,11 @@ export class DwTextarea extends LitElement {
     this.minHeight = 42;
     this.maxLength = 524288;
     this.minLength = 0;
-
-    /**
-     * A reference to the textarea element.
-     */
-    this._textarea = null;
-  }
-
-  connectedCallback() {
-    super.connectedCallback && super.connectedCallback();
-
-    //Set textarea instance.
-    this.updateComplete.then(() => {
-      this._textarea = this.shadowRoot.querySelector('#textarea');
-    });
   }
 
   firstUpdated(changeProps) {
     super.firstUpdated && super.firstUpdated(changeProps);
-
-    //If textarea instance is not set.
-    if(!this._textarea) {
-      this._textarea = this.shadowRoot.querySelector('#textarea');
-    }
     this._resize();
-  }
-
-  disconnectedCallback() {
-    this._textarea = undefined;
-    super.disconnectedCallback && super.disconnectedCallback();
   }
 
   /**
