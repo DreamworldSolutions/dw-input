@@ -876,7 +876,6 @@ export class DwInput extends DwFormElement(LitElement) {
    * Triggers `value-changed` event.
    */
    _onChange(e) {
-    console.log({ e });
     if(!this._textFieldInstance){
       return;
     }
@@ -885,7 +884,9 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if(value !== undefined) {
       this._setValue(value, true);
-      this.layout();
+      setTimeout(() => {
+        this.layout();
+      }, 200);
     }
   }
 
