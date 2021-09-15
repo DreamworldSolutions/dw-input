@@ -620,6 +620,7 @@ export class DwInput extends DwFormElement(LitElement) {
         @paste="${this._preventInvalidInput}"
         @keydown="${this._onKeyDown}"
         @input="${this._onInput}"
+        @change="${this._onInput}"
         @blur="${this._onInputBlur}"
         @focus="${this._onFocus}">
     `;
