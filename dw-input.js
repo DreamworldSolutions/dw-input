@@ -876,7 +876,8 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates pasted value
    * Triggers `value-changed` event
    */
-  _onInput() {
+  _onInput(e) {
+    console.log({ e });
     if(!this._textFieldInstance){
       console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
