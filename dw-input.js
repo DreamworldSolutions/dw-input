@@ -620,6 +620,7 @@ export class DwInput extends DwFormElement(LitElement) {
         @paste="${this._preventInvalidInput}"
         @keydown="${this._onKeyDown}"
         @input="${this._onInput}"
+        @change="${this._onChange}"
         @blur="${this._onInputBlur}"
         @focus="${this._onFocus}">
     `;
@@ -868,6 +869,21 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if (!isValid) {
       event.preventDefault && event.preventDefault();
+    }
+  }
+
+  /**
+   * Triggers `value-changed` event.
+   */
+   _onChange(e) {
+    if(!this._textFieldInstance){
+      return;
+    }
+	  
+    const value = this._textFieldInstance.value
+
+    if(value !== undefined) {
+      this._setValue(value, true);
     }
   }
 
