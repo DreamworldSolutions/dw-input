@@ -884,9 +884,6 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if(value !== undefined) {
       this._setValue(value, true);
-      setTimeout(() => {
-        this.layout();
-      }, 200);
     }
   }
 
