@@ -620,7 +620,7 @@ export class DwInput extends DwFormElement(LitElement) {
         @paste="${this._preventInvalidInput}"
         @keydown="${this._onKeyDown}"
         @input="${this._onInput}"
-        @change="${this._onInput}"
+        @change="${this._onChange}"
         @blur="${this._onInputBlur}"
         @focus="${this._onFocus}">
     `;
@@ -873,11 +873,27 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
+   * Triggers `value-changed` event.
+   */
+   _onChange(e) {
+    console.log({ e });
+    if(!this._textFieldInstance){
+      return;
+    }
+	  
+    const value = this._textFieldInstance.value
+
+    if(value !== undefined) {
+      this._setValue(value, true);
+      this.layout();
+    }
+  }
+
+  /**
    * Validates pasted value
    * Triggers `value-changed` event
    */
-  _onInput(e) {
-    console.log({ e });
+  _onInput() {
     if(!this._textFieldInstance){
       console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
