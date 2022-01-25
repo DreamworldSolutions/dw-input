@@ -335,6 +335,8 @@ export class DwTextarea extends LitElement {
     }
 
     const scrollHeight = this._dummyTextarea.scrollHeight;
+    const dummyTextareaScrollHeight = this._dummyTextarea.scrollHeight;
+    const scrollHeight = (dummyTextareaScrollHeight % 2) === 0 ? dummyTextareaScrollHeight:  dummyTextareaScrollHeight + 1;
     if(scrollHeight < this.minHeight) {
       this.style.height = this._textarea.style.height = this.minHeight + 'px';
       return;
