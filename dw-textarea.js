@@ -290,6 +290,31 @@ export class DwTextarea extends LitElement {
   }
 
   /**
+   * Move focus to start of text & resize textarea
+   * @protected
+   */
+  moveToStart() {
+    this.updateComplete.then(() => {
+      if (!this._textarea) {
+        console.warn('dw-textarea: "textarea" element not found. Somehow "moveToStart" method is triggered after "disconnectedCallback"');
+        return;
+      }
+      if (typeof this._textarea.selectionStart == "number") {
+        this._textarea.selectionStart = this._textarea.selectionEnd = 0;
+        this._textarea.focus();
+      } else if (typeof this._textarea.createTextRange != "undefined") {
+        this._textarea.focus();
+        let range = this._textarea.createTextRange();
+        range.collapse(true);
+        range.select();
+      } else {
+        console.error('dw-textarea: Error while moving cursor to start.');
+      }
+      this._resize();
+    });
+  }
+
+  /**
    * Call this to remove focus in the input.
    * @public
    */
