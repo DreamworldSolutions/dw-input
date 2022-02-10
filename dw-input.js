@@ -437,7 +437,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Set to true to trim value on input blur 
        */
-      truncateOnBlur: { type: Boolean },
+      trimOnBlur: { type: Boolean },
 
       /**
        * Input property
@@ -584,7 +584,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.minLength = 0;
     this.maxLength = 524288;
     this.minHeight = 42;
-    this.truncateOnBlur = false;
+    this.trimOnBlur = false;
     this.showAsFilled = false;
     this.prefixText = '';
     this.suffixText = '';
@@ -845,7 +845,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return;
     }
     
-    if(this.truncateOnBlur && this.value){
+    if(this.trimOnBlur && this.value){
       this.value = typeof this.value === 'string' ? this.value.trim() : this.value;
     }
     
