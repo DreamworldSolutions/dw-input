@@ -24,10 +24,11 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-input#readme",
   "dependencies": {
-    "@dreamworld/dw-form": "^2.1.0",
-    "@dreamworld/dw-icon-button": "^2.1.0",
+    "@dreamworld/dw-form": "^3.0.1",
+    "@dreamworld/dw-icon": "^2.3.0",
+    "@dreamworld/dw-icon-button": "^2.4.0",
     "@dreamworld/material-styles": "^1.1.0",
-    "@material/textfield": "9.0.0-canary.1c156d69d.0",
+    "@material/textfield": "^14.0.0",
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
@@ -39,17 +40,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "resolutions": {
-    "tslib": "2.1.0",
-    "@material/base": "9.0.0-canary.1c156d69d.0",
-    "@material/feature-targeting": "9.0.0-canary.1c156d69d.0",
-    "@material/ripple": "9.0.0-canary.1c156d69d.0",
-    "@material/rtl": "9.0.0-canary.1c156d69d.0",
-    "@material/theme": "9.0.0-canary.1c156d69d.0",
-    "@material/typography": "9.0.0-canary.1c156d69d.0",
-    "@material/animation": "9.0.0-canary.1c156d69d.0",
-    "@material/dom": "9.0.0-canary.1c156d69d.0"
   },
   "release": {
     "branches": [
