@@ -762,7 +762,7 @@ export class DwInput extends DwFormElement(LitElement) {
 	  return;
 	}
 	
-    this._textFieldInstance.input_.select();
+    this._textFieldInstance.input.select();
   }
 
   /* Call this to perform validation of the input */
@@ -982,7 +982,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns true if validation is passed
    */
   _getInputValidity() { 
-    let isValid = this._textFieldInstance && this._textFieldInstance.input_.checkValidity();
+    let isValid = this._textFieldInstance && this._textFieldInstance.input.checkValidity();
 
     if (!isValid) { 
       return false;
