@@ -16,7 +16,7 @@ import { MDCTextFieldCharacterCounter } from '@material/textfield/character-coun
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
 import '@dreamworld/dw-icon-button/dw-icon-button';
-import './dw-textarea.js'; 
+import './dw-textarea.js';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -44,7 +44,7 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field{
           width: 100%;
         }
-        
+
         /* Add a way to customize label color */
         .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
@@ -71,7 +71,7 @@ export class DwInput extends DwFormElement(LitElement) {
           color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
         }
         /* ENDS: style for dark theme */
-        
+
         /* Hide right bottom corner icon */
         textarea{
           resize: none;
@@ -79,11 +79,11 @@ export class DwInput extends DwFormElement(LitElement) {
 
         /* STARTS style for hide helper text when input is invalid */
         .mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-helper-text--validation-msg {
-          display: block;  
+          display: block;
         }
 
         .mdc-text-field--invalid + .mdc-text-field-helper-line .helper-text {
-          display: none;  
+          display: none;
         }
 
         .mdc-text-field-helper-text--validation-msg{
@@ -96,7 +96,7 @@ export class DwInput extends DwFormElement(LitElement) {
           fill: var(--dw-icon-color, rgba(0, 0, 0, 0.54));
           color: var(--dw-icon-color, rgba(0, 0, 0, 0.54));
         }
-        
+
          /* Add a way to configure disabled icon color */
         :host([disabled]) .mdc-text-field--outlined .mdc-text-field__icon {
           fill: var(--dw-icon-color-disabled, rgba(0, 0, 0, 0.38));
@@ -157,15 +157,15 @@ export class DwInput extends DwFormElement(LitElement) {
           font-size: 1rem;
         }
         /* ENDS: Style for dense field */
-        
+
         .mdc-text-field + .mdc-text-field-helper-line{
            position: var(--dw-input-helper-line-position, relative);
         }
-  
+
         .mdc-text-field__icon{
           outline: none;
         }
-      
+
         :host([clickableIcon]) dw-icon-button.mdc-text-field__icon{
           pointer-events: auto;
           cursor: pointer;
@@ -175,7 +175,7 @@ export class DwInput extends DwFormElement(LitElement) {
         :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled) {
           background-color: var(--dw-input-fill-color, whitesmoke);
         }
-  
+
         :host([showAsFilled]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input {
           border-bottom-color: var(--dw-input-filled-bottom-border-color, rgba(0, 0, 0, 0.42));
         }
@@ -236,7 +236,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.updateComplete.then(() => {
       this._initMdcTextField();
       this._updateTextfieldValue();
-  
+
       // Setting timeout here for proper label placement
       setTimeout(() => {
         if (!this._textFieldInstance) {
@@ -272,7 +272,7 @@ export class DwInput extends DwFormElement(LitElement) {
       _type: { type: String },
 
       /**
-       * Used to show visibility icon when type is 'password'. 
+       * Used to show visibility icon when type is 'password'.
        * Default is `true`
        */
       _showVisibilityIcon: { type: Boolean },
@@ -307,7 +307,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * Set this to specify the pattern allowed by user. Checked at the time user types in the textfield.
        */
       allowedPattern: { type: String },
-      
+
       /**
        * Leading icon to display in input
        */
@@ -332,9 +332,9 @@ export class DwInput extends DwFormElement(LitElement) {
        * A placeholder text in addition to the label.
        */
       placeholder: { type: String },
-      
+
       /**
-       * Message to show in the error color when the textfield is invalid. 
+       * Message to show in the error color when the textfield is invalid.
        */
       errorMessage: { type: String },
 
@@ -365,7 +365,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * Set to true show input as a text-area
        */
       multiline: { type: Boolean },
-      
+
       dense: { type: Boolean },
 
       /**
@@ -409,13 +409,13 @@ export class DwInput extends DwFormElement(LitElement) {
        * Function receives 2 arguments: (val1, val2). Should return `true` when both values are same otherwise `false`.
        */
       valueEqualityChecker: { type: Function },
-      
+
       /**
        * Set this to true to make icon clickable.
        * Default is false
        */
       clickableIcon: { type: Boolean },
-      
+
       /**
        * Minimum height of textarea
        * Applicable when `multiline` is true
@@ -433,9 +433,9 @@ export class DwInput extends DwFormElement(LitElement) {
        * Applicable when `multiline` is true
        */
       disabledEnter: { type: Boolean },
-      
+
       /**
-       * Set to true to trim value on input blur 
+       * Set to true to trim value on input blur
        */
       truncateOnBlur: { type: Boolean },
 
@@ -475,7 +475,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   render() {
-    
+
     const wrapperClasses = {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
@@ -494,7 +494,7 @@ export class DwInput extends DwFormElement(LitElement) {
     };
 
     return html`
-    
+
       <div class="mdc-text-field ${classMap(wrapperClasses)}">
 
         ${this._getPrefixTemplate}
@@ -524,9 +524,9 @@ export class DwInput extends DwFormElement(LitElement) {
         ` }
 
       </div>
-      
+
       ${this.hint || this.errorMessage || this.charCounter
-        ? html` 
+        ? html`
           <div class="mdc-text-field-helper-line">
             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
             <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
@@ -552,7 +552,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return;
     }
 
-    if (this._textFieldInstance) { 
+    if (this._textFieldInstance) {
       this._textFieldInstance.valid = !invalid;
     }
 
@@ -593,15 +593,15 @@ export class DwInput extends DwFormElement(LitElement) {
     this.type = "text"
     this._showVisibilityIcon = true;
 
-    this.valueEqualityChecker = function (value, originalValue) { 
+    this.valueEqualityChecker = function (value, originalValue) {
 	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
       value = value ? value.toString().trim() : value;
-      
+
       return value != originalValue;
     }
   }
 
-  get inputTemplate() { 
+  get inputTemplate() {
     return html`
       <input type="text"
         type="${this._type || this.type}"
@@ -665,7 +665,7 @@ export class DwInput extends DwFormElement(LitElement) {
         <span class="prefix-text">${this.prefixText}</span>
       `;
     }
-      
+
   }
 
   /**
@@ -681,7 +681,7 @@ export class DwInput extends DwFormElement(LitElement) {
           icon="${icon}" .iconSize=${this.iconSize} tabindex=""></dw-icon-button>
       `;
     }
-    
+
     if(this.iconTrailing){
       return html`
         <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
@@ -717,8 +717,15 @@ export class DwInput extends DwFormElement(LitElement) {
       this.dispatchEvent(new CustomEvent('show-password'));
       this.showPassword();
     }
+
+    const elem = this.renderRoot && this.renderRoot.querySelector && this.renderRoot.querySelector('.mdc-text-field__input');
+    const cursorPosition = elem && elem.selectionStart || 0;
     setTimeout(() => {
-      this.focus();
+      if(this.type === 'password') {
+        this.setCaretPosition(cursorPosition);
+      } else {
+        this.focus();
+      }
     }, 0);
   }
 
@@ -755,18 +762,44 @@ export class DwInput extends DwFormElement(LitElement) {
     })
   }
 
+  /**
+   * @param {Number} caretPos
+   * set focus on specific position.
+   */
+  setCaretPosition(caretPos) {
+    const elem = this.renderRoot && this.renderRoot.querySelector && this.renderRoot.querySelector('.mdc-text-field__input');
+    if (elem != null) {
+      if (elem.createTextRange) {
+        var range = elem.createTextRange();
+        range.move("character", caretPos);
+        range.select();
+      } else {
+        if (
+          elem.selectionStart !== undefined &&
+          elem.selectionStart !== null &&
+          elem.setSelectionRange
+        ) {
+          elem.focus();
+          elem.setSelectionRange(caretPos, caretPos);
+        } else {
+          elem.focus();
+        }
+      }
+    }
+  }
+
   /* Call this to select text of the input */
   selectText(){
 	if (!this._textFieldInstance) {
 	  console.warn('dw-input : element has been disconnected before select text.');
 	  return;
 	}
-	
+
     this._textFieldInstance.input.select();
   }
 
   /* Call this to perform validation of the input */
-  validate() { 
+  validate() {
     let isValid = this._getInputValidity();
 
     this.invalid = !isValid;
@@ -785,7 +818,7 @@ export class DwInput extends DwFormElement(LitElement) {
     })
   }
 
-  parseValue(text) {  
+  parseValue(text) {
     return text;
   }
 
@@ -796,9 +829,9 @@ export class DwInput extends DwFormElement(LitElement) {
   /**
    * Intializes textfield
    */
-  _initMdcTextField() { 
+  _initMdcTextField() {
     const el = this.shadowRoot.querySelector('.mdc-text-field');
-    this._textFieldInstance = new MDCTextField(el); 
+    this._textFieldInstance = new MDCTextField(el);
     this._textFieldInstance.useNativeValidation = false;
     new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
   }
@@ -844,11 +877,11 @@ export class DwInput extends DwFormElement(LitElement) {
     if (!this._textFieldInstance) {
       return;
     }
-    
+
     if(this.truncateOnBlur && this.value){
       this.value = typeof this.value === 'string' ? this.value.trim() : this.value;
     }
-    
+
     this._textFieldInstance.value = this.formatText(this.value);
   }
 
@@ -862,7 +895,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if (!this.allowedPattern) {
       return;
     }
-   
+
     let value = event.type === 'paste' ?  event.clipboardData.getData('text')  : event.key;
 
     let isValid = this._isValidValue(value);
@@ -879,7 +912,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if(!this._textFieldInstance){
       return;
     }
-	  
+
     const value = this._textFieldInstance.value
 
     if(value !== undefined) {
@@ -896,7 +929,7 @@ export class DwInput extends DwFormElement(LitElement) {
       console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
     }
-	  
+
     let value = this.parseValue(this._textFieldInstance.value);
 
     if(value !== undefined) {
@@ -905,10 +938,10 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Validates value against `allowedPattern` 
+   * Validates value against `allowedPattern`
    * If value is invalid, clears input value
    */
-  _checkPatternValidity() { 
+  _checkPatternValidity() {
     for (let i = 0; i < this._textFieldInstance.value.length; i++) {
       let isValid = this._isValidValue(this._textFieldInstance.value[i]);
 
@@ -920,9 +953,9 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /**
    * checks `value` against `allowedPattern`
-   * Returns `true` if value is valid 
+   * Returns `true` if value is valid
    */
-  _isValidValue(value) { 
+  _isValidValue(value) {
     if(!this.allowedPattern) {
       return true;
     }
@@ -958,7 +991,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Invokes on input focus
    * Selects input text if `autoSelect` property is true
    */
-  _onFocus() { 
+  _onFocus() {
     if (this.autoSelect) {
       //Set timeout so that we can always get selected text when autoSelect is true
       setTimeout(() => {
@@ -971,7 +1004,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Invokes on input blur
    * Validates input value
    */
-  _onInputBlur() { 
+  _onInputBlur() {
     this._updateTextfieldValue();
     this.validate();
   }
@@ -981,14 +1014,14 @@ export class DwInput extends DwFormElement(LitElement) {
    * It also invokes `validator` if provided
    * Returns true if validation is passed
    */
-  _getInputValidity() { 
+  _getInputValidity() {
     let isValid = this._textFieldInstance && this._textFieldInstance.input.checkValidity();
 
-    if (!isValid) { 
+    if (!isValid) {
       return false;
     }
 
-    if (this.validator) { 
+    if (this.validator) {
       isValid = this.validator(this.value);
     }
 
@@ -998,7 +1031,7 @@ export class DwInput extends DwFormElement(LitElement) {
   /**
    * Sets `_valueUpdated` is value is changed. It's used to high-light textfield
    */
-  _setIsValueUpdated() { 
+  _setIsValueUpdated() {
     let value = this.value;
     let originalValue = this.originalValue;
 
