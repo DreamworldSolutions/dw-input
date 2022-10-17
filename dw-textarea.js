@@ -8,8 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css } from 'lit-element';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { LitElement, html, css } from '@dreamworld/pwa-helpers/lit.js';
+import { styleMap } from 'lit/directives/style-map.js';
 
 /**
  * Behaviors:
@@ -200,11 +200,11 @@ export class DwTextarea extends LitElement {
   }
 
   get _dummyTextarea() {
-    return this.renderRoot.querySelector('#dummy-textarea');
+    return this.renderRoot?.querySelector('#dummy-textarea') ?? null;
   }
 
   get _textarea() {
-    return this.renderRoot.querySelector('#textarea');
+    return this.renderRoot?.querySelector('#textarea') ?? null;
   }
 
   render() {

@@ -8,9 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { html, css } from 'lit-element';
-import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
-import { classMap } from 'lit-html/directives/class-map.js';
+import { html, css, LitElement } from '@dreamworld/pwa-helpers/lit.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
