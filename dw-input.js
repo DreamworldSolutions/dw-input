@@ -563,8 +563,11 @@ export class DwInput extends DwFormElement(LitElement) {
         ? html`
           <div class="mdc-text-field-helper-line">
             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
-            <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this.warningText}</div>
-            <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
+            ${this.warningText ? html`
+              <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this.warningText}</div>          
+            ` : html`
+              <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
+            `}
             ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
           </div>`
         : html``
