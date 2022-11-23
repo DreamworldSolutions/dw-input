@@ -225,6 +225,31 @@ export class DwInput extends DwFormElement(LitElement) {
         }
         /* END: prefix/suffix text style */
 
+        /* STARTS warning text style */
+        .mdc-text-field--focused.mdc-text-field--invalid:not(.mdc-text-field--disabled)  + .mdc-text-field-helper-line .mdc-text-field-helper-text.mdc-text-field-warning-text {
+          display: none;
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) + .mdc-text-field-helper-line .mdc-text-field-helper-text.mdc-text-field-warning-text {
+          opacity: 1;
+          color: var(--mdc-theme-text-warning, #FFA726);
+        }
+
+        .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-text-field-warning-text::after,
+        .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label.mdc-text-field-warning-text,
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-floating-label.mdc-text-field-warning-text {
+          color: var(--mdc-theme-text-warning, #FFA726);
+        }
+
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__leading.mdc-text-field-warning-text,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__notch.mdc-text-field-warning-text,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-notched-outline__trailing.mdc-text-field-warning-text,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__leading.mdc-text-field-warning-text,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__notch.mdc-text-field-warning-text,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-text-field__input:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing.mdc-text-field-warning-text {
+          border-color: var(--mdc-theme-text-warning, #FFA726);
+        }
+        /* END warning text style */
       `
     ];
   }
@@ -470,6 +495,11 @@ export class DwInput extends DwFormElement(LitElement) {
        * A reference to the input element.
        */
       _textFieldInstance: { type: Object },
+
+      /**
+       * Text to show the warning message.
+       */
+      warningText: { type: String }
     };
   }
 
@@ -485,12 +515,17 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--outlined' : !this.showAsFilled
     };
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0,
+      'mdc-text-field-warning-text': this.warningText
     };
 
     const helperTextClasses = {
       'mdc-text-field-helper-text--persistent': this.hintPersistent
     };
+
+    const warningTextClasses = {
+      'mdc-text-field-warning-text': this.warningText
+    }
 
     return html`
 
@@ -509,26 +544,30 @@ export class DwInput extends DwFormElement(LitElement) {
           }
         ` : html`
           <div class="mdc-notched-outline">
-            <div class="mdc-notched-outline__leading">
+            <div class="mdc-notched-outline__leading ${classMap(warningTextClasses)}">
               ${this.prefixText && !this.icon ? html`<span class="prefix-text hide">${this.prefixText}</span>` : ''}
             </div>
-            <div class="mdc-notched-outline__notch">
+            <div class="mdc-notched-outline__notch ${classMap(warningTextClasses)}">
               ${this.label
                 ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
                 : html``
               }
             </div>
-            <div class="mdc-notched-outline__trailing"></div>
+            <div class="mdc-notched-outline__trailing ${classMap(warningTextClasses)}"></div>
           </div>
         ` }
 
       </div>
 
-      ${this.hint || this.errorMessage || this.charCounter
+      ${this.hint || this.errorMessage || this.charCounter || this.warningText
         ? html`
           <div class="mdc-text-field-helper-line">
             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
-            <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
+            ${this.warningText ? html`
+              <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this.warningText}</div>          
+            ` : html`
+              <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
+            `}
             ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
           </div>`
         : html``
@@ -602,8 +641,8 @@ export class DwInput extends DwFormElement(LitElement) {
 
   get inputTemplate() {
     return html`
-      <input type="text"
-        type="${this._type || this.type}"
+      <input
+        .type="${this._type || this.type}"
         id="tf-outlined"
         class="mdc-text-field__input"
         .name="${this.name}"

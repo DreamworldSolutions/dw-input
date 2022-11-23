@@ -88,6 +88,9 @@ class DwInputDemo extends LitElement {
       <h4>Text field with prefilled value</h4>
       <dw-input label="Name" value="Simmy"></dw-input>
 
+      <h4>Text field with warning</h4>
+      <dw-input label="Name" value="Devang" warningText="warning text" required></dw-input>
+
       <h4>Highlight field on value change</h4>
       <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
 
