@@ -200,11 +200,11 @@ export class DwTextarea extends LitElement {
   }
 
   get _dummyTextarea() {
-    return this.renderRoot?.querySelector('#dummy-textarea') ?? null;
+    return this.renderRoot.querySelector('#dummy-textarea');
   }
 
   get _textarea() {
-    return this.renderRoot?.querySelector('#textarea') ?? null;
+    return this.renderRoot.querySelector('#textarea');
   }
 
   render() {
