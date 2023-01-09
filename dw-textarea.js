@@ -204,7 +204,7 @@ export class DwTextarea extends LitElement {
   }
 
   get _textarea() {
-    return this.renderRoot.querySelector('#textarea');
+    return this.renderRoot && this.renderRoot.querySelector('#textarea');
   }
 
   render() {
