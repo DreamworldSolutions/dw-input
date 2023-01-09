@@ -1137,6 +1137,7 @@ export const TextfieldStyle = css`
 }
 
 .mdc-text-field__input:required ~ .mdc-floating-label::after,
+:host([required]) .mdc-floating-label::after,
 .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after {
   margin-left: 1px;
   content: "*";
