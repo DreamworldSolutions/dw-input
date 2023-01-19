@@ -40,6 +40,17 @@ export class DwInput extends DwFormElement(LitElement) {
           pointer-events: none;
         }
 
+        /* When input type is number, remove up-down button  */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        input[type=number]{
+          -moz-appearance: textfield;
+        }
+
         .mdc-text-field{
           width: 100%;
         }
@@ -289,6 +300,16 @@ export class DwInput extends DwFormElement(LitElement) {
        * Default is "text"
        */
       type: { type: String },
+      
+      /**
+       * When type is `number`, sets max number
+       */
+      maxNumber: { type: Number},
+
+      /**
+       * When type is `number`, sets min number
+       */
+      minNumber: { type: Number},
 
       /**
        * When type is `password` & `_showVisibilityIcon` is `true`, toggle this to 'text' & 'password'
@@ -643,6 +664,8 @@ export class DwInput extends DwFormElement(LitElement) {
     return html`
       <input
         .type="${this._type || this.type}"
+        max=${this.maxNumber}
+        min=${this.minNumber}
         id="tf-outlined"
         class="mdc-text-field__input"
         .name="${this.name}"
@@ -997,7 +1020,6 @@ export class DwInput extends DwFormElement(LitElement) {
     if(!this.allowedPattern) {
       return true;
     }
-
     return RegExp(this.allowedPattern).test(value);
   }
 
