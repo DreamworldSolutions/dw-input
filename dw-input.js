@@ -10,11 +10,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css, LitElement } from '@dreamworld/pwa-helpers/lit.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { MDCTextField } from '@material/textfield';
-import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
+import { MDCTextField } from '@material/textfield/index.js';
+import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter/index.js';
 import { TextfieldStyle } from './mdc-text-field-css.js';
-import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
-import '@dreamworld/dw-icon-button/dw-icon-button';
+import { DwFormElement } from '@dreamworld/dw-form/dw-form-element.js';
+import '@dreamworld/dw-icon-button/dw-icon-button.js';
 import './dw-textarea.js';
 
 export class DwInput extends DwFormElement(LitElement) {
@@ -300,7 +300,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * Default is "text"
        */
       type: { type: String },
-      
+
       /**
        * When type is `number`, sets max number
        */
@@ -585,7 +585,7 @@ export class DwInput extends DwFormElement(LitElement) {
           <div class="mdc-text-field-helper-line">
             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
             ${this.warningText ? html`
-              <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this.warningText}</div>          
+              <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this.warningText}</div>
             ` : html`
               <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
             `}
