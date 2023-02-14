@@ -19,4 +19,4 @@ class FormattedInput extends DwInput {
 
 }
 
-window.customElements.define('formatted-input', FormattedInput);
+customElements.define('formatted-input', FormattedInput);

@@ -30,4 +30,4 @@ export class DwEmailInput extends DwInput {
 
 }
 
-window.customElements.define('dw-email-input', DwEmailInput);
+customElements.define('dw-email-input', DwEmailInput);
