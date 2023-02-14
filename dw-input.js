@@ -1099,4 +1099,4 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 }
 
-window.customElements.define('dw-input', DwInput);
+customElements.define('dw-input', DwInput);

@@ -490,4 +490,4 @@ export class DwTextarea extends LitElement {
   }
 }
 
-window.customElements.define('dw-textarea', DwTextarea);
+customElements.define('dw-textarea', DwTextarea);

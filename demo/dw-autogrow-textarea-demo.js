@@ -69,4 +69,4 @@ class DwAutogrowTextareaDemo extends LitElement {
   }
 }
 
-window.customElements.define('dw-autogrow-textarea-demo', DwAutogrowTextareaDemo);
+customElements.define('dw-autogrow-textarea-demo', DwAutogrowTextareaDemo);

@@ -194,4 +194,4 @@ class DwInputDemo extends LitElement {
   }
 }
 
-window.customElements.define('dw-input-demo', DwInputDemo);
+customElements.define('dw-input-demo', DwInputDemo);
