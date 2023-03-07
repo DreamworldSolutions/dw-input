@@ -267,7 +267,7 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         .mdc-text-field--outlined.mdc-text-field--dense.mdc-text-field--focused .mdc-floating-label,
-        .mdc-text-field--outlined.mdc-text-field--dense.mdc-notched-outline--upgraded .mdc-floating-label--float-above, .mdc-text-field--outlined.mdc-text-field--dense .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+        .mdc-text-field--outlined.mdc-text-field--dense .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
           top: var(--dw-input-focused-label-top, 18px);
         }
       `
