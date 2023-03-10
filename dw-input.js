@@ -261,6 +261,10 @@ export class DwInput extends DwFormElement(LitElement) {
           border-color: var(--mdc-theme-text-warning, #FFA726);
         }
         /* END warning text style */
+
+        :host([readonly]) {
+          --dw-input-outlined-idle-border-color: var(--dw-input-outlined-readonly-idle-border-color)
+        }
       `
     ];
   }
