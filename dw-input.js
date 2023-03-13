@@ -390,7 +390,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Set to true to make input field readonly.
        */
-      readOnly: { type: Boolean},
+      readOnly: { type: Boolean, reflect: true },
 
       /**
        * Set this to apply custom validation of input. Receives value to be validated as argument.
