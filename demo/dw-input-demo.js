@@ -5,6 +5,13 @@ import '@material/mwc-switch';
 import '@material/mwc-formfield';
 import './formatted-input.js';
 
+import { DWTooltip, DWTooltipStyle } from '@dreamworld/dw-tooltip';
+
+const TooltipActions = [
+  {name: "UPDATE", label: "Update"},
+  {name: "CLEAR", label: "Clear", danger: true}
+]
+
 class DwInputDemo extends LitElement {
   static get styles() {
     return [
@@ -46,6 +53,10 @@ class DwInputDemo extends LitElement {
           --mdc-theme-text-primary-on-background: var(--mdc-theme-text-primary);
         }
 
+        .tippy-box {
+          ${DWTooltipStyle}
+        }
+
       `
     ];
   }
@@ -66,11 +77,36 @@ class DwInputDemo extends LitElement {
         </mwc-switch>
       </mwc-formfield>
 
+      <h4>Required In Tooltip text field</h4>
+      <dw-input
+        label="First name"
+        required
+        errorInTooltip
+        errorMessage="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        @enter="${this._onFirstNameEnter}"
+        @esc="${this._onFirstNameEsc}"
+        .tooltipActions="${TooltipActions}"
+        @action="${(e) => console.log(e.detail)}"
+        warningText="warning text"
+        warningInTooltip
+      ></dw-input>
+
+      <h4>Text field with warning in tooltip</h4>
+      <dw-input
+        label="Name"
+        value="Devang"
+        warningText="warning text"
+        required
+        warningInTooltip
+        .tooltipActions="${TooltipActions}"
+        @action="${(e) => console.log(e.detail)}"
+      ></dw-input>
+
       <h4>Shows Character count</h4>
       <dw-input label="Label" placeholder="PlaceHolder" noLabel maxLength="50" multiline charCounter></dw-input>
 
       <h4>Dense field</h4>
-      <dw-input label="Name" dense></dw-input>
+      <dw-input warningText="warning text" errorMessage="Error message" required label="Name" dense></dw-input>
 
       <h4>Required text field</h4>
       <dw-input label="First name" 
@@ -95,7 +131,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" value="Simmy"></dw-input>
 
       <h4>Text field with warning</h4>
-      <dw-input label="Name" value="Devang" warningText="warning text" required></dw-input>
+      <dw-input label="Name" value="Devang" warningText="warning text" required ></dw-input>
 
       <h4>Highlight field on value change</h4>
       <dw-input label="First name" value="Ruchita" truncateOnBlur highlightChanged originalValue="Ruchita" required errorMessage="Required" @input="${this._onInput}" @change="${this._onChange}"></dw-input>
@@ -190,6 +226,9 @@ class DwInputDemo extends LitElement {
     el.validator = function (value) {
       return value === 'cat';
     }
+
+    let elTippyContainer = this.shadowRoot;
+    DWTooltip.setAppendTo(elTippyContainer);
   }
 
   _onInput(e) {
