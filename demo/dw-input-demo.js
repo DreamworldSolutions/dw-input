@@ -69,6 +69,7 @@ class DwInputDemo extends LitElement {
       <h4>Required text field</h4>
       <dw-input label="First name" 
         required 
+        errorInTooltip
         errorMessage="Required" 
         @enter="${this._onFirstNameEnter}"
         @esc="${this._onFirstNameEsc}"></dw-input>
@@ -89,7 +90,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" value="Simmy"></dw-input>
 
       <h4>Text field with warning</h4>
-      <dw-input label="Name" value="Devang" warningText="warning text" required></dw-input>
+      <dw-input label="Name" value="Devang" warningText="warning text" required warningInTooltip></dw-input>
 
       <h4>Highlight field on value change</h4>
       <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>

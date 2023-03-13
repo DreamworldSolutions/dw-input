@@ -16,6 +16,8 @@ import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element.js';
 import '@dreamworld/dw-icon-button/dw-icon-button.js';
 import './dw-textarea.js';
+import '@dreamworld/dw-tooltip';
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -269,6 +271,21 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field--outlined.mdc-text-field--dense.mdc-text-field--focused .mdc-floating-label,
         .mdc-text-field--outlined.mdc-text-field--dense .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
           top: var(--dw-input-focused-label-top, 18px);
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--textarea) {
+          display: flex;
+          align-items: center;
+        }
+
+        .error {
+          --dw-icon-color: var(--mdc-theme-error, #b00020);
+          cursor: pointer;
+        }
+
+        .warning {
+          --dw-icon-color: var(--mdc-theme-text-warning, #FFA726);
+          cursor: pointer;
         }
       `
     ];
@@ -529,7 +546,25 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Text to show the warning message.
        */
-      warningText: { type: String }
+      warningText: { type: String },
+
+      /**
+       * Whether to show error in tooltip
+       * tip trigger on hover of error icon button at trail.
+       */
+      errorInTooltip: { type: Boolean },
+
+      /**
+       * Whether to show warning in tooltip
+       * tip trigger on hover of error icon button at trail.
+       */
+      warningInTooltip: { type: Boolean },
+
+      /**
+       * Tooltip actions
+       * Actions are show right aligned
+       */
+      tooltipActions: { type: Array }
     };
   }
 
@@ -750,6 +785,20 @@ export class DwInput extends DwFormElement(LitElement) {
           class="mdc-text-field__icon"
           icon="${icon}" .iconSize=${this.iconSize} tabindex=""></dw-icon-button>
       `;
+    }
+
+    if (this.warningInTooltip && this.warningText) {
+      return html`
+        <dw-icon-button id="warning" class=" warning" icon="${"warning"}" tabindex="-1" ></dw-icon-button>
+        <dw-tooltip for="warning">${unsafeHTML(this.warningText)}</dw-tooltip>
+      `
+    }
+
+    if (this.errorInTooltip && this.invalid) {
+      return html`
+        <dw-icon-button id="error" class=" error" icon="${"error"}" tabindex="-1" ></dw-icon-button>
+        <dw-tooltip for="error">${unsafeHTML(this.errorMessage)}</dw-tooltip>
+      `
     }
 
     if(this.iconTrailing){
