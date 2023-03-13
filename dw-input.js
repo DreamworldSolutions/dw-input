@@ -270,6 +270,42 @@ export class DwInput extends DwFormElement(LitElement) {
         .mdc-text-field--outlined.mdc-text-field--dense .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
           top: var(--dw-input-focused-label-top, 18px);
         }
+
+        :host([_valueUpdated]) .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-notched-outline__trailing {
+          position: relative;
+        }
+
+        :host([_valueUpdated]) .mdc-notched-outline__leading::before,
+        :host([_valueUpdated]) .mdc-notched-outline__trailing::before {
+          content: "";
+          background-color: var(--dw-input-outlined-updated-bg-color, var(--mdc-theme-primary, #02afcd));
+          opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
+          position: absolute;
+          height: 52px;
+          width: 100%;
+        }
+
+        :host([_valueUpdated][dense]) .mdc-notched-outline__leading::before,
+        :host([_valueUpdated][dense]) .mdc-notched-outline__trailing::before {
+          height: 44px;
+        }
+
+        :host([_valueUpdated]) .mdc-notched-outline__notch::before {
+          content: "";
+          background-color: var(--dw-input-outlined-updated-bg-color, var(--mdc-theme-primary, #02afcd));
+          opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
+          position: absolute;
+          height: 46px;
+          width: 100%;
+          top: 8px;
+        }
+
+        :host([_valueUpdated][dense]) .mdc-notched-outline__notch::before {
+          height: 36px;
+          top: 10px;
+        }
       `
     ];
   }
