@@ -949,6 +949,9 @@ export class DwInput extends DwFormElement(LitElement) {
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this._value }
     }));
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: { value: this._value }
+    }));
 
     if (this.highlightChanged) {
       this._setIsValueUpdated();
