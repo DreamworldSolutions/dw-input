@@ -474,6 +474,9 @@ export class DwTextarea extends LitElement {
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this.value }
     }));
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: { value: this.value }
+    }));
   }
 
   /**
