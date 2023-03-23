@@ -66,6 +66,12 @@ class DwInputDemo extends LitElement {
         </mwc-switch>
       </mwc-formfield>
 
+      <h4>Shows Character count</h4>
+      <dw-input label="Label" placeholder="PlaceHolder" noLabel maxLength="50" multiline charCounter></dw-input>
+
+      <h4>Dense field</h4>
+      <dw-input label="Name" dense></dw-input>
+
       <h4>Required text field</h4>
       <dw-input label="First name" 
         required 
