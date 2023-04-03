@@ -262,13 +262,8 @@ export class DwInput extends DwFormElement(LitElement) {
         }
         /* END warning text style */
 
-        .mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label {
-          top: var(--dw-input-label-top, 12px);
-        }
-
-        .mdc-text-field--outlined.mdc-text-field--dense.mdc-text-field--focused .mdc-floating-label,
-        .mdc-text-field--outlined.mdc-text-field--dense .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
-          top: var(--dw-input-focused-label-top, 18px);
+        :host([readonly]) {
+          --dw-input-outlined-idle-border-color: var(--dw-input-outlined-readonly-idle-border-color)
         }
       `
     ];
@@ -395,7 +390,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Set to true to make input field readonly.
        */
-      readOnly: { type: Boolean},
+      readOnly: { type: Boolean, reflect: true },
 
       /**
        * Set this to apply custom validation of input. Receives value to be validated as argument.
