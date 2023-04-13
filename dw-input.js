@@ -524,7 +524,14 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Text to show the warning message.
        */
-      warningText: { type: String }
+      warningText: { type: String },
+
+      /**
+       * Input property
+       * Type of the icon. By default it shows FILLED icon.
+       * Possible values: FILLED and OUTLINED
+       */
+       iconFont: { type: String, reflect: true }, 
     };
   }
 
@@ -721,7 +728,7 @@ export class DwInput extends DwFormElement(LitElement) {
   get _getPrefixTemplate(){
     if(this.icon){
       return html`
-        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" iconFont="${this.iconFont}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
       `;
     }
 
