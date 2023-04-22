@@ -219,6 +219,7 @@ export class DwTextarea extends LitElement {
         ?readonly="${this.readOnly}"
         .placeholder="${this.placeholder}"
         @input="${this._onInput}"
+        @change="${this._onChange}"
         @blur="${this._onInputBlur}"
         @cut="${this._resize}"
         @paste="${this._onPaste}"
@@ -466,7 +467,7 @@ export class DwTextarea extends LitElement {
    */
   _onInput() {
     let value = this._textarea.value;
-    if(value && this.disabledEnter) {
+    if (value && this.disabledEnter) {
       value = value.replace(/(\r\n|\n|\r)/gm, " ");
     }
     this.value = value;
@@ -474,10 +475,13 @@ export class DwTextarea extends LitElement {
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this.value }
     }));
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: { value: this.value }
-    }));
+    this.dispatchEvent(new CustomEvent('input'));
   }
+
+  _onChange() {
+    this.dispatchEvent(new CustomEvent('change'));
+  }
+
 
   /**
    * Invokes on input blur.
