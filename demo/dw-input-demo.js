@@ -92,7 +92,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" value="Devang" warningText="warning text" required></dw-input>
 
       <h4>Highlight field on value change</h4>
-      <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
+      <dw-input label="First name" value="Ruchita" truncateOnBlur highlightChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
       <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required errorMessage="Required" dense ></dw-input>
 
       <h4>Text field with prefix icon</h4>
