@@ -92,7 +92,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" value="Devang" warningText="warning text" required></dw-input>
 
       <h4>Highlight field on value change</h4>
-      <dw-input label="First name" value="Ruchita" truncateOnBlur highlightChanged originalValue="Ruchita" required errorMessage="Required"></dw-input>
+      <dw-input label="First name" value="Ruchita" truncateOnBlur highlightChanged originalValue="Ruchita" required errorMessage="Required" @input="${this._onInput}" @change="${this._onChange}"></dw-input>
       <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required errorMessage="Required" dense ></dw-input>
 
       <h4>Text field with prefix icon</h4>
@@ -135,7 +135,10 @@ class DwInputDemo extends LitElement {
       <h4>Textarea</h4>
       <dw-input label="Notes" rows="5" multiline
         @enter="${this._onMultilineEnter}"
-        @esc="${this._onMultilineEsc}"></dw-input>
+        @esc="${this._onMultilineEsc}"
+        @input="${this._onInput}"
+        @change="${this._onChange}"
+        ></dw-input>
 
       <h4>Readonly</h4>
       <dw-input label="Animal name" value="Cat" readOnly></dw-input>
@@ -176,6 +179,14 @@ class DwInputDemo extends LitElement {
     el.validator = function (value) {
       return value === 'cat';
     }
+  }
+
+  _onInput(e) {
+    console.log('_onInput:', e.target.value);
+  }
+
+  _onChange(e) {
+    console.log('_onChange:', e.target.value);
   }
 
   _onFirstNameEnter(e) {

@@ -971,11 +971,8 @@ export class DwInput extends DwFormElement(LitElement) {
       return;
     }
 
-    if(this.truncateOnBlur && this.value){
-      this.value = typeof this.value === 'string' ? this.value.trim() : this.value;
-    }
-
-    this._textFieldInstance.value = this.formatText(this.value);
+    let text = this.formatText(this.value);
+    this._textFieldInstance.value = text;
   }
 
   /**
@@ -1005,8 +1002,8 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     const value = this.parseValue(this._textFieldInstance.value, false);
-    const changed = this._setValue(value, true);
-    changed && this.dispatchEvent(new CustomEvent('change'));
+    this._setValue(value, true);
+    this.dispatchEvent(new CustomEvent('change'));
   }
 
   _onInput() {
@@ -1019,7 +1016,8 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if (value !== undefined) {
       const changed = this._setValue(value, true);
-      changed && this.dispatchEvent(new CustomEvent('input'));
+      //Don't dispatch 'input' event as it bubbles up.
+      // changed && this.dispatchEvent(new CustomEvent('input'));
     }
   }
 

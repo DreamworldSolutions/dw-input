@@ -475,7 +475,9 @@ export class DwTextarea extends LitElement {
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this.value }
     }));
-    this.dispatchEvent(new CustomEvent('input'));
+
+    //NOTE: Don't need to dispatch as it bubbles up.
+    // this.dispatchEvent(new CustomEvent('input'));
   }
 
   _onChange() {
