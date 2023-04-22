@@ -37,24 +37,20 @@ For such features, we need to do custom parsing of value from the input text and
 to compute corresponding text representation.
 
 This can be easily done by extending this element and then overriding following 2 functions:
-- `parseValue(text)`, Receives input-text as argument and returns parsed value. e.g. for the above case it receives user inputted string and returns string date in format `yyyy-mm-dd`.
+- `parseValue(text, userEditing)`:
+  - Receives input-text as argument and returns parsed value. e.g. for the above case it receives user inputted string and returns string date in format `yyyy-mm-dd`.
+  - `userEditing` is Boolean. When user is editing the input (focus is still in), this is `true`.
 - `formatText(value)`, Receives value property as argument and returns formatted text to be shown in the input field.
-e.g. For the above exmaple, it receives date in `yyyy-mm-dd` format and it's output is date representation in `dd/mm/yyyy` format for indian user.
+e.g. For the above example, it receives date in `yyyy-mm-dd` format and it's output is date representation in `dd/mm/yyyy` format for indian user.
 
 **How exactly `parseValue` and `formatText` function is used internally?**
-- Input text is formatted on 2 events: a. On the blur of the input b. User changes `value` property explicitly. In other word, `value` property isn't changed due to user interaction in the text field. So, `formatText` is used on these 2 events.
-- When user interacts with input text-field, at that time on each change in the text-field (as user types) this function
-is invoked to parse the current text as value. When this function returns `undefined`, then `value` property isn't changed (stays to it's last value). In any other cases, including `null` value and blank-string returned, value is changed to the return value. This could be used when user is typing & parsing of the currently typed text isn't possible, so you can return `undefined` in such case.
+- `formatText`: Input text needs to be formatted on 2 events.
+  - On `change` event - blur of the Input & value is changed.
+  - Integrate updates `value` property explicitly.
+- `parseValue`: Value needs to be parsed when user interacts with input text-field and updates text. e.g. `input` and `change` both events.
+  - When user is typing (`input` event); On `undefined` return value, `value` isn't changed (stays to it's last value). This allows intermediate invalid value handling. In this case `input` event isn't triggered on this input, because effectively `value` isn't changed. Please note that, `null` and Blank String both are used as it is. It's just for `undefined`.
+  - When user is done editing (`change` event); Anything returned including `undefined` is set to the `value` property.
 
-
-#### Future extension
-`parseValue(text, userEditing)`: this function can receive one more argument `userEditing`. While user is editing the text-field it's value will be `true`, but when user leaves text-field this function is called again with `false` value.
-This fact might be used by integrator to throw any error if user has completed editing, OR return `null` instead of `undefined` when user has finished editing.
-
-
-## Events
-
-Triggers `value-changed` event on value change.
 
 ## Methods
 
@@ -121,8 +117,11 @@ npm install @dw/dw-input
 import  '@dreamworld/dw-input/dw-textarea';
 ```
 ## Events
--  `value-changed` event with input value.
-	- Fires this event on input value is changed
+-  `value-changed`:
+	- It's fired when `value` property is changed. Either due to user-interaction, or it's changed programatically (by integrator).
+	- It's just built for Polymer integration. And consider it as DEPRECATED. Insted use `input` or `change` as appropriate for your use-case.
+- `input`: Same as browser default [input-event]. Dispatched when user changes input value, as user types or on paste.
+- `change`: Same as browser default [change-event]. Dispatched on-blur if value was changed by the user.
 -  `enter` event with input value and event object.
 	- Fires this user press `enter` key on input.
 -  `esc` event with input value and event object.
@@ -203,3 +202,7 @@ This can be achived through setting property `valueEqualityChecker`.
 ```html
 <dw-textarea  .minHeight=${80}  .maxHeight=${200}  .readOnly=${true}></dw-textarea>
 ```
+
+
+[change-event]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
+[input-event]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event

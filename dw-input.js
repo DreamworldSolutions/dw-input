@@ -638,7 +638,8 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   set value(value){
-    this._setValue(value, false);
+    this._setValue(value);
+    this._updateTextfieldValue();
   }
 
   get value() {
@@ -740,6 +741,7 @@ export class DwInput extends DwFormElement(LitElement) {
         @enter="${(e)=>this._dispatchEnter(e.detail.event)}"
         @esc="${(e)=>this._dispatchEsc(e.detail.event)}"
         @input="${this._onInput}"
+        @change="${this._onChange}"
         @blur = "${this._onInputBlur}" >
       </dw-textarea>
     `;
@@ -932,19 +934,18 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Triggers value changed event
-   * Validates input is it's invalid
+   * Triggers `value-changed` event if value is really changed.
+   * Validates input if it's invalid at present, this remove invalid state if new value is valid.
    * HighLights text field if value is changed and `highlightChanged` property is true
-   * Sets formatted text into text field if value is changed explicitly
    * @param {String} value - Value to be set
-   * @param {Boolean} internal - True when element it self updates value
+   * @returns {Boolean} `true` when value is really changed, `false` when value isn't changed.
    */
-  _setValue(value, internal) {
+  _setValue(value) {
     if (value === this._value) {
-      return;
+      return false;
     }
 
-    this._value = value === undefined || value === null ? '' : value;
+    this._value = value;
 
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: { value: this._value }
@@ -958,10 +959,7 @@ export class DwInput extends DwFormElement(LitElement) {
       this.validate();
     }
 
-    if(!internal) {
-      this._updateTextfieldValue();
-    }
-
+    return true;
   }
 
   /**
@@ -973,11 +971,8 @@ export class DwInput extends DwFormElement(LitElement) {
       return;
     }
 
-    if(this.truncateOnBlur && this.value){
-      this.value = typeof this.value === 'string' ? this.value.trim() : this.value;
-    }
-
-    this._textFieldInstance.value = this.formatText(this.value);
+    let text = this.formatText(this.value);
+    this._textFieldInstance.value = text;
   }
 
   /**
@@ -1000,35 +995,29 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  /**
-   * Triggers `value-changed` event.
-   */
    _onChange(e) {
-    if(!this._textFieldInstance){
-      return;
-    }
-
-    const value = this._textFieldInstance.value
-
-    if(value !== undefined) {
-      this._setValue(value, true);
-    }
-  }
-
-  /**
-   * Validates pasted value
-   * Triggers `value-changed` event
-   */
-  _onInput() {
-    if(!this._textFieldInstance){
+    if (!this._textFieldInstance) {
       console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
     }
 
-    let value = this.parseValue(this._textFieldInstance.value);
+    const value = this.parseValue(this._textFieldInstance.value, false);
+    this._setValue(value, true);
+    this.dispatchEvent(new CustomEvent('change'));
+  }
 
-    if(value !== undefined) {
-      this._setValue(value, true);
+  _onInput() {
+    if (!this._textFieldInstance) {
+      console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
+      return;
+    }
+
+    const value = this.parseValue(this._textFieldInstance.value, true);
+
+    if (value !== undefined) {
+      const changed = this._setValue(value, true);
+      //Don't dispatch 'input' event as it bubbles up.
+      // changed && this.dispatchEvent(new CustomEvent('input'));
     }
   }
 
@@ -1099,7 +1088,6 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() {
-    this._updateTextfieldValue();
     this.validate();
   }
 
@@ -1132,7 +1120,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return value;
     }
 
-    return value && value.trim();
+    return typeof value === 'string' ? value.trim() : value;
   }
 
   valueEqualityChecker(value, originalValue) {
