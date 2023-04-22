@@ -106,8 +106,6 @@ customElements.define('custom-input', CustomInput);
 <dw-input label="Number" readOnly icon='search' iconTrailing='add_comment'></dw-input>
 
 <dw-input noLabel multiline></dw-input>
-
-<dw-input value="12" originalValue="12" highLightOnChanged></dw-input>
 ```
 
 # dw-textarea
@@ -152,6 +150,7 @@ raw element to be used for the custom purposes/UI.
 - Auto grow input.
 - Fixed height input with scroll
 - Disabled enter
+- Highlight when Updated
 
 ### Auto grow input.
 - Provide auto grow input based on `minHeight` and `maxHeight` property.
@@ -177,6 +176,28 @@ raw element to be used for the custom purposes/UI.
 ```html
 <dw-textarea .minHeight=${70} .maxHeight=${70} disabledEnter></dw-textarea>
 ```
+
+### Highlight when Updated
+
+Many times you want to highlight the input when it's value is changed.
+
+Example use-case is "Edit Form". An Edit Form has most fields with pre-filled values. Here, field whose values are updated can be highlighted. That provides nice User Experience, as user can know what has been updated. This involves both:
+- Fields whose value has been changed explicitly by User.
+- Fields which are automatically updated, as a result of other field change by the User.
+
+
+This can be achieved simply by setting 2 properties: `highlightChanged` and `originalValue`.
+
+```html
+<dw-input value="12" originalValue="12" highlightChanged></dw-input>
+```
+
+> It also considers `truncateOnBlur` property.
+
+
+As an advance use-case, you might want to change the behaviour of equality-checker (whether value has been updated or not?). 
+This can be achived through setting property `valueEqualityChecker`.
+
 ## Other examples
 - Read only input
 ```html

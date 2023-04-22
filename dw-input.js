@@ -147,13 +147,7 @@ export class DwInput extends DwFormElement(LitElement) {
         :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__leading,
         :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__notch,
         :host([_valueUpdated]) .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused) .mdc-text-field__icon:hover ~ .mdc-notched-outline .mdc-notched-outline__trailing{
-          border-color: var(--mdc-theme-secondary);
-          border-width: 2px;
-        }
-
-        :host([_valueUpdated]) .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
-        :host([_valueUpdated]) .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) .mdc-floating-label{
-          color: var(--mdc-theme-secondary);
+          border-color: var(--dw-input-value-updated-color, var(--mdc-theme-primary, #02afcd));
         }
         /* ENDS: Change  border/label color when value is changed */
 
@@ -264,6 +258,42 @@ export class DwInput extends DwFormElement(LitElement) {
 
         :host([readonly]) {
           --dw-input-outlined-idle-border-color: var(--dw-input-outlined-readonly-idle-border-color)
+        }
+
+        :host([_valueUpdated]) .mdc-notched-outline__notch,
+        :host([_valueUpdated]) .mdc-notched-outline__leading,
+        :host([_valueUpdated]) .mdc-notched-outline__trailing {
+          position: relative;
+        }
+
+        :host([_valueUpdated]) .mdc-notched-outline__leading::before,
+        :host([_valueUpdated]) .mdc-notched-outline__trailing::before {
+          content: "";
+          background-color: var(--dw-input-value-updated-color, var(--mdc-theme-primary, #02afcd));
+          opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
+          position: absolute;
+          height: 52px;
+          width: 100%;
+        }
+
+        :host([_valueUpdated][dense]) .mdc-notched-outline__leading::before,
+        :host([_valueUpdated][dense]) .mdc-notched-outline__trailing::before {
+          height: 44px;
+        }
+
+        :host([_valueUpdated]) .mdc-notched-outline__notch::before {
+          content: "";
+          background-color: var(--dw-input-outlined-updated-bg-color, var(--mdc-theme-primary, #02afcd));
+          opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
+          position: absolute;
+          height: 46px;
+          width: 100%;
+          top: 8px;
+        }
+
+        :host([_valueUpdated][dense]) .mdc-notched-outline__notch::before {
+          height: 36px;
+          top: 10px;
         }
       `
     ];
@@ -662,13 +692,6 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconSize = 24;
     this.type = "text"
     this._showVisibilityIcon = true;
-
-    this.valueEqualityChecker = function (value, originalValue) {
-	  originalValue = originalValue ? originalValue.toString().trim() : originalValue;
-      value = value ? value.toString().trim() : value;
-
-      return value != originalValue;
-    }
   }
 
   get inputTemplate() {
@@ -1100,13 +1123,27 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Sets `_valueUpdated` is value is changed. It's used to high-light textfield
+   * Trims given value if `truncateOnBlur=true`.
+   * 
+   * @param {String} value 
+   */
+  _trimIfRequired(value) {
+    if (!this.truncateOnBlur) {
+      return value;
+    }
+
+    return value && value.trim();
+  }
+
+  valueEqualityChecker(value, originalValue) {
+    return this._trimIfRequired(value) == this._trimIfRequired(originalValue);
+  }
+
+  /**
+   * Sets `_valueUpdated` if value is changed. Based on that, highlighted style is shown.
    */
   _setIsValueUpdated() {
-    let value = this.value;
-    let originalValue = this.originalValue;
-
-    this._valueUpdated = !!(originalValue && value && this.valueEqualityChecker(value, originalValue));
+    this._valueUpdated = !this.valueEqualityChecker(this.value, this.originalValue);
   }
 }
 
