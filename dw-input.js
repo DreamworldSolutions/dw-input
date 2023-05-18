@@ -433,7 +433,7 @@ export class DwInput extends DwFormElement(LitElement) {
        * property. It's automatically updated as the part of the validation logic. Generally, validation is performed
        * on blur & value change if the current value is invalid.
        */
-      invalid: { type: Boolean },
+      invalid: { type: Boolean, reflect: true },
 
       /**
        * Set to true to auto-select text on focus
