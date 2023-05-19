@@ -762,7 +762,7 @@ export const TextfieldStyle = css`
           animation: mdc-floating-label-shake-float-above-text-field-outlined-dense 250ms 1;
 }
 .mdc-text-field--outlined.mdc-text-field--dense .mdc-text-field__input {
-  padding: 12px 16px 7px;
+  padding: 12px 16px 8px;
 }
 .mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label {
   top: 14px;
