@@ -755,7 +755,7 @@ export const TextfieldStyle = css`
 }
 .mdc-text-field--outlined.mdc-text-field--dense.mdc-notched-outline--upgraded .mdc-floating-label--float-above,
 .mdc-text-field--outlined.mdc-text-field--dense .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
-  font-size: 12px;
+  font-size: 1rem;
 }
 .mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label--shake {
   -webkit-animation: mdc-floating-label-shake-float-above-text-field-outlined-dense 250ms 1;

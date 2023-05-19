@@ -158,7 +158,7 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         .mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label{
-          font-size: 12px;
+          font-size: 1rem;
         }
         /* ENDS: Style for dense field */
 
