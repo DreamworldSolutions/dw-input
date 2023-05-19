@@ -138,8 +138,13 @@ class DwInputDemo extends LitElement {
       <h4>Auto-select text on focus</h4>
       <dw-input label="First name" value="Hello" autoSelect required errorMessage="Required"></dw-input>
 
-      <h4>Textarea</h4>
-      <dw-input label="Notes" rows="5" multiline
+      <h4>Textarea with Label</h4>
+      <dw-input label="Notes" rows="5" multiline minHeight="200" placeholder="This is placeholder text"
+        @enter="${this._onMultilineEnter}"
+        @esc="${this._onMultilineEsc}"></dw-input>
+
+        <h4>Textarea without Label</h4>
+      <dw-input rows="5" multiline minHeight="200" placeholder="This is placeholder text"
         @enter="${this._onMultilineEnter}"
         @esc="${this._onMultilineEsc}"
         @input="${this._onInput}"

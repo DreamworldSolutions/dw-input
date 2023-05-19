@@ -81,7 +81,7 @@ export class DwTextarea extends LitElement {
           outline:none;
         }
 
-        textarea:not(:focus)::placeholder  {
+        :host([showPlaceholderOnFocusOnly]) textarea:not(:focus)::placeholder  {
           color: transparent
         }
 
@@ -171,7 +171,9 @@ export class DwTextarea extends LitElement {
       /**
        * When it's `true`. It doesn not show border.
        */
-      undecorated: { type: Boolean, reflect: true}
+      undecorated: { type: Boolean, reflect: true},
+
+      showPlaceholderOnFocusOnly: {type: Boolean, reflect: true}
     };
   }
 
