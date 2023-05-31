@@ -731,11 +731,12 @@ export class DwInput extends DwFormElement(LitElement) {
     this.type = "text"
     this._showVisibilityIcon = true;
 
+    let self = this;
     this._tipButtonClickEvent = (e) => {
       const action = e.target.getAttribute("action");
       self.dispatchEvent(new CustomEvent("action", { detail: action }));
+      this.renderRoot.querySelector('dw-tooltip').hide()
     }
-    let self = this;
     this._extraOptions = {
       interactive: true,
       onShow(instance) {
