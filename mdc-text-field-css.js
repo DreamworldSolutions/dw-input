@@ -533,7 +533,7 @@ export const TextfieldStyle = css`
 }
 .mdc-text-field--outlined--with-leading-icon .mdc-floating-label {
   /* @noflip */
-  left: 24px;
+  left: 36px;
   /* @noflip */
   right: initial;
 }
@@ -915,7 +915,7 @@ export const TextfieldStyle = css`
 }
 .mdc-text-field--with-leading-icon.mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label {
   /* @noflip */
-  left: 32px;
+  left: 24px;
   /* @noflip */
   right: initial;
 }
