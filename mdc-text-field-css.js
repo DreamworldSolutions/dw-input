@@ -919,6 +919,9 @@ export const TextfieldStyle = css`
   /* @noflip */
   right: initial;
 }
+.mdc-text-field--with-leading-icon.mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label--float-above {
+  left: 24px;
+}
 [dir=rtl] .mdc-text-field--with-leading-icon.mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label, .mdc-text-field--with-leading-icon.mdc-text-field--outlined.mdc-text-field--dense .mdc-floating-label[dir=rtl] {
   /* @noflip */
   left: initial;

@@ -206,3 +206,4 @@ This can be achived through setting property `valueEqualityChecker`.
 
 [change-event]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
 [input-event]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event
+
