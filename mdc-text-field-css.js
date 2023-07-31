@@ -455,7 +455,7 @@ export const TextfieldStyle = css`
   height: var(--mdc-ripple-fg-size, 100%);
 }
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--mdc-theme-text-secondary ,rgba(0, 0, 0, 0.6));
 }
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
   color: rgba(0, 0, 0, 0.87);
@@ -480,11 +480,11 @@ export const TextfieldStyle = css`
   border-bottom-color: rgba(0, 0, 0, 0.12);
 }
 .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--mdc-theme-text-secondary ,rgba(0, 0, 0, 0.6));
 }
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field-character-counter,
 .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-character-counter {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--mdc-theme-text-secondary ,rgba(0, 0, 0, 0.6));
 }
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__icon {
   color: rgba(0, 0, 0, 0.54);
