@@ -1334,7 +1334,8 @@ export const TextfieldStyle = css`
   /* @alternate */
   color: var(--mdc-theme-error, #b00020);
 }
-.mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-helper-text--validation-msg {
+.mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-helper-text--validation-msg,
+.mdc-text-field--invalid:not(.mdc-text-field--disabled).mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-character-counter {
   color: #b00020;
   /* @alternate */
   color: var(--mdc-theme-error, #b00020);
