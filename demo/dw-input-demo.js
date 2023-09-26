@@ -89,6 +89,8 @@ class DwInputDemo extends LitElement {
         @action="${(e) => console.log(e.detail)}"
         warningText="warning text"
         warningInTooltip
+        hintInTooltip
+        iconFont="OUTLINED"
       ></dw-input>
 
       <h4>Text field with warning in tooltip</h4>
@@ -98,12 +100,29 @@ class DwInputDemo extends LitElement {
         warningText="warning text"
         required
         warningInTooltip
+        hintInTooltip
         .tooltipActions="${TooltipActions}"
         @action="${(e) => console.log(e.detail)}"
+        iconFont="OUTLINED"
       ></dw-input>
 
       <h4>Shows Character count</h4>
-      <dw-input label="Label" placeholder="PlaceHolder" noLabel maxLength="50" multiline charCounter></dw-input>
+      <dw-input
+        label="Label"
+        placeholder="PlaceHolder"
+        noLabel
+        maxLength="50"
+        multiline
+        charCounter
+        hint="Helper text"
+        hintPersistent
+        hintInTooltip
+        .tooltipActions="${TooltipActions}"
+        @action="${(e) => console.log(e.detail)}"
+        required
+        iconFont="OUTLINED"
+        errorMessage="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+      ></dw-input>
 
       <h4>Dense field</h4>
       <dw-input warningText="warning text" errorMessage="Error message" required label="Name" dense></dw-input>

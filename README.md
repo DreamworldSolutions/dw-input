@@ -26,7 +26,7 @@ A material input element made with lit-html. For more detail visit https://mater
 - Provide `type` property to set type of input e.g ("text", "email", "number"). [List of all input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#%3Cinput%3E_types)
 - Set `icon` and `iconTrailing` to show prefix and suffix icon
 - Performs validation on blur. It also performs validation on User type if input is invalid.
-- `errorInTooltip` and `warningInTooltip`: way to show warning and error text in tooltip and tip trigger on trailing icon hover.
+- `hintInTooltip`: way to show hint, warning, and error text in tooltip and tip trigger on trailing icon hover. Icon is depends on type of hint text. If error hint then it show error(red) icon, if warning hint then it show warning(orange) icon otherwise it shows info(grey) icon.
 - `tooltipActions`: way to add tip action while error and warning text in tip. on action click event named `action` dispatch.
 
 #### tooltipAction

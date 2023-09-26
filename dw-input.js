@@ -582,17 +582,11 @@ export class DwInput extends DwFormElement(LitElement) {
        */
        iconFont: { type: String, reflect: true }, 
 
-       /**
-       * Whether to show error in tooltip
-       * tip trigger on hover of error icon button at trail.
-       */
-      errorInTooltip: { type: Boolean },
-
       /**
        * Whether to show warning in tooltip
-       * tip trigger on hover of error icon button at trail.
+       * tip trigger on hover of info, warning, and error icon button at trail.
        */
-      warningInTooltip: { type: Boolean },
+      hintInTooltip: {type: Boolean},
 
       /**
        * Tooltip actions
@@ -658,7 +652,14 @@ export class DwInput extends DwFormElement(LitElement) {
 
       </div>
 
-      ${this.hint || (this.errorMessage && !this.errorInTooltip) || this.charCounter || (this.warningText && !this.warningInTooltip)
+      ${this.hint && this.hintInTooltip && this.charCounter ? html`
+        <div class="mdc-text-field-helper-line">
+            
+            ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
+          </div>
+      ` : nothing}
+
+      ${(this.hint || this.errorMessage || this.warningText) && !this.hintInTooltip
         ? html`
           <div class="mdc-text-field-helper-line">
             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
@@ -836,13 +837,13 @@ export class DwInput extends DwFormElement(LitElement) {
         <dw-icon-button
           @click=${this._toggleType}
           class="mdc-text-field__icon"
-          icon="${icon}" .iconSize=${this.iconSize} tabindex=""></dw-icon-button>
+          icon="${icon}" .iconSize=${this.iconSize} tabindex="" .iconFont="${this.iconFont}"></dw-icon-button>
       `;
     }
 
-    if (this.errorInTooltip && this.invalid) {
+    if (this.hintInTooltip && this.invalid) {
       return html`
-        <dw-icon-button id="error" class=" error" icon="${"error"}" tabindex="-1" ></dw-icon-button>
+        <dw-icon-button id="error" class="error" icon="${"error"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
         <dw-tooltip for="error" .extraOptions=${this._extraOptions}  >
           ${unsafeHTML(this.errorMessage)}
           ${this._renderTooltipActions}
@@ -850,11 +851,21 @@ export class DwInput extends DwFormElement(LitElement) {
       `
     }
 
-    if (this.warningInTooltip && this.warningText) {
+    if (this.hintInTooltip && this.warningText) {
       return html`
-        <dw-icon-button id="warning" class=" warning" icon="${"warning"}" tabindex="-1" ></dw-icon-button>
+        <dw-icon-button id="warning" class="warning" icon="${"warning"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
         <dw-tooltip for="warning" .extraOptions=${this._extraOptions} >
           ${unsafeHTML(this.warningText)}
+          ${this._renderTooltipActions}
+        </dw-tooltip>
+      `
+    }
+
+    if (this.hintInTooltip && this.hint) {
+      return html`
+        <dw-icon-button id="info" class="info" icon="${"info"}" tabindex="-1" .iconFont="${this.iconFont}" ></dw-icon-button>
+        <dw-tooltip for="info" .extraOptions=${this._extraOptions} >
+          ${unsafeHTML(this.hint)}
           ${this._renderTooltipActions}
         </dw-tooltip>
       `
