@@ -1424,17 +1424,17 @@ export const TextfieldStyle = css`
   border-bottom-color: rgba(0, 0, 0, 0.06);
 }
 .mdc-text-field--disabled .mdc-text-field__input {
-  color: var(--mdc-theme-text-disabled-on-surface, 0, 0, 0, 0.38);
+  color: var(--mdc-theme-text-disabled-on-surface, rgba(0, 0, 0, 0.38));
 }
 .mdc-text-field--disabled .mdc-floating-label {
-  color: var(--mdc-theme-text-disabled-on-surface, 0, 0, 0, 0.38);
+  color: var(--mdc-theme-text-disabled-on-surface, rgba(0, 0, 0, 0.38));
 }
 .mdc-text-field--disabled + .mdc-text-field-helper-line .mdc-text-field-helper-text {
-  color: var(--mdc-theme-text-disabled-on-surface, 0, 0, 0, 0.38);
+  color: var(--mdc-theme-text-disabled-on-surface, rgba(0, 0, 0, 0.38));
 }
 .mdc-text-field--disabled .mdc-text-field-character-counter,
 .mdc-text-field--disabled + .mdc-text-field-helper-line .mdc-text-field-character-counter {
-  color: var(--mdc-theme-text-disabled-on-surface, 0, 0, 0, 0.38);
+  color: var(--mdc-theme-text-disabled-on-surface, rgba(0, 0, 0, 0.38));
 }
 .mdc-text-field--disabled .mdc-text-field__icon {
   color: rgba(0, 0, 0, 0.3);
