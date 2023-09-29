@@ -305,6 +305,7 @@ export const TextfieldStyle = css`
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
   will-change: opacity;
+  white-space: var(--helper-text-white-text, normal)
 }
 .mdc-text-field-helper-text::before {
   display: inline-block;
