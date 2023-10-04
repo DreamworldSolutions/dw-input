@@ -592,7 +592,13 @@ export class DwInput extends DwFormElement(LitElement) {
        * Tooltip actions
        * Actions are show right aligned
        */
-      tooltipActions: { type: Array }
+      tooltipActions: { type: Array },
+
+      /**
+       * Tooltip placement
+       * for more see tippyJs doc: https://atomiks.github.io/tippyjs/v6/all-props/#placement
+       */
+      tipPlacement: { type: String}
     };
   }
 
@@ -844,7 +850,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.hintInTooltip && this.invalid) {
       return html`
         <dw-icon-button id="error" class="error" icon="${"error"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-        <dw-tooltip for="error" .extraOptions=${this._extraOptions}  >
+        <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.errorMessage)}
           ${this._renderTooltipActions}
         </dw-tooltip>
@@ -854,7 +860,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.hintInTooltip && this.warningText) {
       return html`
         <dw-icon-button id="warning" class="warning" icon="${"warning"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-        <dw-tooltip for="warning" .extraOptions=${this._extraOptions} >
+        <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.warningText)}
           ${this._renderTooltipActions}
         </dw-tooltip>
@@ -864,7 +870,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.hintInTooltip && this.hint) {
       return html`
         <dw-icon-button id="info" class="info" icon="${"info"}" tabindex="-1" .iconFont="${this.iconFont}" ></dw-icon-button>
-        <dw-tooltip for="info" .extraOptions=${this._extraOptions} >
+        <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.hint)}
           ${this._renderTooltipActions}
         </dw-tooltip>
