@@ -55,6 +55,14 @@ export class DwInput extends DwFormElement(LitElement) {
           width: 100%;
         }
 
+        .mdc-text-field__input {
+          white-space: var(--dw-input-white-space);
+          text-overflow: var(--dw-input-text-overflow);
+          overflow: var(--dw-input-overflow);
+          direction: var(--dw-input-direction);
+          text-align: var(--dw-input-text-align);
+        }
+
         /* Add a way to customize label color */
         .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
         .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
