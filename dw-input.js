@@ -56,11 +56,11 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         .mdc-text-field__input {
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          direction: rtl;
-          text-align: left;
+          white-space: var(--dw-white-space);
+          text-overflow: var(--dw-text-overflow);
+          overflow: var(--dw-overflow);
+          direction: var(--dw-direction);
+          text-align: var(--dw-text-align);
         }
 
         /* Add a way to customize label color */
