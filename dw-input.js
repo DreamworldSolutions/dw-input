@@ -55,7 +55,7 @@ export class DwInput extends DwFormElement(LitElement) {
           width: 100%;
         }
 
-        .mdc-text-field__input {
+        :not(.mdc-text-field--focused) .mdc-text-field__input {
           white-space: var(--dw-input-white-space);
           text-overflow: var(--dw-input-text-overflow);
           overflow: var(--dw-input-overflow);
@@ -229,6 +229,10 @@ export class DwInput extends DwFormElement(LitElement) {
 
         .suffix-text{
           padding-right: 16px;
+        }
+
+        :host([disabled]) .suffix-text {
+          color: var(--mdc-theme-text-disabled-on-surface);
         }
 
         .mdc-text-field--dense .prefix-text,
