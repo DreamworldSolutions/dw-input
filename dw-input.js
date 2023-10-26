@@ -231,6 +231,10 @@ export class DwInput extends DwFormElement(LitElement) {
           padding-right: 16px;
         }
 
+        :host([disabled]) .suffix-text {
+          color: var(--mdc-theme-text-disabled-on-surface);
+        }
+
         .mdc-text-field--dense .prefix-text,
         .mdc-text-field--dense .suffix-text{
           padding-top: 10px;
