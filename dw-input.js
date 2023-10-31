@@ -583,22 +583,43 @@ export class DwInput extends DwFormElement(LitElement) {
        iconFont: { type: String, reflect: true }, 
 
       /**
-       * Whether to show warning in tooltip
+       * Whether to show hint in tooltip
        * tip trigger on hover of info, warning, and error icon button at trail.
        */
       hintInTooltip: {type: Boolean},
 
       /**
-       * Tooltip actions
-       * Actions are show right aligned
+       * Whether to show error in tooltip
+       * tip trigger on hover of info, warning, and error icon button at trail.
        */
-      tooltipActions: { type: Array },
+      errorInTooltip: { type: Boolean },
+
+      /**
+       * Whether to show warning in tooltip
+       * tip trigger on hover of info, warning, and error icon button at trail.
+       */
+      warningInTooltip: { type: Boolean },
+
+      /**
+       * Tooltip actions for hint text
+       */
+      hintTooltipActions: { type: Array },
+
+      /**
+       * Tooltip actions for error text
+       */
+      errorTooltipActions: { type: Array },
+
+      /**
+       * Tooltip actions for warning text
+       */
+      warningTooltipActions: { type: Array },
 
       /**
        * Tooltip placement
        * for more see tippyJs doc: https://atomiks.github.io/tippyjs/v6/all-props/#placement
        */
-      tipPlacement: { type: String}
+      tipPlacement: { type: String }
     };
   }
 
@@ -658,27 +679,56 @@ export class DwInput extends DwFormElement(LitElement) {
 
       </div>
 
-      ${this.hint && this.hintInTooltip && this.charCounter ? html`
+      ${this.hint && this.hintInTooltip  && this.charCounter ? html`
         <div class="mdc-text-field-helper-line">
             
             ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
           </div>
       ` : nothing}
 
-      ${(this.hint || this.errorMessage || this.warningText) && !this.hintInTooltip
+      ${((this.hint && !this.hintInTooltip) || (this.errorMessage && !this.errorInTooltip) || (this.warningText && !this.warningInTooltip))
         ? html`
           <div class="mdc-text-field-helper-line">
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this.errorMessage}</div>
-            ${this.warningText ? html`
-              <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this.warningText}</div>
-            ` : html`
-              <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div>
-            `}
+            ${this._renderHelperLine}
             ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
           </div>`
         : html``
       }
     `;
+  }
+
+  get _renderHelperLine() {
+    if (this.errorMessage && !this.errorInTooltip) {
+      return html`
+        <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">
+          ${this.errorMessage}
+        </div>
+      `;
+    }
+
+    if (this.warningText && !this.warningInTooltip) {
+      const warningTextClasses = {
+        "mdc-text-field-warning-text": this.warningText,
+      };
+      return html`
+        <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">
+          ${this.warningText}
+        </div>
+      `;
+    }
+
+    if (this.hint && !this.hintInTooltip) {
+      const helperTextClasses = {
+        "mdc-text-field-helper-text--persistent": this.hintPersistent,
+      };
+      return html`
+        <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">
+          ${this.hint}
+        </div>
+      `;
+    }
+
+    return nothing;
   }
 
   set value(value){
@@ -847,22 +897,22 @@ export class DwInput extends DwFormElement(LitElement) {
       `;
     }
 
-    if (this.hintInTooltip && this.invalid) {
+    if (this.errorInTooltip && this.invalid) {
       return html`
         <dw-icon-button id="error" class="error" icon="${"error"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
         <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.errorMessage)}
-          ${this._renderTooltipActions}
+          ${this._renderErrorTooltipActions}
         </dw-tooltip>
       `
     }
 
-    if (this.hintInTooltip && this.warningText) {
+    if (this.warningInTooltip && this.warningText) {
       return html`
         <dw-icon-button id="warning" class="warning" icon="${"warning"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
         <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.warningText)}
-          ${this._renderTooltipActions}
+          ${this._renderWarningTooltipActions}
         </dw-tooltip>
       `
     }
@@ -872,7 +922,7 @@ export class DwInput extends DwFormElement(LitElement) {
         <dw-icon-button id="info" class="info" icon="${"info"}" tabindex="-1" .iconFont="${this.iconFont}" ></dw-icon-button>
         <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.hint)}
-          ${this._renderTooltipActions}
+          ${this._renderHintTooltipActions}
         </dw-tooltip>
       `
     }
@@ -890,14 +940,42 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  get _renderTooltipActions() {
-    if (!Array.isArray(this.tooltipActions)) {
+  get _renderHintTooltipActions() {
+    if (!Array.isArray(this.hintTooltipActions)) {
       return nothing;
     }
 
     const styles = {'text-align': 'end'}
     return html`<div style="${styleMap(styles)}">
-      ${this.tooltipActions.map(action => {
+      ${this.hintTooltipActions.map(action => {
+        const classes = { error: action.danger }
+        return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
+      })}
+    </div>`
+  }
+
+  get _renderErrorTooltipActions() {
+    if (!Array.isArray(this.errorTooltipActions)) {
+      return nothing;
+    }
+
+    const styles = {'text-align': 'end'}
+    return html`<div style="${styleMap(styles)}">
+      ${this.errorTooltipActions.map(action => {
+        const classes = { error: action.danger }
+        return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
+      })}
+    </div>`
+  }
+
+  get _renderWarningTooltipActions() {
+    if (!Array.isArray(this.warningTooltipActions)) {
+      return nothing;
+    }
+
+    const styles = {'text-align': 'end'}
+    return html`<div style="${styleMap(styles)}">
+      ${this.warningTooltipActions.map(action => {
         const classes = { error: action.danger }
         return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
       })}
