@@ -54,7 +54,7 @@ class DwInputDemo extends LitElement {
         }
 
         .tippy-box {
-          ${DWTooltipStyle}
+          ${DWTooltipStyle};
         }
 
       `

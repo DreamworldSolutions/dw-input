@@ -691,7 +691,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       </div>
 
-      ${this.hint || this.errorMessage || this.charCounter || this.warningText
+      ${this.hint || this.errorMessage || this.warningText || this.charCounter
         ? html`
           <div class="mdc-text-field-helper-line">
             ${this._renderHelperLine}
@@ -892,58 +892,77 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns suffix template based on `iconTrailing` and `suffixText` property
    */
   get _getSuffixTemplate() {
-    if (this.type === 'password' && this._showVisibilityIcon) {
-      const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
+    if (this.type === "password" && this._showVisibilityIcon) {
+      const icon = this._type === "text" ? "visibility" : "visibility_off";
       return html`
         <dw-icon-button
           @click=${this._toggleType}
           class="mdc-text-field__icon"
-          icon="${icon}" .iconSize=${this.iconSize} tabindex="" .iconFont="${this.iconFont}"></dw-icon-button>
+          icon="${icon}"
+          .iconSize=${this.iconSize}
+          tabindex=""
+          .iconFont="${this.iconFont}"
+        ></dw-icon-button>
       `;
     }
 
-    if (this.errorInTooltip && this.invalid) {
+    if (this.invalid) {
       return html`
-        <dw-icon-button id="error" class="error" icon="${"error"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-        <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
-          ${unsafeHTML(this.errorMessage)}
-          ${this._renderTooltipActions(this.errorTooltipActions)}
-        </dw-tooltip>
-      `
-    }
-
-    if (this.warningInTooltip && this.warningText) {
-      return html`
-        <dw-icon-button id="warning" class="warning" icon="${"warning"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-        <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
-          ${unsafeHTML(this.warningText)}
-          ${this._renderTooltipActions(this.warningTooltipActions)}
-        </dw-tooltip>
-      `
-    }
-
-    if (this.hintInTooltip && this.hint) {
-      return html`
-        <dw-icon-button id="info" class="info" icon="${"info"}" tabindex="-1" .iconFont="${this.iconFont}" ></dw-icon-button>
-        <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
-          ${unsafeHTML(this.hint)}
-          ${this._renderTooltipActions(this.hintTooltipActions)}
-        </dw-tooltip>
-      `
-    }
-
-    if(this.iconTrailing){
-      return html`
-        <dw-icon-button class="mdc-text-field__icon" icon="${this.iconTrailing}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+        ${this.errorInTooltip
+          ? html`<dw-icon-button id="error" class="error" icon="${'error'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
+              <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
+                ${unsafeHTML(this.errorMessage)} ${this._renderTooltipActions(this.errorTooltipActions)}
+              </dw-tooltip>`
+          : nothing}
       `;
     }
 
-    if(this.suffixText){
+    if (this.warningText) {
       return html`
-        <span class="suffix-text">${this.suffixText}</span>
+        ${this.warningInTooltip
+          ? html`<dw-icon-button
+                id="warning"
+                class="warning"
+                icon="${'warning'}"
+                tabindex="-1"
+                .iconFont="${this.iconFont}"
+              ></dw-icon-button>
+              <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
+                ${unsafeHTML(this.warningText)} ${this._renderTooltipActions(this.warningTooltipActions)}
+              </dw-tooltip>`
+          : nothing}
       `;
+    }
+
+    if (this.hint) {
+      return html`
+        ${this.hintInTooltip
+          ? html`<dw-icon-button id="info" class="info" icon="${'info'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
+              <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
+                ${unsafeHTML(this.hint)} ${this._renderTooltipActions(this.hintTooltipActions)}
+              </dw-tooltip>`
+          : nothing}
+      `;
+    }
+
+    if (this.iconTrailing) {
+      return html`
+        <dw-icon-button
+          class="mdc-text-field__icon"
+          icon="${this.iconTrailing}"
+          .iconSize=${this.iconSize}
+          .buttonSize=${this.iconButtonSize}
+          ?disabled="${this.disabled}"
+          tabindex="${this.clickableIcon ? "" : -1}"
+        ></dw-icon-button>
+      `;
+    }
+
+    if (this.suffixText) {
+      return html` <span class="suffix-text">${this.suffixText}</span> `;
     }
   }
+
 
   _renderTooltipActions(actions) {
     if (!Array.isArray(actions)) {
