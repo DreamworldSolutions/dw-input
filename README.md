@@ -26,8 +26,13 @@ A material input element made with lit-html. For more detail visit https://mater
 - Provide `type` property to set type of input e.g ("text", "email", "number"). [List of all input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#%3Cinput%3E_types)
 - Set `icon` and `iconTrailing` to show prefix and suffix icon
 - Performs validation on blur. It also performs validation on User type if input is invalid.
-- `hintInTooltip`: way to show hint, warning, and error text in tooltip and tip trigger on trailing icon hover. Icon is depends on type of hint text. If error hint then it show error(red) icon, if warning hint then it show warning(orange) icon otherwise it shows info(grey) icon.
-- `tooltipActions`: way to add tip action while error and warning text in tip. on action click event named `action` dispatch.
+- `hintInTooltip`: way to show hint text in tooltip and tip trigger on info(grey) icon.
+- `errorInTooltip`: Way to show error text in tooltip. It trigger on error(red) icon.
+- `warningInTooltip`: Way to show warning text in tooltip. It trigger on warning(orange) icon.
+- `hintTooltipActions`: way to add tip action while hint text in tip. on action click event named `action` dispatch.
+- `errorTooltipActions`: way to add tip action while error text in tip. on action click event named `action` dispatch.
+- `warningTooltipActions`: way to add tip action while warning text in tip. on action click event named `action` dispatch.
+- `tipPlacement`: Tooltip placement for more see [tippyJs doc](https://atomiks.github.io/tippyjs/v6/all-props/#placement).
 
 #### tooltipAction
 

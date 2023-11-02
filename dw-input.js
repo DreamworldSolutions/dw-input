@@ -902,7 +902,7 @@ export class DwInput extends DwFormElement(LitElement) {
         <dw-icon-button id="error" class="error" icon="${"error"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
         <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.errorMessage)}
-          ${this._renderErrorTooltipActions}
+          ${this._renderTooltipActions(this.errorTooltipActions)}
         </dw-tooltip>
       `
     }
@@ -912,7 +912,7 @@ export class DwInput extends DwFormElement(LitElement) {
         <dw-icon-button id="warning" class="warning" icon="${"warning"}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
         <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.warningText)}
-          ${this._renderWarningTooltipActions}
+          ${this._renderTooltipActions(this.warningTooltipActions)}
         </dw-tooltip>
       `
     }
@@ -922,7 +922,7 @@ export class DwInput extends DwFormElement(LitElement) {
         <dw-icon-button id="info" class="info" icon="${"info"}" tabindex="-1" .iconFont="${this.iconFont}" ></dw-icon-button>
         <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" >
           ${unsafeHTML(this.hint)}
-          ${this._renderHintTooltipActions}
+          ${this._renderTooltipActions(this.hintTooltipActions)}
         </dw-tooltip>
       `
     }
@@ -940,42 +940,14 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  get _renderHintTooltipActions() {
-    if (!Array.isArray(this.hintTooltipActions)) {
+  _renderTooltipActions(actions) {
+    if (!Array.isArray(actions)) {
       return nothing;
     }
 
     const styles = {'text-align': 'end'}
     return html`<div style="${styleMap(styles)}">
-      ${this.hintTooltipActions.map(action => {
-        const classes = { error: action.danger }
-        return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
-      })}
-    </div>`
-  }
-
-  get _renderErrorTooltipActions() {
-    if (!Array.isArray(this.errorTooltipActions)) {
-      return nothing;
-    }
-
-    const styles = {'text-align': 'end'}
-    return html`<div style="${styleMap(styles)}">
-      ${this.errorTooltipActions.map(action => {
-        const classes = { error: action.danger }
-        return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
-      })}
-    </div>`
-  }
-
-  get _renderWarningTooltipActions() {
-    if (!Array.isArray(this.warningTooltipActions)) {
-      return nothing;
-    }
-
-    const styles = {'text-align': 'end'}
-    return html`<div style="${styleMap(styles)}">
-      ${this.warningTooltipActions.map(action => {
+      ${actions.map(action => {
         const classes = { error: action.danger }
         return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
       })}
