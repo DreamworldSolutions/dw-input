@@ -679,14 +679,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       </div>
 
-      ${this.hint && this.hintInTooltip  && this.charCounter ? html`
-        <div class="mdc-text-field-helper-line">
-            
-            ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
-          </div>
-      ` : nothing}
-
-      ${((this.hint && !this.hintInTooltip) || (this.errorMessage && !this.errorInTooltip) || (this.warningText && !this.warningInTooltip))
+      ${this.hint || this.errorMessage || this.charCounter || this.warningText
         ? html`
           <div class="mdc-text-field-helper-line">
             ${this._renderHelperLine}
