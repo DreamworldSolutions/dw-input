@@ -88,6 +88,7 @@ class DwInputDemo extends LitElement {
         .hintTooltipActions="${TooltipActions}"
         .errorTooltipActions="${TooltipActions}"
         @action="${(e) => console.log(e.detail)}"
+        iconTrailing="date"
         warningInTooltip
         hintInTooltip
         hint="Hint Text"
@@ -132,7 +133,8 @@ class DwInputDemo extends LitElement {
 
       <h4>Required text field</h4>
       <dw-input label="First name" 
-        required 
+        required
+        iconTrailing="done"
         errorMessage="Required" 
         @enter="${this._onFirstNameEnter}"
         @esc="${this._onFirstNameEsc}"></dw-input>

@@ -637,11 +637,16 @@ export class DwInput extends DwFormElement(LitElement) {
 
   render() {
 
+    /**
+     * 'mdc-text-field--with-trailing-icon': this.iconTrailing && !(this.hintInTooltip || this.warningInTooltip || this.errorInTooltip) ? true : false
+     * 
+     * Above condition added in below wrapperClasses due to handle both trailingIcon and tooltip icons at same time. 
+     */
     const wrapperClasses = {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
       'mdc-text-field--with-leading-icon': this.icon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
+      'mdc-text-field--with-trailing-icon': this.iconTrailing && !(this.hintInTooltip || this.warningInTooltip || this.errorInTooltip) ? true : false,
       'mdc-text-field--textarea': this.multiline,
       'mdc-text-field--dense': this.dense && !this.multiline,
       'mdc-text-field--outlined' : !this.showAsFilled
