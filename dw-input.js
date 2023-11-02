@@ -909,20 +909,9 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
-          ? html`<dw-icon-button
-                id="error"
-                class="error"
-                icon="${"error"}"
-                tabindex="-1"
-                .iconFont="${this.iconFont}"
-              ></dw-icon-button>
-              <dw-tooltip
-                for="error"
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-              >
-                ${unsafeHTML(this.errorMessage)}
-                ${this._renderTooltipActions(this.errorTooltipActions)}
+          ? html`<dw-icon-button id="error" class="error" icon="${'error'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
+              <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
+                ${unsafeHTML(this.errorMessage)} ${this._renderTooltipActions(this.errorTooltipActions)}
               </dw-tooltip>`
           : nothing}
       `;
@@ -934,17 +923,12 @@ export class DwInput extends DwFormElement(LitElement) {
           ? html`<dw-icon-button
                 id="warning"
                 class="warning"
-                icon="${"warning"}"
+                icon="${'warning'}"
                 tabindex="-1"
                 .iconFont="${this.iconFont}"
               ></dw-icon-button>
-              <dw-tooltip
-                for="warning"
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-              >
-                ${unsafeHTML(this.warningText)}
-                ${this._renderTooltipActions(this.warningTooltipActions)}
+              <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
+                ${unsafeHTML(this.warningText)} ${this._renderTooltipActions(this.warningTooltipActions)}
               </dw-tooltip>`
           : nothing}
       `;
@@ -953,21 +937,24 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.hint) {
       return html`
         ${this.hintInTooltip
-          ? html`<dw-icon-button
-                id="info"
-                class="info"
-                icon="${"info"}"
-                tabindex="-1"
-                .iconFont="${this.iconFont}"
-              ></dw-icon-button>
-              <dw-tooltip
-                for="info"
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-              >
+          ? html`<dw-icon-button id="info" class="info" icon="${'info'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
+              <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
                 ${unsafeHTML(this.hint)} ${this._renderTooltipActions(this.hintTooltipActions)}
               </dw-tooltip>`
           : nothing}
+      `;
+    }
+
+    if (this.iconTrailing) {
+      return html`
+        <dw-icon-button
+          class="mdc-text-field__icon"
+          icon="${this.iconTrailing}"
+          .iconSize=${this.iconSize}
+          .buttonSize=${this.iconButtonSize}
+          ?disabled="${this.disabled}"
+          tabindex="${this.clickableIcon ? '' : -1}"
+        ></dw-icon-button>
       `;
     }
 
