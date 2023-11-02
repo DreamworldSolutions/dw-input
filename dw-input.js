@@ -953,19 +953,6 @@ export class DwInput extends DwFormElement(LitElement) {
           .iconSize=${this.iconSize}
           .buttonSize=${this.iconButtonSize}
           ?disabled="${this.disabled}"
-          tabindex="${this.clickableIcon ? '' : -1}"
-        ></dw-icon-button>
-      `;
-    }
-
-    if (this.iconTrailing) {
-      return html`
-        <dw-icon-button
-          class="mdc-text-field__icon"
-          icon="${this.iconTrailing}"
-          .iconSize=${this.iconSize}
-          .buttonSize=${this.iconButtonSize}
-          ?disabled="${this.disabled}"
           tabindex="${this.clickableIcon ? "" : -1}"
         ></dw-icon-button>
       `;
