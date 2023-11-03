@@ -637,11 +637,16 @@ export class DwInput extends DwFormElement(LitElement) {
 
   render() {
 
+    /**
+     * 'mdc-text-field--with-trailing-icon': this.iconTrailing || ((this.hint && !this.hintInTooltip) || (this.warningText && !this.warningInTooltip) || (this.invalid && !this.errorInTooltip)) ? true : false,
+     * 
+     * Above condition added in below wrapperClasses due to handle both trailingIcon and tooltip icons at same time. 
+     */
     const wrapperClasses = {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
       'mdc-text-field--with-leading-icon': this.icon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
+      'mdc-text-field--with-trailing-icon': this.iconTrailing && (!(this.invalid && this.errorInTooltip) && !(this.warningText && this.warningInTooltip) && !(this.hint && this.hintInTooltip))  ? true : false,
       'mdc-text-field--textarea': this.multiline,
       'mdc-text-field--dense': this.dense && !this.multiline,
       'mdc-text-field--outlined' : !this.showAsFilled
@@ -668,6 +673,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
 
         ${this._getSuffixTemplate}
+        ${this._getTipIconButtons}
 
         ${this.showAsFilled ? html`
           ${this.label
@@ -906,6 +912,27 @@ export class DwInput extends DwFormElement(LitElement) {
       `;
     }
 
+    if (this.iconTrailing) {
+      return html`
+        <dw-icon-button
+          class="mdc-text-field__icon"
+          icon="${this.iconTrailing}"
+          .iconSize=${this.iconSize}
+          .buttonSize=${this.iconButtonSize}
+          ?disabled="${this.disabled}"
+          tabindex="${this.clickableIcon ? "" : -1}"
+        ></dw-icon-button>
+      `;
+    }
+
+    if (this.suffixText) {
+      return html` <span class="suffix-text">${this.suffixText}</span> `;
+    }
+
+    return nothing;
+  }
+
+  get _getTipIconButtons() {
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
@@ -943,23 +970,6 @@ export class DwInput extends DwFormElement(LitElement) {
               </dw-tooltip>`
           : nothing}
       `;
-    }
-
-    if (this.iconTrailing) {
-      return html`
-        <dw-icon-button
-          class="mdc-text-field__icon"
-          icon="${this.iconTrailing}"
-          .iconSize=${this.iconSize}
-          .buttonSize=${this.iconButtonSize}
-          ?disabled="${this.disabled}"
-          tabindex="${this.clickableIcon ? "" : -1}"
-        ></dw-icon-button>
-      `;
-    }
-
-    if (this.suffixText) {
-      return html` <span class="suffix-text">${this.suffixText}</span> `;
     }
   }
 
