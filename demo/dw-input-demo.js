@@ -135,11 +135,6 @@ class DwInputDemo extends LitElement {
       <dw-input label="First name" 
         required
         iconTrailing="done"
-        errorMessage="Required"
-        errorInTooltip
-        hint="Hint"
-        hintPersistent
-        hintInTooltip
         @enter="${this._onFirstNameEnter}"
         @esc="${this._onFirstNameEsc}"></dw-input>
 

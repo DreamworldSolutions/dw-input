@@ -673,6 +673,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
 
         ${this._getSuffixTemplate}
+        ${this._getTipIconButtons}
 
         ${this.showAsFilled ? html`
           ${this.label
@@ -911,7 +912,7 @@ export class DwInput extends DwFormElement(LitElement) {
       `;
     }
 
-    if (this.iconTrailing && !((this.invalid && this.errorInTooltip) || (this.warningText && this.warningInTooltip) || (this.hint && this.hintInTooltip))) {
+    if (this.iconTrailing) {
       return html`
         <dw-icon-button
           class="mdc-text-field__icon"
@@ -928,6 +929,10 @@ export class DwInput extends DwFormElement(LitElement) {
       return html` <span class="suffix-text">${this.suffixText}</span> `;
     }
 
+    return nothing;
+  }
+
+  get _getTipIconButtons() {
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
@@ -966,8 +971,6 @@ export class DwInput extends DwFormElement(LitElement) {
           : nothing}
       `;
     }
-
-    return nothing;
   }
 
 
