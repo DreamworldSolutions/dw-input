@@ -40,7 +40,7 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         :host([disabled]),
-        :host([readOnly]){
+        :host([readonly]){
           pointer-events: none;
         }
 
@@ -73,9 +73,9 @@ export class DwInput extends DwFormElement(LitElement) {
           color: var(--mdc-theme-primary, rgba(98, 0, 238, 0.87));
         }
 
-        /* STARTS: style for dark/light theme */
-        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input{
-          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87))
+         /* STARTS: style for dark/light theme */
+         .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input{
+          color: var(--dw-input-text-field-color,  var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87)))
         }
 
         .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder,
