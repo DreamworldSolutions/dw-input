@@ -1074,9 +1074,9 @@ export const TextfieldStyle = css`
 }
 .mdc-text-field--with-trailing-icon.mdc-text-field--dense .mdc-text-field__input {
   /* @noflip */
-  padding-left: 16px;
+  padding-left:  var(--mdc-text-field-padding-left, 16px);
   /* @noflip */
-  padding-right: 44px;
+  padding-right: var(--mdc-text-field-padding-right, 44px);
 }
 [dir=rtl] .mdc-text-field--with-trailing-icon.mdc-text-field--dense .mdc-text-field__input, .mdc-text-field--with-trailing-icon.mdc-text-field--dense .mdc-text-field__input[dir=rtl] {
   /* @noflip */
