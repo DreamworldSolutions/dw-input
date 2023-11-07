@@ -648,6 +648,9 @@ export class DwInput extends DwFormElement(LitElement) {
        */ 
       errorMessages: {type: Object },
 
+      /**
+       * The validity represents the validity states that an element can be in, with respect to constraint validation. Together, they help explain why an element's value fails to validate, if it's not valid.
+       */
       validity: { type: Object}
     };
   }
@@ -658,6 +661,102 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   static setErrorMessages(errorMessages) {
     this.errorMessages = {...this.errorMessages, ...errorMessages};
+  }
+
+  constructor() {
+    super();
+    this.disabled = false;
+    this.required = false;
+    this.readOnly = false;
+    this.placeholder = '';
+    this._value = '';
+    this.error = '';
+    this.name = '';
+    this.pattern = '(.*?)';
+    this.invalid = false;
+    this.autoSelect = false;
+    this.multiline = false;
+    this.dense = false;
+    this.hintPersistent = false;
+    this.charCounter = false;
+    this.minLength = 0;
+    this.maxLength = 524288;
+    this.minHeight = 42;
+    this.truncateOnBlur = false;
+    this.showAsFilled = false;
+    this.prefixText = '';
+    this.suffixText = '';
+    this.iconButtonSize = 24;
+    this.iconSize = 24;
+    this.type = "text"
+    this._showVisibilityIcon = true;
+
+    let self = this;
+    this._tipButtonClickEvent = (e) => {
+      const action = e.target.getAttribute("action");
+      self.dispatchEvent(new CustomEvent("action", { detail: action }));
+      this.renderRoot.querySelector('dw-tooltip').hide()
+    }
+
+    this._extraOptions = {
+      interactive: true,
+      onShow(instance) {
+        const buttons = instance.popper.querySelectorAll("dw-button");
+        buttons.forEach((button) => {
+          button.addEventListener("mousedown", self._tipButtonClickEvent);
+        });
+      },
+      onHide(instance) {
+        const buttons = instance.popper.querySelectorAll("dw-button");
+        buttons.forEach((button) => {
+          button.removeEventListener("mousedown", self._tipButtonClickEvent);
+        });
+      },
+    };
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback && super.disconnectedCallback();
+    if (this._textFieldInstance) {
+      this._textFieldInstance.destroy();
+      this._textFieldInstance = null;
+    }
+  }
+
+  set value(value){
+    this._setValue(value);
+    this._updateTextfieldValue();
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set invalid(invalid){
+    let oldVal = this.invalid;
+
+    if(invalid === oldVal){
+      return;
+    }
+
+    if (this._textFieldInstance) {
+      this._textFieldInstance.valid = !invalid;
+    }
+
+    this._invalid = invalid;
+
+    this.requestUpdate('invalid', oldVal);
+  }
+
+  get invalid(){
+    return this._invalid;
+  }
+
+  willUpdated(changedProps){
+    if(changedProps.has('error')){
+      const errorMsg = typeof error === 'string' ? error : this.error();
+      this.setCustomValidity(errorMsg);
+    }
   }
 
   get _errorMessages() {
@@ -685,11 +784,6 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0,
       'mdc-text-field-warning-text': this._warning
     };
-
-    const helperTextClasses = {
-      'mdc-text-field-helper-text--persistent': this.hintPersistent
-    };
-
     const warningTextClasses = {
       'mdc-text-field-warning-text': this._warning
     }
@@ -703,7 +797,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ${this.multiline ? html`${ this.textareaTemplate}` : html`${this.inputTemplate}`}
 
         ${this._getSuffixTemplate}
-        ${this._getTipIconButtons}
+        ${this._tipIconButtons}
 
         ${this.showAsFilled ? html`
           ${this.label
@@ -799,100 +893,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if (typeof this.warning === 'string') return this.warning;
     
     return this.warning();
-  }
-
-  set value(value){
-    this._setValue(value);
-    this._updateTextfieldValue();
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  set invalid(invalid){
-    let oldVal = this.invalid;
-
-    if(invalid === oldVal){
-      return;
-    }
-
-    if (this._textFieldInstance) {
-      this._textFieldInstance.valid = !invalid;
-    }
-
-    this._invalid = invalid;
-
-    this.requestUpdate('invalid', oldVal);
-  }
-
-  get invalid(){
-    return this._invalid;
-  }
-
-  constructor() {
-    super();
-    this.disabled = false;
-    this.required = false;
-    this.readOnly = false;
-    this.placeholder = '';
-    this._value = '';
-    this.error = '';
-    this.name = '';
-    this.pattern = '(.*?)';
-    this.invalid = false;
-    this.autoSelect = false;
-    this.multiline = false;
-    this.dense = false;
-    this.hintPersistent = false;
-    this.charCounter = false;
-    this.minLength = 0;
-    this.maxLength = 524288;
-    this.minHeight = 42;
-    this.truncateOnBlur = false;
-    this.showAsFilled = false;
-    this.prefixText = '';
-    this.suffixText = '';
-    this.iconButtonSize = 24;
-    this.iconSize = 24;
-    this.type = "text"
-    this._showVisibilityIcon = true;
-
-    let self = this;
-    this._tipButtonClickEvent = (e) => {
-      const action = e.target.getAttribute("action");
-      self.dispatchEvent(new CustomEvent("action", { detail: action }));
-      this.renderRoot.querySelector('dw-tooltip').hide()
-    }
-
-    this._extraOptions = {
-      interactive: true,
-      onShow(instance) {
-        const buttons = instance.popper.querySelectorAll("dw-button");
-        buttons.forEach((button) => {
-          button.addEventListener("mousedown", self._tipButtonClickEvent);
-        });
-      },
-      onHide(instance) {
-        const buttons = instance.popper.querySelectorAll("dw-button");
-        buttons.forEach((button) => {
-          button.removeEventListener("mousedown", self._tipButtonClickEvent);
-        });
-      },
-    };
-  }
-
-  willUpdated(changedProps){
-    if(changedProps.has('error')){
-      const errorMsg = typeof error === 'string' ? error : this.error();
-      this.setCustomValidity(errorMsg);
-    }
-
-    if(changedProps.has('validity')){
-      console.log('validity changed');
-    }
-  }
-  
+  }  
 
   get inputTemplate() {
     return html`
@@ -1011,11 +1012,11 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._warning + this._renderTooltipActions(this.warningTooltipActions);
   }
   
-  get _warningTooltipContent() {
+  get _hintTooltipContent() {
     return this.hint + this._renderTooltipActions(this.hintTooltipActions);
   }
 
-  get _getTipIconButtons() {
+  get _tipIconButtons() {
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
@@ -1050,7 +1051,6 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-
   _renderTooltipActions(actions) {
     if (!Array.isArray(actions)) {
       return '';
@@ -1061,14 +1061,6 @@ export class DwInput extends DwFormElement(LitElement) {
       buttonsHtml += `<dw-button label="${action.label}" action="${action.name}" class="${action.danger? 'error' : ''}" ></dw-button>`;
     });
     return `<div style="text-align: end;"> ${buttonsHtml} </div>`
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback && super.disconnectedCallback();
-    if (this._textFieldInstance) {
-      this._textFieldInstance.destroy();
-      this._textFieldInstance = null;
-    }
   }
 
   /**
