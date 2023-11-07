@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css, LitElement, nothing } from '@dreamworld/pwa-helpers/lit.js';
 import { classMap } from 'lit/directives/class-map.js';
+import {repeat} from 'lit/directives/repeat.js';
 import {styleMap} from 'lit/directives/style-map.js';
 import { MDCTextField } from '@material/textfield/index.js';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter/index.js';
@@ -20,6 +21,20 @@ import './dw-textarea.js';
 import '@dreamworld/dw-tooltip';
 import '@dreamworld/dw-button';
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
+
+
+const defaultErrorMessages = {
+  badInput: 'Bad input',
+  patternMismatch: 'Pattern is mismatched',
+  rangeOverflow: 'Range is overflowed',
+  rangeUnderflow: 'Range is underflowed',
+  stepMismatch: 'Step is mismatched',
+  tooLong: 'Too long',
+  tooShort: 'Too short',
+  REQUIRED: "Required",
+  typeMismatch: "Type is mismatched",
+  valueMissing: "Required"
+};
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -288,13 +303,8 @@ export class DwInput extends DwFormElement(LitElement) {
           background-color: var(--dw-input-value-updated-color, var(--mdc-theme-primary, #02afcd));
           opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
           position: absolute;
-          height: 52px;
+          height: -webkit-fill-available;
           width: 100%;
-        }
-
-        :host([_valueUpdated][dense]) .mdc-notched-outline__leading::before,
-        :host([_valueUpdated][dense]) .mdc-notched-outline__trailing::before {
-          height: 44px;
         }
 
         :host([_valueUpdated]) .mdc-notched-outline__notch::before {
@@ -302,13 +312,12 @@ export class DwInput extends DwFormElement(LitElement) {
           background-color: var(--dw-input-outlined-updated-bg-color, var(--mdc-theme-primary, #02afcd));
           opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
           position: absolute;
-          height: 46px;
+          height: -webkit-fill-available;
           width: 100%;
           top: 8px;
         }
 
         :host([_valueUpdated][dense]) .mdc-notched-outline__notch::before {
-          height: 36px;
           top: 10px;
         }
 
@@ -446,7 +455,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Message to show in the error color when the textfield is invalid.
        */
-      errorMessage: { type: String },
+      error: { type: Object },
 
       /**
        * Set to true to make input field readonly.
@@ -585,7 +594,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Text to show the warning message.
        */
-      warningText: { type: String },
+      warning: { type: String },
 
       /**
        * Input property
@@ -631,14 +640,35 @@ export class DwInput extends DwFormElement(LitElement) {
        * Tooltip placement
        * for more see tippyJs doc: https://atomiks.github.io/tippyjs/v6/all-props/#placement
        */
-      tipPlacement: { type: String }
+      tipPlacement: { type: String },
+
+      /**
+       * Custom error messages for default errors.
+       * 
+       */ 
+      errorMessages: {type: Object },
+
+      validity: { type: Object}
     };
+  }
+
+  /**
+   * Sets static errorMessages. Its used at application level.
+   * @param {Object} errorMessages 
+   */
+  static setErrorMessages(errorMessages) {
+    this.errorMessages = {...this.errorMessages, ...errorMessages};
+  }
+
+  get _errorMessages() {
+    const errorMessages = this.errorMessages || {};
+    return {...DwInput.errorMessages, ...errorMessages }
   }
 
   render() {
 
     /**
-     * 'mdc-text-field--with-trailing-icon': this.iconTrailing || ((this.hint && !this.hintInTooltip) || (this.warningText && !this.warningInTooltip) || (this.invalid && !this.errorInTooltip)) ? true : false,
+     * 'mdc-text-field--with-trailing-icon': this.iconTrailing || ((this.hint && !this.hintInTooltip) || (this.warning && !this.warningInTooltip) || (this.invalid && !this.errorInTooltip)) ? true : false,
      * 
      * Above condition added in below wrapperClasses due to handle both trailingIcon and tooltip icons at same time. 
      */
@@ -646,14 +676,14 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
       'mdc-text-field--with-leading-icon': this.icon ? true : false,
-      'mdc-text-field--with-trailing-icon': this.iconTrailing && (!(this.invalid && this.errorInTooltip) && !(this.warningText && this.warningInTooltip) && !(this.hint && this.hintInTooltip))  ? true : false,
+      'mdc-text-field--with-trailing-icon': this.iconTrailing && (!(this.invalid && this.errorInTooltip) && !(this.warning && this.warningInTooltip) && !(this.hint && this.hintInTooltip))  ? true : false,
       'mdc-text-field--textarea': this.multiline,
       'mdc-text-field--dense': this.dense && !this.multiline,
       'mdc-text-field--outlined' : !this.showAsFilled
     };
     const labelClasses = {
       'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0,
-      'mdc-text-field-warning-text': this.warningText
+      'mdc-text-field-warning-text': this._warning
     };
 
     const helperTextClasses = {
@@ -661,7 +691,7 @@ export class DwInput extends DwFormElement(LitElement) {
     };
 
     const warningTextClasses = {
-      'mdc-text-field-warning-text': this.warningText
+      'mdc-text-field-warning-text': this._warning
     }
 
     return html`
@@ -697,7 +727,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       </div>
 
-      ${this.hint || this.errorMessage || this.warningText || this.charCounter
+      ${this.hint || this._error || this._warning || this.charCounter
         ? html`
           <div class="mdc-text-field-helper-line">
             ${this._renderHelperLine}
@@ -709,21 +739,21 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _renderHelperLine() {
-    if (this.errorMessage && !this.errorInTooltip) {
+    if (this._error && !this.errorInTooltip) {
       return html`
         <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">
-          ${this.errorMessage}
+          ${this._error}
         </div>
       `;
     }
 
-    if (this.warningText && !this.warningInTooltip) {
+    if (this._warning && !this.warningInTooltip) {
       const warningTextClasses = {
-        "mdc-text-field-warning-text": this.warningText,
+        "mdc-text-field-warning-text": this._warning,
       };
       return html`
         <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">
-          ${this.warningText}
+          ${this._warning}
         </div>
       `;
     }
@@ -740,6 +770,35 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     return nothing;
+  }
+  
+  get _error() {
+    if(!this.invalid) return;
+
+    const validityState = this._textFieldInstance?.input?.validity;
+    let errorMsg = '';
+
+    for(var key in validityState){
+      if(key !== 'valid' && key !== 'customError' && validityState[key]) {
+        errorMsg = this._errorMessages[key];
+        break;
+      }
+    }
+
+    
+    if(errorMsg) return errorMsg;
+
+    if (!this.error) return;
+    if (typeof this.error === 'string') return this.error;
+    return this.error();
+  }
+
+  get _warning() {
+    if (!this.warning) return;
+
+    if (typeof this.warning === 'string') return this.warning;
+    
+    return this.warning();
   }
 
   set value(value){
@@ -778,7 +837,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.readOnly = false;
     this.placeholder = '';
     this._value = '';
-    this.errorMessage = '';
+    this.error = '';
     this.name = '';
     this.pattern = '(.*?)';
     this.invalid = false;
@@ -805,6 +864,7 @@ export class DwInput extends DwFormElement(LitElement) {
       self.dispatchEvent(new CustomEvent("action", { detail: action }));
       this.renderRoot.querySelector('dw-tooltip').hide()
     }
+
     this._extraOptions = {
       interactive: true,
       onShow(instance) {
@@ -820,6 +880,17 @@ export class DwInput extends DwFormElement(LitElement) {
         });
       },
     };
+  }
+
+  willUpdated(changedProps){
+    if(changedProps.has('error')){
+      const errorMsg = typeof error === 'string' ? error : this.error();
+      this.setCustomValidity(errorMsg);
+    }
+
+    if(changedProps.has('validity')){
+      console.log('validity changed');
+    }
   }
   
 
@@ -932,19 +1003,29 @@ export class DwInput extends DwFormElement(LitElement) {
     return nothing;
   }
 
+  get _errorTooltipContent() {
+    return this._error + this._renderTooltipActions(this.errorTooltipActions);
+  }
+  
+  get _warningTooltipContent() {
+    return this._warning + this._renderTooltipActions(this.warningTooltipActions);
+  }
+  
+  get _warningTooltipContent() {
+    return this.hint + this._renderTooltipActions(this.hintTooltipActions);
+  }
+
   get _getTipIconButtons() {
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
           ? html`<dw-icon-button id="error" class="error" icon="${'error'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-              <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
-                ${unsafeHTML(this.errorMessage)} ${this._renderTooltipActions(this.errorTooltipActions)}
-              </dw-tooltip>`
+              <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" .content=${this._errorTooltipContent}></dw-tooltip>`
           : nothing}
       `;
     }
 
-    if (this.warningText) {
+    if (this._warning) {
       return html`
         ${this.warningInTooltip
           ? html`<dw-icon-button
@@ -954,9 +1035,7 @@ export class DwInput extends DwFormElement(LitElement) {
                 tabindex="-1"
                 .iconFont="${this.iconFont}"
               ></dw-icon-button>
-              <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
-                ${unsafeHTML(this.warningText)} ${this._renderTooltipActions(this.warningTooltipActions)}
-              </dw-tooltip>`
+              <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" .content=${this._warningTooltipContent}></dw-tooltip>`
           : nothing}
       `;
     }
@@ -965,9 +1044,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return html`
         ${this.hintInTooltip
           ? html`<dw-icon-button id="info" class="info" icon="${'info'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-              <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
-                ${unsafeHTML(this.hint)} ${this._renderTooltipActions(this.hintTooltipActions)}
-              </dw-tooltip>`
+              <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}" .content=${this._hintTooltipContent}></dw-tooltip>`
           : nothing}
       `;
     }
@@ -976,16 +1053,14 @@ export class DwInput extends DwFormElement(LitElement) {
 
   _renderTooltipActions(actions) {
     if (!Array.isArray(actions)) {
-      return nothing;
+      return '';
     }
 
-    const styles = {'text-align': 'end'}
-    return html`<div style="${styleMap(styles)}">
-      ${actions.map(action => {
-        const classes = { error: action.danger }
-        return html`<dw-button label="${action.label}" action="${action.name}" class="${classMap(classes)}" ></dw-button>`
-      })}
-    </div>`
+    let buttonsHtml = '';
+    actions.map((action) => {
+      buttonsHtml += `<dw-button label="${action.label}" action="${action.name}" class="${action.danger? 'error' : ''}" ></dw-button>`;
+    });
+    return `<div style="text-align: end;"> ${buttonsHtml} </div>`
   }
 
   disconnectedCallback() {
@@ -1091,12 +1166,21 @@ export class DwInput extends DwFormElement(LitElement) {
     this._textFieldInstance.input.select();
   }
 
-  /* Call this to perform validation of the input */
-  validate() {
-    let isValid = this._getInputValidity();
+  setCustomValidity(msg = ''){
+    this._textFieldInstance?.input?.setCustomValidity(msg);
+  }
+
+  reportValidity(){
+    let isValid = this.checkValidity();
 
     this.invalid = !isValid;
     return isValid;
+  }
+
+  /* Call this to perform validation of the input */
+  // TODO: remove this when `dw-form` elements are updated as per new specs.
+  validate() {
+    return this.reportValidity();
   }
 
   layout() {
@@ -1290,17 +1374,28 @@ export class DwInput extends DwFormElement(LitElement) {
   /**
    * Performs validatio of input
    * It also invokes `validator` if provided
-   * Returns true if validation is passed
+   * Returns true if validation is passedisValid
    */
-  _getInputValidity() {
-    let isValid = this._textFieldInstance && this._textFieldInstance.input.checkValidity();
+  checkValidity() {
+    let isValid = this._textFieldInstance?.input?.checkValidity();
+
+    const validityState = this._textFieldInstance?.input?.validity;
+    let validity = {};
+    for(var key in validityState){
+      validity[key] = validityState[key];
+    }
+    this.validity = validity;
 
     if (!isValid) {
       return false;
     }
 
-    if (this.validator) {
-      isValid = this.validator(this.value);
+    if (this.error) {
+      if(typeof this.error === 'string'){
+        isValid = !this.error
+      } else {
+        isValid = !this.error();
+      }
     }
 
     return isValid;
@@ -1332,3 +1427,5 @@ export class DwInput extends DwFormElement(LitElement) {
 }
 
 customElements.define('dw-input', DwInput);
+
+DwInput.errorMessages = defaultErrorMessages;
