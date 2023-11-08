@@ -763,7 +763,7 @@ export class DwInput extends DwFormElement(LitElement) {
       let errorMsg = '';
       if (this.error) errorMsg = typeof this.error === 'string' ? this.error : this.error();
       this.setCustomValidity(errorMsg);
-      this.reportValidity();
+      if (errorMsg || this.invalid) this.reportValidity();
     }
   }
 
@@ -1417,14 +1417,6 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if (!isValid) {
       return false;
-    }
-
-    if (this.error) {
-      if(typeof this.error === 'string'){
-        isValid = !this.error
-      } else {
-        isValid = !this.error();
-      }
     }
 
     return isValid;
