@@ -31,7 +31,6 @@ const defaultErrorMessages = {
   stepMismatch: 'Step is mismatched',
   tooLong: 'Too long',
   tooShort: 'Too short',
-  REQUIRED: "Required",
   typeMismatch: "Type is mismatched",
   valueMissing: "Required"
 };
