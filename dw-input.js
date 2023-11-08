@@ -454,7 +454,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Message to show in the error color when the textfield is invalid.
        */
-      error: { type: Object },
+      error: { type: String },
 
       /**
        * Set to true to make input field readonly.
@@ -737,33 +737,16 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._value;
   }
 
-  set invalid(invalid){
-    let oldVal = this.invalid;
 
-    if(invalid === oldVal){
-      return;
+  updated(changedProps){
+    super.updated(changedProps);
+    if(changedProps.has('invalid') && this._textFieldInstance){
+      this._textFieldInstance.valid = !this.invalid;
     }
 
-    if (this._textFieldInstance) {
-      this._textFieldInstance.valid = !invalid;
-    }
-
-    this._invalid = invalid;
-
-    this.requestUpdate('invalid', oldVal);
-  }
-
-  get invalid(){
-    return this._invalid;
-  }
-
-  async willUpdate(changedProps){
     if(changedProps.has('error')){
-      await this.updateComplete;
-      let errorMsg = '';
-      if (this.error) errorMsg = typeof this.error === 'string' ? this.error : this.error();
-      this.setCustomValidity(errorMsg);
-      if (errorMsg || this.invalid) this.reportValidity();
+      this.setCustomValidity(this.error || '');
+      if (this.error || this.invalid) this.reportValidity();
     }
   }
 
@@ -880,13 +863,7 @@ export class DwInput extends DwFormElement(LitElement) {
     const validityState = this._textFieldInstance?.input?.validity;
     let errorMsg = '';
 
-    if (this.error) {
-      if (typeof this.error === 'string') { 
-        return this.error;
-      } else {
-        return this.error();
-      }
-    }
+    if (this.error) return this.error;
 
     for(var key in validityState){
       if(key !== 'valid' && key !== 'customError' && validityState[key]) {
@@ -900,11 +877,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _warning() {
-    if (!this.warning) return;
-
-    if (typeof this.warning === 'string') return this.warning;
-    
-    return this.warning();
+    return this.warning || '';
   }  
 
   get inputTemplate() {
