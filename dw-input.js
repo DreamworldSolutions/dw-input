@@ -1363,6 +1363,10 @@ export class DwInput extends DwFormElement(LitElement) {
     this.validate();
   }
 
+  get validity() {
+    return this._textFieldInstance?.input?.validity;
+  }
+
   /**
    * Performs validatio of input
    * It also invokes `validator` if provided
@@ -1370,13 +1374,6 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   checkValidity() {
     let isValid = this._textFieldInstance?.input?.checkValidity();
-
-    const validityState = this._textFieldInstance?.input?.validity;
-    let validity = {};
-    for(var key in validityState){
-      validity[key] = validityState[key];
-    }
-    this.validity = validity;
 
     if (!isValid) {
       return false;
