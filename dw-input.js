@@ -631,7 +631,13 @@ export class DwInput extends DwFormElement(LitElement) {
        * Tooltip placement
        * for more see tippyJs doc: https://atomiks.github.io/tippyjs/v6/all-props/#placement
        */
-      tipPlacement: { type: String }
+      tipPlacement: { type: String },
+
+      /**
+       * When it's `true`, shows `Material Symbols` icon.
+       * [Reference](https://fonts.google.com/icons?icon.set=Material+Symbols)
+       */
+      symbol: { type: Boolean },
     };
   }
 
@@ -882,7 +888,8 @@ export class DwInput extends DwFormElement(LitElement) {
   get _getPrefixTemplate(){
     if(this.icon){
       return html`
-        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" iconFont="${this.iconFont}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}"></dw-icon-button>
+        <dw-icon-button class="mdc-text-field__icon" icon="${this.icon}" iconFont="${this.iconFont}" .iconSize=${this.iconSize} .buttonSize=${this.iconButtonSize} ?disabled="${this.disabled}" tabindex="${this.clickableIcon ? '' : -1}" 
+                .symbol=${this.symbol}></dw-icon-button>
       `;
     }
 
@@ -908,6 +915,7 @@ export class DwInput extends DwFormElement(LitElement) {
           .iconSize=${this.iconSize}
           tabindex=""
           .iconFont="${this.iconFont}"
+          .symbol=${this.symbol}
         ></dw-icon-button>
       `;
     }
@@ -921,6 +929,7 @@ export class DwInput extends DwFormElement(LitElement) {
           .buttonSize=${this.iconButtonSize}
           ?disabled="${this.disabled}"
           tabindex="${this.clickableIcon ? "" : -1}"
+          .symbol=${this.symbol}
         ></dw-icon-button>
       `;
     }
@@ -936,9 +945,20 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
-          ? html`<dw-icon-button id="error" class="error" icon="${'error'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-              <dw-tooltip for="error" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
-                ${unsafeHTML(this.errorMessage)} ${this._renderTooltipActions(this.errorTooltipActions)}
+          ? html`<dw-icon-button
+                id="error"
+                class="error"
+                icon="${"error"}"
+                tabindex="-1"
+                .iconFont="${this.iconFont}"
+                .symbol=${this.symbol}
+              ></dw-icon-button>
+              <dw-tooltip
+                for="error"
+                .extraOptions=${this._extraOptions}
+                .placement="${this.tipPlacement}">
+                ${unsafeHTML(this.errorMessage)}
+                ${this._renderTooltipActions(this.errorTooltipActions)}
               </dw-tooltip>`
           : nothing}
       `;
@@ -953,6 +973,7 @@ export class DwInput extends DwFormElement(LitElement) {
                 icon="${'warning'}"
                 tabindex="-1"
                 .iconFont="${this.iconFont}"
+                .symbol=${this.symbol}
               ></dw-icon-button>
               <dw-tooltip for="warning" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
                 ${unsafeHTML(this.warningText)} ${this._renderTooltipActions(this.warningTooltipActions)}
@@ -964,8 +985,18 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.hint) {
       return html`
         ${this.hintInTooltip
-          ? html`<dw-icon-button id="info" class="info" icon="${'info'}" tabindex="-1" .iconFont="${this.iconFont}"></dw-icon-button>
-              <dw-tooltip for="info" .extraOptions=${this._extraOptions} .placement="${this.tipPlacement}">
+          ? html`<dw-icon-button
+                id="info"
+                class="info"
+                icon="${"info"}"
+                tabindex="-1"
+                .iconFont="${this.iconFont}"
+                .symbol=${this.symbol}
+              ></dw-icon-button>
+              <dw-tooltip
+                for="info"
+                .extraOptions=${this._extraOptions}
+                .placement="${this.tipPlacement}">
                 ${unsafeHTML(this.hint)} ${this._renderTooltipActions(this.hintTooltipActions)}
               </dw-tooltip>`
           : nothing}
