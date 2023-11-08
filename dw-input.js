@@ -751,10 +751,12 @@ export class DwInput extends DwFormElement(LitElement) {
     return this._invalid;
   }
 
-  willUpdated(changedProps){
-    if(changedProps.has('error')){
-      const errorMsg = typeof error === 'string' ? error : this.error();
+  async willUpdate(changedProps){
+    if(changedProps.has('error') && this.error){
+      await this.updateComplete;
+      const errorMsg = typeof this.error === 'string' ? this.error : this.error();
       this.setCustomValidity(errorMsg);
+      this.reportValidity();
     }
   }
 
@@ -871,19 +873,23 @@ export class DwInput extends DwFormElement(LitElement) {
     const validityState = this._textFieldInstance?.input?.validity;
     let errorMsg = '';
 
+    if (this.error) {
+      if (typeof this.error === 'string') { 
+        return this.error;
+      } else {
+        return this.error();
+      }
+    }
+
     for(var key in validityState){
       if(key !== 'valid' && key !== 'customError' && validityState[key]) {
         errorMsg = this._errorMessages[key];
         break;
       }
     }
-
     
     if(errorMsg) return errorMsg;
-
-    if (!this.error) return;
-    if (typeof this.error === 'string') return this.error;
-    return this.error();
+    return '';
   }
 
   get _warning() {
