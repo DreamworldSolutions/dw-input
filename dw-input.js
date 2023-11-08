@@ -752,9 +752,10 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   async willUpdate(changedProps){
-    if(changedProps.has('error') && this.error){
+    if(changedProps.has('error')){
       await this.updateComplete;
-      const errorMsg = typeof this.error === 'string' ? this.error : this.error();
+      let errorMsg = '';
+      if (this.error) errorMsg = typeof this.error === 'string' ? this.error : this.error();
       this.setCustomValidity(errorMsg);
       this.reportValidity();
     }
