@@ -8,26 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { DwInput } from './dw-input';
+import { DwInput } from "./dw-input";
 
 export class DwEmailInput extends DwInput {
-
   constructor() {
     super();
-    this.errorMessage = "Invalid Email";
-    this.pattern ="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-    this.validator = this._validator;
+    this.type = "email";
+    this.errorMessages = { typeMismatch: "Invalid Email" };
   }
-
-  _validator(value) {
-    if (!this.required && !value) {
-      return true;
-    }
-
-    return true;
-
-  }
-
 }
 
-customElements.define('dw-email-input', DwEmailInput);
+customElements.define("dw-email-input", DwEmailInput);
