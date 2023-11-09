@@ -924,6 +924,11 @@ export class DwInput extends DwFormElement(LitElement) {
     if (changedProps.has("invalid") && this._textFieldInstance) {
       this._textFieldInstance.valid = !this.invalid;
     }
+
+    if (changedProps.has('error') && this.invalid) {
+      this.reportValidity();
+    }
+
   }
 
   get _errorMessages() {
@@ -1073,7 +1078,13 @@ export class DwInput extends DwFormElement(LitElement) {
     const validityState = this._textFieldInstance?.input?.validity;
     let errorMsg = "";
 
-    if (this.error) return this.error;
+    if (this.error) {
+      if (typeof this.error === "string") {
+        return errorMsg = this.error;
+      } else {
+        return errorMsg = this.error();
+      }
+    }
 
     for (var key in validityState) {
       if (key !== "valid" && key !== "customError" && validityState[key]) {
@@ -1417,8 +1428,6 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   reportValidity() {
-    let isValid = this.checkValidity();
-
     let errorMessage;
     if (this.error) {
       if (typeof this.error === "string") {
@@ -1429,6 +1438,8 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     this.setCustomValidity(errorMessage);
+
+    let isValid = this.checkValidity();
 
     this.invalid = !isValid;
     return isValid;
@@ -1492,8 +1503,8 @@ export class DwInput extends DwFormElement(LitElement) {
       new CustomEvent("value-changed", {
         detail: { value: this._value },
       })
-    );
-
+      );
+      
     if (this.highlightChanged) {
       this._setIsValueUpdated();
     }
@@ -1653,19 +1664,18 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   checkValidity() {
     let isValid;
+
     if (this.error) {
       if (typeof this.error === "string") {
         isValid = !this.error;
       } else {
-        isValid = !this.error();
+        isValid = !this.error(this.value);
       }
     }
 
-    if (!isValid) {
-      return false;
+    if (isValid !== false) {
+      isValid = this._textFieldInstance?.input?.checkValidity();
     }
-
-    isValid = this._textFieldInstance?.input?.checkValidity();
 
     return isValid;
   }

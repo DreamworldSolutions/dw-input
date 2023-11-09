@@ -189,7 +189,6 @@ class DwInputDemo extends LitElement {
         highlightChanged
         originalValue="Ruchita"
         required
-        @input="${this._onInput}"
         @change="${this._onChange}"
       ></dw-input>
       <dw-input
@@ -220,6 +219,8 @@ class DwInputDemo extends LitElement {
         error="Value must be a 'cat'"
         label="Animal name"
         palceholder="Type cat"
+        .error=${this._validateInput}
+        @input="${this._onInput}"
       ></dw-input>
 
       <h4>Auto formatting</h4>
@@ -315,12 +316,16 @@ class DwInputDemo extends LitElement {
 
   firstUpdated() {
     let el = this.shadowRoot.querySelector("#customValidatorInupt");
-    el.validator = function (value) {
-      return value === "cat";
-    };
-
     let elTippyContainer = this.shadowRoot;
     DWTooltip.setAppendTo(elTippyContainer);
+  }
+
+  _validateInput() {
+    if (this.value !== 'cat') {
+      return "Value must be a 'cat'";
+    }
+
+    return '';
   }
 
   _onInput(e) {
