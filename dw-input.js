@@ -417,7 +417,6 @@ export class DwInput extends DwFormElement(LitElement) {
 
       /**
        * A pattern to validate the `input` with. Checked during `validate()`.
-       * Doens't work when custom validator is provided through `validator` property.
        */
       pattern: { type: String },
 
@@ -454,18 +453,12 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Message to show in the error color when the textfield is invalid.
        */
-      error: { type: String },
+      error: { type: Object },
 
       /**
        * Set to true to make input field readonly.
        */
       readOnly: { type: Boolean, reflect: true },
-
-      /**
-       * Set this to apply custom validation of input. Receives value to be validated as argument.
-       * It must return Boolean.
-       */
-      validator: { type: Function },
 
       /**
        * Set to `true` when the last call to `validate` is invalid. Mostly, you don't need to manually set/change this
@@ -593,14 +586,14 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * Text to show the warning message.
        */
-      warning: { type: String },
+      warning: { type: Object },
 
       /**
        * Input property
        * Type of the icon. By default it shows FILLED icon.
        * Possible values: FILLED and OUTLINED
        */
-       iconFont: { type: String, reflect: true }, 
+      iconFont: { type: String, reflect: true }, 
 
       /**
        * Whether to show hint in tooltip
@@ -743,11 +736,6 @@ export class DwInput extends DwFormElement(LitElement) {
     if(changedProps.has('invalid') && this._textFieldInstance){
       this._textFieldInstance.valid = !this.invalid;
     }
-
-    if(changedProps.has('error')){
-      this.setCustomValidity(this.error || '');
-      if (this.error || this.invalid) this.reportValidity();
-    }
   }
 
   get _errorMessages() {
@@ -877,7 +865,11 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _warning() {
-    return this.warning || '';
+    if (!this.warning) return;
+
+    if (typeof this.warning === 'string') return this.warning;
+
+    return this.warning();
   }  
 
   get inputTemplate() {
@@ -1178,6 +1170,17 @@ export class DwInput extends DwFormElement(LitElement) {
   reportValidity(){
     let isValid = this.checkValidity();
 
+    let errorMessage;
+    if (this.error) {
+      if(typeof this.error === 'string'){
+        errorMessage = this.error
+      } else {
+        errorMessage = this.error();
+      }
+    }
+
+    this.setCustomValidity(errorMessage);
+
     this.invalid = !isValid;
     return isValid;
   }
@@ -1382,15 +1385,23 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /**
    * Performs validatio of input
-   * It also invokes `validator` if provided
    * Returns true if validation is passedisValid
    */
   checkValidity() {
-    let isValid = this._textFieldInstance?.input?.checkValidity();
+    let isValid;
+    if (this.error) {
+      if(typeof this.error === 'string'){
+        isValid = !this.error
+      } else {
+        isValid = !this.error();
+      }
+    }
 
     if (!isValid) {
       return false;
     }
+
+    isValid = this._textFieldInstance?.input?.checkValidity();
 
     return isValid;
   }
