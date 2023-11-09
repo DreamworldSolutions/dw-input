@@ -1241,7 +1241,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (value && this.invalid) {
-      this.validate();
+      this.reportValidity();
     }
 
     return true;
@@ -1373,7 +1373,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Validates input value
    */
   _onInputBlur() {
-    this.validate();
+    this.reportValidity();
   }
 
   get validity() {
