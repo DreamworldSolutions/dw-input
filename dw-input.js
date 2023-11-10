@@ -1424,6 +1424,8 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   setCustomValidity(msg = "") {
+    if(this.multiline) return;
+    
     this._textFieldInstance?.input?.setCustomValidity(msg);
   }
 
