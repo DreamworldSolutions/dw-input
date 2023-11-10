@@ -709,7 +709,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _renderHelperLine() {
-    if (this.errorMessage && !this.errorInTooltip) {
+    if (this.invalid && this.errorMessage && !this.errorInTooltip) {
       return html`
         <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">
           ${this.errorMessage}
