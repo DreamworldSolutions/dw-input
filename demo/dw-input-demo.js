@@ -1,15 +1,15 @@
-import { html, css, LitElement } from "@dreamworld/pwa-helpers/lit.js";
-import "../dw-input.js";
-import { ThemeStyle } from "@dreamworld/material-styles/theme";
-import "@material/mwc-switch";
-import "@material/mwc-formfield";
-import "./formatted-input.js";
+import { html, css, LitElement } from '@dreamworld/pwa-helpers/lit.js';
+import '../dw-input.js';
+import { ThemeStyle } from '@dreamworld/material-styles/theme';
+import '@material/mwc-switch';
+import '@material/mwc-formfield';
+import './formatted-input.js';
 
-import { DWTooltip, DWTooltipStyle } from "@dreamworld/dw-tooltip";
+import { DWTooltip, DWTooltipStyle } from '@dreamworld/dw-tooltip';
 
 const TooltipActions = [
-  { name: "UPDATE", label: "Update" },
-  { name: "CLEAR", label: "Clear", danger: true },
+  { name: 'UPDATE', label: 'Update' },
+  { name: 'CLEAR', label: 'Clear', danger: true },
 ];
 
 class DwInputDemo extends LitElement {
@@ -65,25 +65,19 @@ class DwInputDemo extends LitElement {
     return html`
       <mwc-formfield label="Enable dark theme">
         <mwc-switch
-          @click="${(e) => {
+          @click="${e => {
             if (e.target.selected) {
-              this.setAttribute("dark-theme", e.detail);
+              this.setAttribute('dark-theme', e.detail);
               return;
             }
 
-            this.removeAttribute("dark-theme");
+            this.removeAttribute('dark-theme');
           }}"
         >
         </mwc-switch>
       </mwc-formfield>
 
-      <dw-input
-        label="New input"
-        required
-        warningInTooltip
-        .warning=${"sdfdfgds"}
-        .warningTooltipActions=${TooltipActions}
-      ></dw-input>
+      <dw-input label="New input" required warningInTooltip .warning=${'sdfdfgds'} .warningTooltipActions=${TooltipActions}></dw-input>
       <h4>Required In Tooltip text field</h4>
       <dw-input
         label="First name"
@@ -94,7 +88,7 @@ class DwInputDemo extends LitElement {
         @esc="${this._onFirstNameEsc}"
         .hintTooltipActions="${TooltipActions}"
         .errorTooltipActions="${TooltipActions}"
-        @action="${(e) => console.log(e.detail)}"
+        @action="${e => console.log(e.detail)}"
         iconTrailing="date"
         warningInTooltip
         hintInTooltip
@@ -111,7 +105,7 @@ class DwInputDemo extends LitElement {
         warningInTooltip
         hintInTooltip
         .tooltipActions="${TooltipActions}"
-        @action="${(e) => console.log(e.detail)}"
+        @action="${e => console.log(e.detail)}"
         iconFont="OUTLINED"
       ></dw-input>
 
@@ -128,7 +122,7 @@ class DwInputDemo extends LitElement {
         hintInTooltip
         .errorTooltipActions="${TooltipActions}"
         .hintTooltipActions="${TooltipActions}"
-        @action="${(e) => console.log(e.detail)}"
+        @action="${e => console.log(e.detail)}"
         required
         iconFont="OUTLINED"
         errorInTooltip
@@ -136,13 +130,7 @@ class DwInputDemo extends LitElement {
       ></dw-input>
 
       <h4>Dense field</h4>
-      <dw-input
-        warning="warning text"
-        error="Error message"
-        required
-        label="Name"
-        dense
-      ></dw-input>
+      <dw-input warning="warning text" error="Error message" required label="Name" dense></dw-input>
 
       <h4>Required text field</h4>
       <dw-input
@@ -161,12 +149,7 @@ class DwInputDemo extends LitElement {
 
       <h4>Text field with helper text</h4>
       <div class="horizontal-layout">
-        <dw-input
-          class="col"
-          label="Name"
-          hint="Helper Text"
-          required
-        ></dw-input>
+        <dw-input class="col" label="Name" hint="Helper Text" required></dw-input>
         <dw-input label="Name" hintPersistent hint="Helper Text"></dw-input>
       </div>
 
@@ -174,12 +157,7 @@ class DwInputDemo extends LitElement {
       <dw-input label="Name" value="Simmy"></dw-input>
 
       <h4>Text field with warning</h4>
-      <dw-input
-        label="Name"
-        value="Devang"
-        warning="warning text"
-        required
-      ></dw-input>
+      <dw-input label="Name" value="Devang" warning="warning text" required></dw-input>
 
       <h4>Highlight field on value change</h4>
       <dw-input
@@ -191,14 +169,7 @@ class DwInputDemo extends LitElement {
         required
         @change="${this._onChange}"
       ></dw-input>
-      <dw-input
-        label="First name"
-        value="Ruchita"
-        highlightChanged
-        originalValue="Ruchita"
-        required
-        dense
-      ></dw-input>
+      <dw-input label="First name" value="Ruchita" highlightChanged originalValue="Ruchita" required dense></dw-input>
 
       <h4>Text field with prefix icon</h4>
       <dw-input label="Name" icon="search"></dw-input>
@@ -224,12 +195,7 @@ class DwInputDemo extends LitElement {
       ></dw-input>
 
       <h4>Auto formatting</h4>
-      <formatted-input
-        label="Currency"
-        allowedPattern="[0-9]"
-        value="456895"
-        required
-      ></formatted-input>
+      <formatted-input label="Currency" allowedPattern="[0-9]" value="456895" required></formatted-input>
 
       <h4>Max length</h4>
       <dw-input maxLength="5" label="Name" charCounter></dw-input>
@@ -276,19 +242,14 @@ class DwInputDemo extends LitElement {
       <dw-input label="Animal name" value="Cat" readOnly></dw-input>
 
       <h4>Disabled</h4>
-      <dw-input
-        label="Animal name"
-        value="Cat"
-        disabled
-        icon="insert_emoticon"
-      ></dw-input>
+      <dw-input label="Animal name" value="Cat" disabled icon="insert_emoticon"></dw-input>
 
       <h4>Hint Text in multiline</h4>
       <dw-input
         label="Animal name"
         value="Cat"
         hintPersistent
-        .hint="${"For Crummy trusts, Trust Type cannot be changed after a gift has been made"}"
+        .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
         icon="insert_emoticon"
       >
       </dw-input>
@@ -299,23 +260,17 @@ class DwInputDemo extends LitElement {
         value="Cat"
         hintPersistent
         noHintWrap
-        .hint="${"For Crummy trusts, Trust Type cannot be changed after a gift has been made"}"
+        .hint="${'For Crummy trusts, Trust Type cannot be changed after a gift has been made'}"
         icon="insert_emoticon"
       >
       </dw-input>
       <h4>Password</h4>
-      <dw-input
-        dense
-        label="Password"
-        type="password"
-        placeholder="Enter your password"
-      >
-      </dw-input>
+      <dw-input dense label="Password" type="password" placeholder="Enter your password"> </dw-input>
     `;
   }
 
   firstUpdated() {
-    let el = this.shadowRoot.querySelector("#customValidatorInupt");
+    let el = this.shadowRoot.querySelector('#customValidatorInupt');
     let elTippyContainer = this.shadowRoot;
     DWTooltip.setAppendTo(elTippyContainer);
   }
@@ -329,28 +284,28 @@ class DwInputDemo extends LitElement {
   }
 
   _onInput(e) {
-    console.log("_onInput:", e.target.value);
+    console.log('_onInput:', e.target.value);
   }
 
   _onChange(e) {
-    console.log("_onChange:", e.target.value);
+    console.log('_onChange:', e.target.value);
   }
 
   _onFirstNameEnter(e) {
-    console.log("_onFirstNameEnter. value=" + e.detail.value, e.detail.event);
+    console.log('_onFirstNameEnter. value=' + e.detail.value, e.detail.event);
   }
 
   _onFirstNameEsc(e) {
-    console.log("_onFirstNameEsc. value=" + e.detail.value, e.detail.event);
+    console.log('_onFirstNameEsc. value=' + e.detail.value, e.detail.event);
   }
 
   _onMultilineEnter(e) {
-    console.log("_onMultilineEnter. value=" + e.detail.value, e.detail.event);
+    console.log('_onMultilineEnter. value=' + e.detail.value, e.detail.event);
   }
 
   _onMultilineEsc(e) {
-    console.log("_onMultilineEsc. value=" + e.detail.value, e.detail.event);
+    console.log('_onMultilineEsc. value=' + e.detail.value, e.detail.event);
   }
 }
 
-customElements.define("dw-input-demo", DwInputDemo);
+customElements.define('dw-input-demo', DwInputDemo);

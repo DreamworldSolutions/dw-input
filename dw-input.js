@@ -1,37 +1,24 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-import { html, css, LitElement, nothing } from "@dreamworld/pwa-helpers/lit.js";
-import { classMap } from "lit/directives/class-map.js";
-import { repeat } from "lit/directives/repeat.js";
-import { styleMap } from "lit/directives/style-map.js";
-import { MDCTextField } from "@material/textfield/index.js";
-import { MDCTextFieldCharacterCounter } from "@material/textfield/character-counter/index.js";
-import { TextfieldStyle } from "./mdc-text-field-css.js";
-import { DwFormElement } from "@dreamworld/dw-form/dw-form-element.js";
-import "@dreamworld/dw-icon-button/dw-icon-button.js";
-import "./dw-textarea.js";
-import "@dreamworld/dw-tooltip";
-import "@dreamworld/dw-button";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { html, css, LitElement, nothing } from '@dreamworld/pwa-helpers/lit.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { MDCTextField } from '@material/textfield/index.js';
+import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter/index.js';
+import { TextfieldStyle } from './mdc-text-field-css.js';
+import { DwFormElement } from '@dreamworld/dw-form/dw-form-element.js';
+import '@dreamworld/dw-icon-button/dw-icon-button.js';
+import './dw-textarea.js';
+import '@dreamworld/dw-tooltip';
+import '@dreamworld/dw-button';
 
 const defaultErrorMessages = {
-  badInput: "Bad input",
-  patternMismatch: "Pattern is mismatched",
-  rangeOverflow: "Range is overflowed",
-  rangeUnderflow: "Range is underflowed",
-  stepMismatch: "Step is mismatched",
-  tooLong: "Too long",
-  tooShort: "Too short",
-  typeMismatch: "Type is mismatched",
-  valueMissing: "Required",
+  badInput: 'Bad input',
+  patternMismatch: 'Pattern is mismatched',
+  rangeOverflow: 'Range is overflowed',
+  rangeUnderflow: 'Range is underflowed',
+  stepMismatch: 'Step is mismatched',
+  tooLong: 'Too long',
+  tooShort: 'Too short',
+  typeMismatch: 'Type is mismatched',
+  valueMissing: 'Required',
 };
 
 export class DwInput extends DwFormElement(LitElement) {
@@ -43,13 +30,9 @@ export class DwInput extends DwFormElement(LitElement) {
           display: block;
           outline: none;
           position: relative;
-          --dw-input-outlined-idle-border-color: var(
-            --mdc-theme-text-secondary
-          );
+          --dw-input-outlined-idle-border-color: var(--mdc-theme-text-secondary);
           --dw-input-outlined-hover-border-color: var(--mdc-theme-text-primary);
-          --dw-input-outlined-disabled-border-color: var(
-            --mdc-theme-text-disabled
-          );
+          --dw-input-outlined-disabled-border-color: var(--mdc-theme-text-disabled);
         }
 
         :host[hidden] {
@@ -68,7 +51,7 @@ export class DwInput extends DwFormElement(LitElement) {
           margin: 0;
         }
 
-        input[type="number"] {
+        input[type='number'] {
           -moz-appearance: textfield;
         }
 
@@ -85,44 +68,28 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         /* Add a way to customize label color */
-        .mdc-text-field--focused
-          .mdc-text-field__input:required
-          ~ .mdc-notched-outline
-          .mdc-floating-label::after,
-        .mdc-text-field--focused:not(.mdc-text-field--invalid):not(
-            .mdc-text-field--disabled
-          )
-          .mdc-floating-label {
+        .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-floating-label::after,
+        .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mdc-floating-label {
           color: var(--mdc-theme-primary, rgba(98, 0, 238, 0.87));
         }
 
         /* STARTS: style for dark/light theme */
         .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-          color: var(
-            --dw-input-text-field-color,
-            var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87))
-          );
+          color: var(--dw-input-text-field-color, var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87)));
         }
 
-        .mdc-text-field:not(.mdc-text-field--disabled)
-          .mdc-text-field__input::placeholder,
-        .mdc-text-field:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          ):not(.mdc-text-field--invalid)
-          .mdc-floating-label {
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder,
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid) .mdc-floating-label {
           color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
         }
 
-        .mdc-text-field.mdc-text-field--disabled
-          .mdc-text-field__input::placeholder,
+        .mdc-text-field.mdc-text-field--disabled .mdc-text-field__input::placeholder,
         .mdc-text-field.mdc-text-field--disabled .mdc-text-field__input,
         .mdc-text-field.mdc-text-field--disabled .mdc-floating-label {
           color: var(--mdc-theme-text-disabled, rgba(0, 0, 0, 0.38));
         }
 
-        .mdc-text-field:not(.mdc-text-field--disabled)
-          + .mdc-text-field-helper-line
-          .mdc-text-field-helper-text {
+        .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text {
           color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
         }
         /* ENDS: style for dark theme */
@@ -133,9 +100,7 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         /* STARTS style for hide helper text when input is invalid */
-        .mdc-text-field--invalid
-          + .mdc-text-field-helper-line
-          .mdc-text-field-helper-text--validation-msg {
+        .mdc-text-field--invalid + .mdc-text-field-helper-line .mdc-text-field-helper-text--validation-msg {
           display: block;
         }
 
@@ -161,136 +126,88 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         /* Add a way to configure idle border color */
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled)
-          .mdc-notched-outline__leading,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled)
-          .mdc-notched-outline__notch,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled)
-          .mdc-notched-outline__trailing {
-          border-color: var(
-            --dw-input-outlined-idle-border-color,
-            rgba(0, 0, 0, 0.38)
-          );
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+          border-color: var(--dw-input-outlined-idle-border-color, rgba(0, 0, 0, 0.38));
         }
 
         /* Add a way to configure disabled border color */
-        .mdc-text-field--outlined.mdc-text-field--disabled
-          .mdc-notched-outline__leading,
-        .mdc-text-field--outlined.mdc-text-field--disabled
-          .mdc-notched-outline__notch,
-        .mdc-text-field--outlined.mdc-text-field--disabled
-          .mdc-notched-outline__trailing {
-          border-color: var(
-            --dw-input-outlined-disabled-border-color,
-            rgba(0, 0, 0, 0.06)
-          );
+        .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__leading,
+        .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__notch,
+        .mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__trailing {
+          border-color: var(--dw-input-outlined-disabled-border-color, rgba(0, 0, 0, 0.06));
         }
 
         /* Add a way to configure hover border color */
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__leading,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__notch,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__trailing,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__icon:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__leading,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__icon:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__notch,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__icon:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__trailing {
-          border-color: var(
-            --dw-input-outlined-hover-border-color,
-            rgba(0, 0, 0, 0.87)
-          );
+          border-color: var(--dw-input-outlined-hover-border-color, rgba(0, 0, 0, 0.87));
         }
 
         /* STARTS: Change border/label color when value is changed */
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-notched-outline__leading,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-notched-outline__notch,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-notched-outline__trailing,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__leading,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__notch,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__trailing,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__icon:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__leading,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__icon:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__notch,
         :host([_valueUpdated])
-          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          )
+          .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused)
           .mdc-text-field__icon:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__trailing {
-          border-color: var(
-            --dw-input-value-updated-color,
-            var(--mdc-theme-primary, #02afcd)
-          );
+          border-color: var(--dw-input-value-updated-color, var(--mdc-theme-primary, #02afcd));
         }
         /* ENDS: Change  border/label color when value is changed */
 
@@ -323,40 +240,24 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         :host([showAsFilled])
-          .mdc-text-field:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--outlined
-          ):not(.mdc-text-field--textarea)
+          .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea)
           .mdc-text-field__input {
-          border-bottom-color: var(
-            --dw-input-filled-bottom-border-color,
-            rgba(0, 0, 0, 0.42)
-          );
+          border-bottom-color: var(--dw-input-filled-bottom-border-color, rgba(0, 0, 0, 0.42));
         }
 
         :host([showAsFilled])
-          .mdc-text-field:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--outlined
-          ):not(.mdc-text-field--textarea)
+          .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea)
           .mdc-text-field__input:hover {
-          border-bottom-color: var(
-            --dw-input-filled-hover-bottom-border-color,
-            rgba(0, 0, 0, 0.87)
-          );
+          border-bottom-color: var(--dw-input-filled-hover-bottom-border-color, rgba(0, 0, 0, 0.87));
         }
 
-        :host([noHintWrap])
-          .mdc-text-field:not(.mdc-text-field--disabled)
-          + .mdc-text-field-helper-line
-          .mdc-text-field-helper-text,
-        :host([noHintWrap])
-          .mdc-text-field--disabled
-          + .mdc-text-field-helper-line
-          .mdc-text-field-helper-text {
+        :host([noHintWrap]) .mdc-text-field:not(.mdc-text-field--disabled) + .mdc-text-field-helper-line .mdc-text-field-helper-text,
+        :host([noHintWrap]) .mdc-text-field--disabled + .mdc-text-field-helper-line .mdc-text-field-helper-text {
           white-space: nowrap;
         }
 
         /* START: prefix/suffix text style */
-        :host(:not([prefixText=""])) .mdc-notched-outline__leading {
+        :host(:not([prefixText=''])) .mdc-notched-outline__leading {
           width: auto;
         }
 
@@ -397,65 +298,42 @@ export class DwInput extends DwFormElement(LitElement) {
         /* END: prefix/suffix text style */
 
         /* STARTS warning text style */
-        .mdc-text-field--focused.mdc-text-field--invalid:not(
-            .mdc-text-field--disabled
-          )
+        .mdc-text-field--focused.mdc-text-field--invalid:not(.mdc-text-field--disabled)
           + .mdc-text-field-helper-line
           .mdc-text-field-helper-text.mdc-text-field-warning-text {
           display: none;
         }
 
-        .mdc-text-field:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           + .mdc-text-field-helper-line
           .mdc-text-field-helper-text.mdc-text-field-warning-text {
           opacity: 1;
           color: var(--mdc-theme-text-warning, #ffa726);
         }
 
-        .mdc-text-field--focused
-          .mdc-text-field__input:required
-          ~ .mdc-notched-outline
-          .mdc-text-field-warning-text::after,
-        .mdc-text-field--focused:not(.mdc-text-field--invalid):not(
-            .mdc-text-field--disabled
-          )
+        .mdc-text-field--focused .mdc-text-field__input:required ~ .mdc-notched-outline .mdc-text-field-warning-text::after,
+        .mdc-text-field--focused:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled)
           .mdc-floating-label.mdc-text-field-warning-text,
-        .mdc-text-field:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          ):not(.mdc-text-field--invalid)
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid)
           .mdc-floating-label.mdc-text-field-warning-text {
           color: var(--mdc-theme-text-warning, #ffa726);
         }
 
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-notched-outline__leading.mdc-text-field-warning-text,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-notched-outline__notch.mdc-text-field-warning-text,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--invalid
-          )
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid)
           .mdc-notched-outline__trailing.mdc-text-field-warning-text,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          ):not(.mdc-text-field--invalid)
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__leading.mdc-text-field-warning-text,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          ):not(.mdc-text-field--invalid)
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__notch.mdc-text-field-warning-text,
-        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--focused
-          ):not(.mdc-text-field--invalid)
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):not(.mdc-text-field--invalid)
           .mdc-text-field__input:hover
           ~ .mdc-notched-outline
           .mdc-notched-outline__trailing.mdc-text-field-warning-text {
@@ -464,9 +342,7 @@ export class DwInput extends DwFormElement(LitElement) {
         /* END warning text style */
 
         :host([readonly]) {
-          --dw-input-outlined-idle-border-color: var(
-            --dw-input-outlined-readonly-idle-border-color
-          );
+          --dw-input-outlined-idle-border-color: var(--dw-input-outlined-readonly-idle-border-color);
         }
 
         :host([_valueUpdated]) .mdc-notched-outline__notch,
@@ -477,11 +353,8 @@ export class DwInput extends DwFormElement(LitElement) {
 
         :host([_valueUpdated]) .mdc-notched-outline__leading::before,
         :host([_valueUpdated]) .mdc-notched-outline__trailing::before {
-          content: "";
-          background-color: var(
-            --dw-input-value-updated-color,
-            var(--mdc-theme-primary, #02afcd)
-          );
+          content: '';
+          background-color: var(--dw-input-value-updated-color, var(--mdc-theme-primary, #02afcd));
           opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
           position: absolute;
           height: -webkit-fill-available;
@@ -489,11 +362,8 @@ export class DwInput extends DwFormElement(LitElement) {
         }
 
         :host([_valueUpdated]) .mdc-notched-outline__notch::before {
-          content: "";
-          background-color: var(
-            --dw-input-outlined-updated-bg-color,
-            var(--mdc-theme-primary, #02afcd)
-          );
+          content: '';
+          background-color: var(--dw-input-outlined-updated-bg-color, var(--mdc-theme-primary, #02afcd));
           opacity: var(--mdc-theme-on-surface-overlay-opacity-hover, 0.04);
           position: absolute;
           height: -webkit-fill-available;
@@ -505,9 +375,7 @@ export class DwInput extends DwFormElement(LitElement) {
           top: 10px;
         }
 
-        .mdc-text-field:not(.mdc-text-field--disabled):not(
-            .mdc-text-field--textarea
-          ) {
+        .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--textarea) {
           display: flex;
           align-items: center;
         }
@@ -535,9 +403,7 @@ export class DwInput extends DwFormElement(LitElement) {
       // Setting timeout here for proper label placement
       setTimeout(() => {
         if (!this._textFieldInstance) {
-          console.warn(
-            "dw-input : Somehow element has been disconnected before finish layout."
-          );
+          console.warn('dw-input : Somehow element has been disconnected before finish layout.');
         }
 
         this._textFieldInstance && this._textFieldInstance.layout();
@@ -832,7 +698,7 @@ export class DwInput extends DwFormElement(LitElement) {
       /**
        * The validity represents the validity states that an element can be in, with respect to constraint validation. Together, they help explain why an element's value fails to validate, if it's not valid.
        */
-      validity: { type: Object},
+      validity: { type: Object },
 
       /**
        * When it's `true`, shows `Material Symbols` icon.
@@ -855,11 +721,11 @@ export class DwInput extends DwFormElement(LitElement) {
     this.disabled = false;
     this.required = false;
     this.readOnly = false;
-    this.placeholder = "";
-    this._value = "";
-    this.error = "";
-    this.name = "";
-    this.pattern = "(.*?)";
+    this.placeholder = '';
+    this._value = '';
+    this.error = '';
+    this.name = '';
+    this.pattern = '(.*?)';
     this.invalid = false;
     this.autoSelect = false;
     this.multiline = false;
@@ -871,32 +737,32 @@ export class DwInput extends DwFormElement(LitElement) {
     this.minHeight = 42;
     this.truncateOnBlur = false;
     this.showAsFilled = false;
-    this.prefixText = "";
-    this.suffixText = "";
+    this.prefixText = '';
+    this.suffixText = '';
     this.iconButtonSize = 24;
     this.iconSize = 24;
-    this.type = "text";
+    this.type = 'text';
     this._showVisibilityIcon = true;
 
     let self = this;
-    this._tipButtonClickEvent = (e) => {
-      const action = e.target.getAttribute("action");
-      self.dispatchEvent(new CustomEvent("action", { detail: action }));
-      this.renderRoot.querySelector("dw-tooltip").hide();
+    this._tipButtonClickEvent = e => {
+      const action = e.target.getAttribute('action');
+      self.dispatchEvent(new CustomEvent('action', { detail: action }));
+      this.renderRoot.querySelector('dw-tooltip').hide();
     };
 
     this._extraOptions = {
       interactive: true,
       onShow(instance) {
-        const buttons = instance.popper.querySelectorAll("dw-button");
-        buttons.forEach((button) => {
-          button.addEventListener("mousedown", self._tipButtonClickEvent);
+        const buttons = instance.popper.querySelectorAll('dw-button');
+        buttons.forEach(button => {
+          button.addEventListener('mousedown', self._tipButtonClickEvent);
         });
       },
       onHide(instance) {
-        const buttons = instance.popper.querySelectorAll("dw-button");
-        buttons.forEach((button) => {
-          button.removeEventListener("mousedown", self._tipButtonClickEvent);
+        const buttons = instance.popper.querySelectorAll('dw-button');
+        buttons.forEach(button => {
+          button.removeEventListener('mousedown', self._tipButtonClickEvent);
         });
       },
     };
@@ -921,14 +787,13 @@ export class DwInput extends DwFormElement(LitElement) {
 
   updated(changedProps) {
     super.updated(changedProps);
-    if (changedProps.has("invalid") && this._textFieldInstance) {
+    if (changedProps.has('invalid') && this._textFieldInstance) {
       this._textFieldInstance.valid = !this.invalid;
     }
 
     if (changedProps.has('error') && this.invalid) {
       this.reportValidity();
     }
-
   }
 
   get _errorMessages() {
@@ -943,90 +808,57 @@ export class DwInput extends DwFormElement(LitElement) {
      * Above condition added in below wrapperClasses due to handle both trailingIcon and tooltip icons at same time.
      */
     const wrapperClasses = {
-      "mdc-text-field--disabled": this.disabled,
-      "mdc-text-field--no-label": !this.label,
-      "mdc-text-field--with-leading-icon": this.icon ? true : false,
-      "mdc-text-field--with-trailing-icon":
+      'mdc-text-field--disabled': this.disabled,
+      'mdc-text-field--no-label': !this.label,
+      'mdc-text-field--with-leading-icon': this.icon ? true : false,
+      'mdc-text-field--with-trailing-icon':
         this.iconTrailing &&
         !(this.invalid && this.errorInTooltip) &&
         !(this.warning && this.warningInTooltip) &&
         !(this.hint && this.hintInTooltip)
           ? true
           : false,
-      "mdc-text-field--textarea": this.multiline,
-      "mdc-text-field--dense": this.dense && !this.multiline,
-      "mdc-text-field--outlined": !this.showAsFilled,
+      'mdc-text-field--textarea': this.multiline,
+      'mdc-text-field--dense': this.dense && !this.multiline,
+      'mdc-text-field--outlined': !this.showAsFilled,
     };
     const labelClasses = {
-      "mdc-floating-label--float-above":
-        (this._textFieldInstance &&
-          this._textFieldInstance.foundation.isFocused_) ||
-        this.value ||
-        this.value === 0,
-      "mdc-text-field-warning-text": this._warning,
+      'mdc-floating-label--float-above':
+        (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0,
+      'mdc-text-field-warning-text': this._warning,
     };
     const warningTextClasses = {
-      "mdc-text-field-warning-text": this._warning,
+      'mdc-text-field-warning-text': this._warning,
     };
 
     return html`
       <div class="mdc-text-field ${classMap(wrapperClasses)}">
-        ${this._getPrefixTemplate}
-        ${this.multiline
-          ? html`${this.textareaTemplate}`
-          : html`${this.inputTemplate}`}
+        ${this._getPrefixTemplate} ${this.multiline ? html`${this.textareaTemplate}` : html`${this.inputTemplate}`}
         ${this._getSuffixTemplate} ${this._tipIconButtons}
         ${this.showAsFilled
           ? html`
               ${this.label
-                ? html`<label
-                    for="tf-outlined"
-                    class="mdc-floating-label ${classMap(labelClasses)}"
-                    >${this.label}</label
-                  >`
+                ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
                 : html``}
             `
           : html`
               <div class="mdc-notched-outline">
-                <div
-                  class="mdc-notched-outline__leading ${classMap(
-                    warningTextClasses
-                  )}"
-                >
-                  ${this.prefixText && !this.icon
-                    ? html`<span class="prefix-text hide"
-                        >${this.prefixText}</span
-                      >`
-                    : ""}
+                <div class="mdc-notched-outline__leading ${classMap(warningTextClasses)}">
+                  ${this.prefixText && !this.icon ? html`<span class="prefix-text hide">${this.prefixText}</span>` : ''}
                 </div>
-                <div
-                  class="mdc-notched-outline__notch ${classMap(
-                    warningTextClasses
-                  )}"
-                >
+                <div class="mdc-notched-outline__notch ${classMap(warningTextClasses)}">
                   ${this.label
-                    ? html`<label
-                        for="tf-outlined"
-                        class="mdc-floating-label ${classMap(labelClasses)}"
-                        >${this.label}</label
-                      >`
+                    ? html`<label for="tf-outlined" class="mdc-floating-label ${classMap(labelClasses)}">${this.label}</label>`
                     : html``}
                 </div>
-                <div
-                  class="mdc-notched-outline__trailing ${classMap(
-                    warningTextClasses
-                  )}"
-                ></div>
+                <div class="mdc-notched-outline__trailing ${classMap(warningTextClasses)}"></div>
               </div>
             `}
       </div>
 
       ${this.hint || this._error || this._warning || this.charCounter
         ? html` <div class="mdc-text-field-helper-line">
-            ${this._renderHelperLine}
-            ${this.charCounter
-              ? html`<div class="mdc-text-field-character-counter"></div>`
-              : html``}
+            ${this._renderHelperLine} ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
           </div>`
         : html``}
     `;
@@ -1034,39 +866,21 @@ export class DwInput extends DwFormElement(LitElement) {
 
   get _renderHelperLine() {
     if (this.invalid && this._error && !this.errorInTooltip) {
-      return html`
-        <div
-          class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg"
-        >
-          ${this._error}
-        </div>
-      `;
+      return html` <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg">${this._error}</div> `;
     }
 
     if (this._warning && !this.warningInTooltip) {
       const warningTextClasses = {
-        "mdc-text-field-warning-text": this._warning,
+        'mdc-text-field-warning-text': this._warning,
       };
-      return html`
-        <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">
-          ${this._warning}
-        </div>
-      `;
+      return html` <div class="mdc-text-field-helper-text ${classMap(warningTextClasses)}">${this._warning}</div> `;
     }
 
     if (this.hint && !this.hintInTooltip) {
       const helperTextClasses = {
-        "mdc-text-field-helper-text--persistent": this.hintPersistent,
+        'mdc-text-field-helper-text--persistent': this.hintPersistent,
       };
-      return html`
-        <div
-          class="mdc-text-field-helper-text helper-text ${classMap(
-            helperTextClasses
-          )}"
-        >
-          ${this.hint}
-        </div>
-      `;
+      return html` <div class="mdc-text-field-helper-text helper-text ${classMap(helperTextClasses)}">${this.hint}</div> `;
     }
 
     return nothing;
@@ -1076,31 +890,31 @@ export class DwInput extends DwFormElement(LitElement) {
     if (!this.invalid) return;
 
     const validityState = this._textFieldInstance?.input?.validity;
-    let errorMsg = "";
+    let errorMsg = '';
 
     if (this.error) {
-      if (typeof this.error === "string") {
-        return errorMsg = this.error;
+      if (typeof this.error === 'string') {
+        return (errorMsg = this.error);
       } else {
-        return errorMsg = this.error();
+        return (errorMsg = this.error());
       }
     }
 
     for (var key in validityState) {
-      if (key !== "valid" && key !== "customError" && validityState[key]) {
+      if (key !== 'valid' && key !== 'customError' && validityState[key]) {
         errorMsg = this._errorMessages[key];
         break;
       }
     }
 
     if (errorMsg) return errorMsg;
-    return "";
+    return '';
   }
 
   get _warning() {
     if (!this.warning) return;
 
-    if (typeof this.warning === "string") return this.warning;
+    if (typeof this.warning === 'string') return this.warning;
 
     return this.warning();
   }
@@ -1151,8 +965,8 @@ export class DwInput extends DwFormElement(LitElement) {
         .maxLength="${this.maxLength}"
         .disabledEnter="${this.disabledEnter}"
         .showPlaceholderOnFocusOnly="${!!this.label}"
-        @enter="${(e) => this._dispatchEnter(e.detail.event)}"
-        @esc="${(e) => this._dispatchEsc(e.detail.event)}"
+        @enter="${e => this._dispatchEnter(e.detail.event)}"
+        @esc="${e => this._dispatchEsc(e.detail.event)}"
         @input="${this._onInput}"
         @change="${this._onChange}"
         @blur="${this._onInputBlur}"
@@ -1174,7 +988,7 @@ export class DwInput extends DwFormElement(LitElement) {
           .iconSize=${this.iconSize}
           .buttonSize=${this.iconButtonSize}
           ?disabled="${this.disabled}"
-          tabindex="${this.clickableIcon ? "" : -1}"
+          tabindex="${this.clickableIcon ? '' : -1}"
           .symbol=${this.symbol}
         ></dw-icon-button>
       `;
@@ -1189,8 +1003,8 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns suffix template based on `iconTrailing` and `suffixText` property
    */
   get _getSuffixTemplate() {
-    if (this.type === "password" && this._showVisibilityIcon) {
-      const icon = this._type === "text" ? "visibility" : "visibility_off";
+    if (this.type === 'password' && this._showVisibilityIcon) {
+      const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
       return html`
         <dw-icon-button
           @click=${this._toggleType}
@@ -1212,7 +1026,7 @@ export class DwInput extends DwFormElement(LitElement) {
           .iconSize=${this.iconSize}
           .buttonSize=${this.iconButtonSize}
           ?disabled="${this.disabled}"
-          tabindex="${this.clickableIcon ? "" : -1}"
+          tabindex="${this.clickableIcon ? '' : -1}"
           .symbol=${this.symbol}
         ></dw-icon-button>
       `;
@@ -1230,9 +1044,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _warningTooltipContent() {
-    return (
-      this._warning + this._renderTooltipActions(this.warningTooltipActions)
-    );
+    return this._warning + this._renderTooltipActions(this.warningTooltipActions);
   }
 
   get _hintTooltipContent() {
@@ -1246,16 +1058,17 @@ export class DwInput extends DwFormElement(LitElement) {
           ? html`<dw-icon-button
                 id="error"
                 class="error"
-                icon="${"error"}"
+                icon="${'error'}"
                 tabindex="-1"
                 .iconFont="${this.iconFont}"
                 .symbol=${this.symbol}
               ></dw-icon-button>
-              <dw-tooltip 
-                for="error" 
-                .extraOptions=${this._extraOptions} 
-                .placement="${this.tipPlacement}" 
-                .content=${this._errorTooltipContent}>
+              <dw-tooltip
+                for="error"
+                .extraOptions=${this._extraOptions}
+                .placement="${this.tipPlacement}"
+                .content=${this._errorTooltipContent}
+              >
               </dw-tooltip>`
           : nothing}
       `;
@@ -1267,7 +1080,7 @@ export class DwInput extends DwFormElement(LitElement) {
           ? html`<dw-icon-button
                 id="warning"
                 class="warning"
-                icon="${"warning"}"
+                icon="${'warning'}"
                 tabindex="-1"
                 .iconFont="${this.iconFont}"
                 .symbol=${this.symbol}
@@ -1288,16 +1101,17 @@ export class DwInput extends DwFormElement(LitElement) {
           ? html`<dw-icon-button
                 id="info"
                 class="info"
-                icon="${"info"}"
+                icon="${'info'}"
                 tabindex="-1"
                 .iconFont="${this.iconFont}"
                 .symbol=${this.symbol}
               ></dw-icon-button>
-              <dw-tooltip 
-                for="info" 
-                .extraOptions=${this._extraOptions} 
-                .placement="${this.tipPlacement}" 
-                .content=${this._hintTooltipContent}>
+              <dw-tooltip
+                for="info"
+                .extraOptions=${this._extraOptions}
+                .placement="${this.tipPlacement}"
+                .content=${this._hintTooltipContent}
+              >
               </dw-tooltip>`
           : nothing}
       `;
@@ -1306,14 +1120,12 @@ export class DwInput extends DwFormElement(LitElement) {
 
   _renderTooltipActions(actions) {
     if (!Array.isArray(actions)) {
-      return "";
+      return '';
     }
 
-    let buttonsHtml = "";
-    actions.map((action) => {
-      buttonsHtml += `<dw-button label="${action.label}" action="${
-        action.name
-      }" class="${action.danger ? "error" : ""}" ></dw-button>`;
+    let buttonsHtml = '';
+    actions.map(action => {
+      buttonsHtml += `<dw-button label="${action.label}" action="${action.name}" class="${action.danger ? 'error' : ''}" ></dw-button>`;
     });
     return `<div style="text-align: end;"> ${buttonsHtml} </div>`;
   }
@@ -1325,21 +1137,18 @@ export class DwInput extends DwFormElement(LitElement) {
     if (!this._showVisibilityIcon) {
       return;
     }
-    if (this._type === "text") {
-      this.dispatchEvent(new CustomEvent("hide-password"));
+    if (this._type === 'text') {
+      this.dispatchEvent(new CustomEvent('hide-password'));
       this.hidePassword();
     } else {
-      this.dispatchEvent(new CustomEvent("show-password"));
+      this.dispatchEvent(new CustomEvent('show-password'));
       this.showPassword();
     }
 
-    const elem =
-      this.renderRoot &&
-      this.renderRoot.querySelector &&
-      this.renderRoot.querySelector(".mdc-text-field__input");
+    const elem = this.renderRoot && this.renderRoot.querySelector && this.renderRoot.querySelector('.mdc-text-field__input');
     const cursorPosition = (elem && elem.selectionStart) || 0;
     setTimeout(() => {
-      if (this.type === "password") {
+      if (this.type === 'password') {
         this.setCaretPosition(cursorPosition);
       } else {
         this.focus();
@@ -1351,14 +1160,14 @@ export class DwInput extends DwFormElement(LitElement) {
    * Shows password.
    */
   showPassword() {
-    this._type = "text";
+    this._type = 'text';
   }
 
   /**
    * Hides password.
    */
   hidePassword() {
-    this._type = "password";
+    this._type = 'password';
   }
 
   /* Call this to set focus in the input */
@@ -1366,14 +1175,12 @@ export class DwInput extends DwFormElement(LitElement) {
     this.updateComplete.then(() => {
       if (!this.multiline) {
         if (!this._textFieldInstance) {
-          console.warn(
-            "dw-input : element has been disconnected before focus."
-          );
+          console.warn('dw-input : element has been disconnected before focus.');
         }
 
         this._textFieldInstance && this._textFieldInstance.focus();
       } else {
-        const textarea = this.shadowRoot.querySelector("dw-textarea");
+        const textarea = this.shadowRoot.querySelector('dw-textarea');
         if (textarea) {
           textarea.value = this.value;
           textarea.moveToEnd();
@@ -1387,21 +1194,14 @@ export class DwInput extends DwFormElement(LitElement) {
    * set focus on specific position.
    */
   setCaretPosition(caretPos) {
-    const elem =
-      this.renderRoot &&
-      this.renderRoot.querySelector &&
-      this.renderRoot.querySelector(".mdc-text-field__input");
+    const elem = this.renderRoot && this.renderRoot.querySelector && this.renderRoot.querySelector('.mdc-text-field__input');
     if (elem != null) {
       if (elem.createTextRange) {
         var range = elem.createTextRange();
-        range.move("character", caretPos);
+        range.move('character', caretPos);
         range.select();
       } else {
-        if (
-          elem.selectionStart !== undefined &&
-          elem.selectionStart !== null &&
-          elem.setSelectionRange
-        ) {
+        if (elem.selectionStart !== undefined && elem.selectionStart !== null && elem.setSelectionRange) {
           elem.focus();
           elem.setSelectionRange(caretPos, caretPos);
         } else {
@@ -1414,25 +1214,23 @@ export class DwInput extends DwFormElement(LitElement) {
   /* Call this to select text of the input */
   selectText() {
     if (!this._textFieldInstance) {
-      console.warn(
-        "dw-input : element has been disconnected before select text."
-      );
+      console.warn('dw-input : element has been disconnected before select text.');
       return;
     }
 
     this._textFieldInstance.input.select();
   }
 
-  setCustomValidity(msg = "") {
-    if(this.multiline) return;
-    
+  setCustomValidity(msg = '') {
+    if (this.multiline) return;
+
     this._textFieldInstance?.input?.setCustomValidity(msg);
   }
 
   reportValidity() {
     let errorMessage;
     if (this.error) {
-      if (typeof this.error === "string") {
+      if (typeof this.error === 'string') {
         errorMessage = this.error;
       } else {
         errorMessage = this.error();
@@ -1457,9 +1255,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.updateComplete.then(() => {
       setTimeout(() => {
         if (!this._textFieldInstance) {
-          console.warn(
-            "dw-input : Somehow element has been disconnected before finish layout."
-          );
+          console.warn('dw-input : Somehow element has been disconnected before finish layout.');
         }
 
         this._textFieldInstance && this._textFieldInstance.layout();
@@ -1479,12 +1275,10 @@ export class DwInput extends DwFormElement(LitElement) {
    * Intializes textfield
    */
   _initMdcTextField() {
-    const el = this.shadowRoot.querySelector(".mdc-text-field");
+    const el = this.shadowRoot.querySelector('.mdc-text-field');
     this._textFieldInstance = new MDCTextField(el);
     this._textFieldInstance.useNativeValidation = false;
-    new MDCTextFieldCharacterCounter(
-      document.querySelector(".mdc-text-field-character-counter")
-    );
+    new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
   }
 
   /**
@@ -1499,14 +1293,14 @@ export class DwInput extends DwFormElement(LitElement) {
       return false;
     }
 
-    this._value = value || "";
+    this._value = value || '';
 
     this.dispatchEvent(
-      new CustomEvent("value-changed", {
+      new CustomEvent('value-changed', {
         detail: { value: this._value },
       })
-      );
-      
+    );
+
     if (this.highlightChanged) {
       this._setIsValueUpdated();
     }
@@ -1542,8 +1336,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return;
     }
 
-    let value =
-      event.type === "paste" ? event.clipboardData.getData("text") : event.key;
+    let value = event.type === 'paste' ? event.clipboardData.getData('text') : event.key;
 
     let isValid = this._isValidValue(value);
 
@@ -1554,22 +1347,18 @@ export class DwInput extends DwFormElement(LitElement) {
 
   _onChange(e) {
     if (!this._textFieldInstance) {
-      console.warn(
-        'dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"'
-      );
+      console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
     }
 
     const value = this.parseValue(this._textFieldInstance.value, false);
     this._setValue(value, true);
-    this.dispatchEvent(new CustomEvent("change"));
+    this.dispatchEvent(new CustomEvent('change'));
   }
 
   _onInput() {
     if (!this._textFieldInstance) {
-      console.warn(
-        'dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"'
-      );
+      console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
     }
 
@@ -1591,7 +1380,7 @@ export class DwInput extends DwFormElement(LitElement) {
       let isValid = this._isValidValue(this._textFieldInstance.value[i]);
 
       if (!isValid) {
-        this._textFieldInstance.value = "";
+        this._textFieldInstance.value = '';
       }
     }
   }
@@ -1621,7 +1410,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
   _dispatchEnter(e) {
     this.dispatchEvent(
-      new CustomEvent("enter", {
+      new CustomEvent('enter', {
         detail: { value: this.value, event: e },
       })
     );
@@ -1629,7 +1418,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
   _dispatchEsc(e) {
     this.dispatchEvent(
-      new CustomEvent("esc", {
+      new CustomEvent('esc', {
         detail: { value: this.value, event: e },
       })
     );
@@ -1668,7 +1457,7 @@ export class DwInput extends DwFormElement(LitElement) {
     let isValid;
 
     if (this.error) {
-      if (typeof this.error === "string") {
+      if (typeof this.error === 'string') {
         isValid = !this.error;
       } else {
         isValid = !this.error(this.value);
@@ -1692,7 +1481,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return value;
     }
 
-    return typeof value === "string" ? value.trim() : value;
+    return typeof value === 'string' ? value.trim() : value;
   }
 
   valueEqualityChecker(value, originalValue) {
@@ -1703,13 +1492,10 @@ export class DwInput extends DwFormElement(LitElement) {
    * Sets `_valueUpdated` if value is changed. Based on that, highlighted style is shown.
    */
   _setIsValueUpdated() {
-    this._valueUpdated = !this.valueEqualityChecker(
-      this.value,
-      this.originalValue
-    );
+    this._valueUpdated = !this.valueEqualityChecker(this.value, this.originalValue);
   }
 }
 
-customElements.define("dw-input", DwInput);
+customElements.define('dw-input', DwInput);
 
 DwInput.errorMessages = defaultErrorMessages;

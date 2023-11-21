@@ -58,5 +58,10 @@
         "channel": "${name.replace(/^feature\\//g,\"\")}"
       }
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "printWidth": 140
   }
 }
