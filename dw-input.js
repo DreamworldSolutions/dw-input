@@ -811,13 +811,7 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--disabled': this.disabled,
       'mdc-text-field--no-label': !this.label,
       'mdc-text-field--with-leading-icon': this.icon ? true : false,
-      'mdc-text-field--with-trailing-icon':
-        this.iconTrailing &&
-        !(this.invalid && this.errorInTooltip) &&
-        !(this.warning && this.warningInTooltip) &&
-        !(this.hint && this.hintInTooltip)
-          ? true
-          : false,
+      'mdc-text-field--with-trailing-icon': this.iconTrailing ? true : false,
       'mdc-text-field--textarea': this.multiline,
       'mdc-text-field--dense': this.dense && !this.multiline,
       'mdc-text-field--outlined': !this.showAsFilled,
@@ -834,7 +828,7 @@ export class DwInput extends DwFormElement(LitElement) {
     return html`
       <div class="mdc-text-field ${classMap(wrapperClasses)}">
         ${this._getPrefixTemplate} ${this.multiline ? html`${this.textareaTemplate}` : html`${this.inputTemplate}`}
-        ${this._getSuffixTemplate} ${this._tipIconButtons}
+        ${this._getSuffixTemplate} ${!this.iconTrailing ? this._tipIconButtons : nothing}
         ${this.showAsFilled
           ? html`
               ${this.label
@@ -1003,6 +997,12 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns suffix template based on `iconTrailing` and `suffixText` property
    */
   get _getSuffixTemplate() {
+    const tooltipClass = {
+      'hint': this.hint && this.hintInTooltip && !this._warning && !this.invalid,
+      'warning': this._warning && this.warningInTooltip && !this.invalid,
+      'error': this.invalid && this.errorInTooltip
+    };
+    
     if (this.type === 'password' && this._showVisibilityIcon) {
       const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
       return html`
@@ -1021,7 +1021,8 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this.iconTrailing) {
       return html`
         <dw-icon-button
-          class="mdc-text-field__icon"
+          id="trailingIcon"
+          class="mdc-text-field__icon ${classMap(tooltipClass)}"
           icon="${this.iconTrailing}"
           .iconSize=${this.iconSize}
           .buttonSize=${this.iconButtonSize}
@@ -1029,6 +1030,15 @@ export class DwInput extends DwFormElement(LitElement) {
           tabindex="${this.clickableIcon ? '' : -1}"
           .symbol=${this.symbol}
         ></dw-icon-button>
+        ${this.errorInTooltip || this.warningInTooltip || this.hintInTooltip ? html`
+          <dw-tooltip
+            for="trailingIcon"
+            .extraOptions=${this._extraOptions}
+            .placement="${this.tipPlacement}"
+            .content=${this._trailingIconTooltipContent}
+          >
+          </dw-tooltip>
+        ` : nothing}
       `;
     }
 
@@ -1037,6 +1047,18 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     return nothing;
+  }
+
+  get _trailingIconTooltipContent() {
+    if (this.invalid) {
+      return this._errorTooltipContent;
+    }
+
+    if (this._warning) {
+      return this._warningTooltipContent;
+    }
+    
+    return this._hintTooltipContent;
   }
 
   get _errorTooltipContent() {

@@ -382,6 +382,13 @@ export const TextfieldStyle = css`
     cursor: pointer;
   }
 
+  .mdc-text-field--with-trailing-icon .mdc-text-field__icon.hint,
+  .mdc-text-field--with-trailing-icon .mdc-text-field__icon.warning,
+  .mdc-text-field--with-trailing-icon .mdc-text-field__icon.error {
+    cursor: pointer;
+    pointer-events: unset;
+  }
+
   .mdc-text-field__icon:not([tabindex]),
   .mdc-text-field__icon[tabindex='-1'] {
     cursor: default;
