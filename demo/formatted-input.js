@@ -3,20 +3,18 @@ import '@material/mwc-switch';
 import '@material/mwc-formfield';
 
 class FormattedInput extends DwInput {
-
-  formatText(value) { 
+  formatText(value) {
     value = value.toString();
     value = value.replace(/,/g, '');
     value = value.replace(/ /g, '');
     return Number(value).toLocaleString();
   }
 
-  parseValue(text) { 
+  parseValue(text) {
     text = text.replace(/,/g, '');
     text = text.replace(/ /g, '');
     return Number(text);
   }
-
 }
 
 customElements.define('formatted-input', FormattedInput);
