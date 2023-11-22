@@ -507,6 +507,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       /**
        * Message to show in the error color when the textfield is invalid.
+       * It may be Function or String.
        */
       error: { type: Object },
 
@@ -880,19 +881,24 @@ export class DwInput extends DwFormElement(LitElement) {
     return nothing;
   }
 
+  /**
+   * @returns {String} Custom error message provided in `error` property.
+   */
+  _customError() {
+    if (this.error) {
+      if (typeof this.error === 'string') return this.error;
+      return this.error() || '';
+    }
+    return '';
+  }
+
   get _error() {
     if (!this.invalid) return;
 
     const validityState = this._textFieldInstance?.input?.validity;
-    let errorMsg = '';
+    let errorMsg = this._customError();
 
-    if (this.error) {
-      if (typeof this.error === 'string') {
-        return (errorMsg = this.error);
-      } else {
-        return (errorMsg = this.error());
-      }
-    }
+    if (errorMsg) return errorMsg;
 
     for (var key in validityState) {
       if (key !== 'valid' && key !== 'customError' && validityState[key]) {
@@ -900,9 +906,7 @@ export class DwInput extends DwFormElement(LitElement) {
         break;
       }
     }
-
-    if (errorMsg) return errorMsg;
-    return '';
+    return errorMsg;
   }
 
   get _warning() {
@@ -911,6 +915,10 @@ export class DwInput extends DwFormElement(LitElement) {
     if (typeof this.warning === 'string') return this.warning;
 
     return this.warning();
+  }
+
+  get validity() {
+    return this._textFieldInstance?.input?.validity;
   }
 
   get inputTemplate() {
@@ -998,11 +1006,11 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   get _getSuffixTemplate() {
     const tooltipClass = {
-      'hint': this.hint && this.hintInTooltip && !this._warning && !this.invalid,
-      'warning': this._warning && this.warningInTooltip && !this.invalid,
-      'error': this.invalid && this.errorInTooltip
+      hint: this.hint && this.hintInTooltip && !this._warning && !this.invalid,
+      warning: this._warning && this.warningInTooltip && !this.invalid,
+      error: this.invalid && this.errorInTooltip,
     };
-    
+
     if (this.type === 'password' && this._showVisibilityIcon) {
       const icon = this._type === 'text' ? 'visibility' : 'visibility_off';
       return html`
@@ -1030,15 +1038,17 @@ export class DwInput extends DwFormElement(LitElement) {
           tabindex="${this.clickableIcon ? '' : -1}"
           .symbol=${this.symbol}
         ></dw-icon-button>
-        ${this.errorInTooltip || this.warningInTooltip || this.hintInTooltip ? html`
-          <dw-tooltip
-            for="trailingIcon"
-            .extraOptions=${this._extraOptions}
-            .placement="${this.tipPlacement}"
-            .content=${this._trailingIconTooltipContent}
-          >
-          </dw-tooltip>
-        ` : nothing}
+        ${this.errorInTooltip || this.warningInTooltip || this.hintInTooltip
+          ? html`
+              <dw-tooltip
+                for="trailingIcon"
+                .extraOptions=${this._extraOptions}
+                .placement="${this.tipPlacement}"
+                .content=${this._trailingIconTooltipContent}
+              >
+              </dw-tooltip>
+            `
+          : nothing}
       `;
     }
 
@@ -1057,7 +1067,7 @@ export class DwInput extends DwFormElement(LitElement) {
     if (this._warning) {
       return this._warningTooltipContent;
     }
-    
+
     return this._hintTooltipContent;
   }
 
@@ -1243,6 +1253,22 @@ export class DwInput extends DwFormElement(LitElement) {
     this._textFieldInstance.input.select();
   }
 
+  /**
+   * Performs validatio of input
+   * Returns true if validation is passedisValid
+   */
+  checkValidity() {
+    let isValid = true;
+
+    isValid = !this._customError();
+
+    if (isValid) {
+      isValid = this._textFieldInstance?.input?.checkValidity();
+    }
+
+    return isValid;
+  }
+
   setCustomValidity(msg = '') {
     if (this.multiline) return;
 
@@ -1250,16 +1276,8 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   reportValidity() {
-    let errorMessage;
-    if (this.error) {
-      if (typeof this.error === 'string') {
-        errorMessage = this.error;
-      } else {
-        errorMessage = this.error();
-      }
-    }
-
-    this.setCustomValidity(errorMessage);
+    const errorMsg = this._customError();
+    this.setCustomValidity(errorMsg);
 
     let isValid = this.checkValidity();
 
@@ -1465,32 +1483,6 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _onInputBlur() {
     this.reportValidity();
-  }
-
-  get validity() {
-    return this._textFieldInstance?.input?.validity;
-  }
-
-  /**
-   * Performs validatio of input
-   * Returns true if validation is passedisValid
-   */
-  checkValidity() {
-    let isValid;
-
-    if (this.error) {
-      if (typeof this.error === 'string') {
-        isValid = !this.error;
-      } else {
-        isValid = !this.error(this.value);
-      }
-    }
-
-    if (isValid !== false) {
-      isValid = this._textFieldInstance?.input?.checkValidity();
-    }
-
-    return isValid;
   }
 
   /**
