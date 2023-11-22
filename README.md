@@ -27,6 +27,8 @@ A material input element made with lit-html. For more detail visit https://mater
 - Set `icon` and `iconTrailing` to show prefix and suffix icon
 - Performs validation on blur. It also performs validation on User type if input is invalid.
 - `hintInTooltip`: way to show hint text in tooltip and tip trigger on info(grey) icon.
+- `error`: Provides a way to show custom error message. It could be either `String` or `Function`.
+- `warning`: Provides a way to show warning. It could be either `String` or `Function`.`
 - `errorInTooltip`: Way to show error text in tooltip. It trigger on error(red) icon.
 - `warningInTooltip`: Way to show warning text in tooltip. It trigger on warning(orange) icon.
 - `hintTooltipActions`: way to add tip action while hint text in tip. on action click event named `action` dispatch.
