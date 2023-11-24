@@ -351,6 +351,10 @@ export class DwTextarea extends LitElement {
     return this._textarea.checkValidity();
   }
 
+  setCustomValidity(msg = '') {
+    this._textarea?.setCustomValidity(msg);
+  }
+
   /**
    * Resize input based on content.
    * @protected
