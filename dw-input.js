@@ -512,6 +512,12 @@ export class DwInput extends DwFormElement(LitElement) {
       error: { type: Object },
 
       /**
+       * This is used when `_customError` method is overriden.
+       * When more than 1 custom error is set into `_customError`, this property is used to re-render.
+       */
+      __customError: { type: String },
+
+      /**
        * Set to true to make input field readonly.
        */
       readOnly: { type: Boolean, reflect: true },
@@ -887,9 +893,11 @@ export class DwInput extends DwFormElement(LitElement) {
   _customError() {
     if (this.error) {
       if (typeof this.error === 'string') return this.error;
-      return this.error() || '';
+      this.__customError = this.error() || '';
+    } else {
+      this.__customError = '';
     }
-    return '';
+    return this.__customError;
   }
 
   get _error() {
