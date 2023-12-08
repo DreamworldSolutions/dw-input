@@ -89,7 +89,7 @@ class DwInputDemo extends LitElement {
         .hintTooltipActions="${TooltipActions}"
         .errorTooltipActions="${TooltipActions}"
         @action="${e => console.log(e.detail)}"
-        iconTrailing="date"
+        iconTrailing="calendar_month"
         warningInTooltip
         hintInTooltip
         hint="Hint Text"

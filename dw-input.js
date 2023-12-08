@@ -980,6 +980,7 @@ export class DwInput extends DwFormElement(LitElement) {
         @input="${this._onInput}"
         @change="${this._onChange}"
         @blur="${this._onInputBlur}"
+        @focus="${this._onFocus}"
       >
       </dw-textarea>
     `;
@@ -1092,6 +1093,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _tipIconButtons() {
+    if (this.iconTrailing) return nothing;
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
@@ -1481,6 +1483,12 @@ export class DwInput extends DwFormElement(LitElement) {
         this.selectText();
       });
     }
+
+    const tipElement = this.renderRoot.querySelector('dw-tooltip');
+    
+    if((this.error && this.errorInTooltip) || (this.warning && this.warningInTooltip) || (this.hint && this.hintInTooltip)) {
+      tipElement && tipElement.show();
+    }
   }
 
   /**
@@ -1489,6 +1497,8 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _onInputBlur() {
     this.reportValidity();
+    const tipElement = this.renderRoot.querySelector('dw-tooltip');
+    tipElement && tipElement.hide();
   }
 
   /**
