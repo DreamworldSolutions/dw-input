@@ -798,7 +798,7 @@ export class DwInput extends DwFormElement(LitElement) {
       this._textFieldInstance.valid = !this.invalid;
     }
 
-    if (changedProps.has('error') && this.invalid) {
+    if (changedProps.has('error') && (this.error || (this.invalid && !this.error))) {
       this.reportValidity();
     }
   }
@@ -1485,8 +1485,8 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     const tipElement = this.renderRoot.querySelector('dw-tooltip');
-    
-    if((this.error && this.errorInTooltip) || (this.warning && this.warningInTooltip) || (this.hint && this.hintInTooltip)) {
+
+    if ((this.error && this.errorInTooltip) || (this.warning && this.warningInTooltip) || (this.hint && this.hintInTooltip)) {
       tipElement && tipElement.show();
     }
   }
