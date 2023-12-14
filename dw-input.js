@@ -729,6 +729,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.required = false;
     this.readOnly = false;
     this.placeholder = '';
+    this.value = '';
     this._value = '';
     this.error = '';
     this.name = '';
@@ -783,13 +784,18 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  set value(value) {
-    this._setValue(value);
-    this._updateTextfieldValue();
-  }
+  willUpdate(changedProps) {
+    super.willUpdate(changedProps);
+    if (changedProps.has('value')) {
+      this._setValue(this.value);
+      this._updateTextfieldValue();
+    }
 
-  get value() {
-    return this._value;
+    if (changedProps.has('value') || changedProps.has('originalValue') || changedProps.has('highlightChanged')) {
+      if (this.highlightChanged) {
+        this._setIsValueUpdated();
+      }
+    }
   }
 
   updated(changedProps) {
@@ -1349,10 +1355,6 @@ export class DwInput extends DwFormElement(LitElement) {
       })
     );
 
-    if (this.highlightChanged) {
-      this._setIsValueUpdated();
-    }
-
     if (value && this.invalid) {
       this.reportValidity();
     }
@@ -1364,13 +1366,14 @@ export class DwInput extends DwFormElement(LitElement) {
    * Updates text-field's value based on the current value of `value` property.
    * It applies formatting.
    */
-  _updateTextfieldValue() {
+  async _updateTextfieldValue() {
+    await this.updateComplete;
     if (!this._textFieldInstance) {
       return;
     }
 
     let text = this.formatText(this.value);
-    this._textFieldInstance.value = text;
+    this._textFieldInstance.value = text || '';
   }
 
   /**
