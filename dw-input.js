@@ -968,7 +968,7 @@ export class DwInput extends DwFormElement(LitElement) {
       <dw-textarea
         id="tf-outlined"
         class="mdc-text-field__input"
-        .value="${this.value}"
+        .value="${this.value || ''}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -1230,7 +1230,7 @@ export class DwInput extends DwFormElement(LitElement) {
       } else {
         const textarea = this.shadowRoot.querySelector('dw-textarea');
         if (textarea) {
-          textarea.value = this.value;
+          textarea.value = this.value || '';
           textarea.moveToEnd();
         }
       }
