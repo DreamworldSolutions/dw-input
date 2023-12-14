@@ -1347,7 +1347,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return false;
     }
 
-    this._value = value || '';
+    this._value = this.value = value || '';
 
     this.dispatchEvent(
       new CustomEvent('value-changed', {
