@@ -783,16 +783,13 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  willUpdate(changedProps) {
-    super.willUpdate(changedProps);
+  updated(changedProps) {
+    super.updated(changedProps);
     if (changedProps.has('value')) {
       this._setValue(this.value);
       this._updateTextfieldValue();
     }
-  }
 
-  updated(changedProps) {
-    super.updated(changedProps);
     if (changedProps.has('invalid') && this._textFieldInstance) {
       this._textFieldInstance.valid = !this.invalid;
     }
