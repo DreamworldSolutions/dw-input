@@ -730,7 +730,6 @@ export class DwInput extends DwFormElement(LitElement) {
     this.readOnly = false;
     this.placeholder = '';
     this.value = '';
-    this._value = '';
     this.error = '';
     this.name = '';
     this.pattern = '(.*?)';
@@ -790,12 +789,6 @@ export class DwInput extends DwFormElement(LitElement) {
       this._setValue(this.value);
       this._updateTextfieldValue();
     }
-
-    if (changedProps.has('value') || changedProps.has('originalValue') || changedProps.has('highlightChanged')) {
-      if (this.highlightChanged) {
-        this._setIsValueUpdated();
-      }
-    }
   }
 
   updated(changedProps) {
@@ -806,6 +799,12 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if (changedProps.has('error') && (this.error || (this.invalid && !this.error))) {
       this.reportValidity();
+    }
+
+    if (changedProps.has('value') || changedProps.has('originalValue') || changedProps.has('highlightChanged')) {
+      if (this.highlightChanged) {
+        this._setIsValueUpdated();
+      }
     }
   }
 
@@ -1343,15 +1342,13 @@ export class DwInput extends DwFormElement(LitElement) {
    * @returns {Boolean} `true` when value is really changed, `false` when value isn't changed.
    */
   _setValue(value) {
-    if (value === this._value) {
-      return false;
-    }
+    if (value === this.value) return false;
 
-    this._value = value || '';
+    this.value = value || '';
 
     this.dispatchEvent(
       new CustomEvent('value-changed', {
-        detail: { value: this._value },
+        detail: { value: this.value },
       })
     );
 
