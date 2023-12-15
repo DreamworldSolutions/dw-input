@@ -1360,8 +1360,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Updates text-field's value based on the current value of `value` property.
    * It applies formatting.
    */
-  async _updateTextfieldValue() {
-    await this.updateComplete;
+  _updateTextfieldValue() {
     if (!this._textFieldInstance) {
       return;
     }
