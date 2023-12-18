@@ -794,7 +794,11 @@ export class DwInput extends DwFormElement(LitElement) {
       this._textFieldInstance.valid = !this.invalid;
     }
 
-    if (changedProps.has('error') && (this.error || (this.invalid && !this.error))) {
+    if (
+      (changedProps.has('_textFieldInstance') || changedProps.has('error')) &&
+      this._textFieldInstance &&
+      (this.error || (this.invalid && !this.error))
+    ) {
       this.reportValidity();
     }
 
@@ -1274,7 +1278,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
     isValid = !this._customError();
 
-    if (isValid) {
+    if (isValid && this._textFieldInstance) {
       isValid = this._textFieldInstance?.input?.checkValidity();
     }
 
