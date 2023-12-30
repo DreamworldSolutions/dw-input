@@ -1514,7 +1514,7 @@ export class DwInput extends DwFormElement(LitElement) {
     return typeof value === 'string' ? value.trim() : value;
   }
 
-  valueEqualityChecker(value, originalValue) {
+  _valueEqualityChecker(value, originalValue) {
     return this._trimIfRequired(value) == this._trimIfRequired(originalValue);
   }
 
@@ -1522,7 +1522,11 @@ export class DwInput extends DwFormElement(LitElement) {
    * Sets `_valueUpdated` if value is changed. Based on that, highlighted style is shown.
    */
   _setIsValueUpdated() {
-    this._valueUpdated = !this.valueEqualityChecker(this.value, this.originalValue);
+    if(this.valueEqualityChecker) {
+      this._valueUpdated = !this.valueEqualityChecker(this.value, this.originalValue);
+    } else {
+      this._valueUpdated = !this._valueEqualityChecker(this.value, this.originalValue);
+    }
   }
 }
 

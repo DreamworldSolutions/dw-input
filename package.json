@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@dreamworld/material-styles": "^3.0.0",
-    "@dreamworld/pwa-helpers": "^1.17.2",
+    "@dreamworld/pwa-helpers": "^2.0.1",
     "@material/mwc-formfield": "0.27.0",
     "@material/mwc-switch": "0.27.0",
     "@web/dev-server": "^0.1.34",
