@@ -1625,8 +1625,6 @@ export const TextfieldStyle = css`
 
   .mdc-text-field--textarea.mdc-text-field--disabled {
     background-color: transparent;
-    /* @alternate */
-    background-color: #f9f9f9;
   }
   .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__leading,
   .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__notch,
