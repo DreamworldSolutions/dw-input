@@ -794,12 +794,11 @@ export class DwInput extends DwFormElement(LitElement) {
       this._textFieldInstance.valid = !this.invalid;
     }
 
-    if (
-      (changedProps.has('_textFieldInstance') || changedProps.has('error')) &&
-      this._textFieldInstance &&
-      (this.error || (this.invalid && !this.error))
-    ) {
-      this.reportValidity();
+    if (changedProps.has('_textFieldInstance') || changedProps.has('error')) {
+      const error = typeof this.error === 'function' ? this.error() : this.error || '';
+      if (this._textFieldInstance && (error || (this.invalid && !error))) {
+        this.reportValidity();
+      }
     }
 
     if (changedProps.has('value') || changedProps.has('originalValue') || changedProps.has('highlightChanged')) {
@@ -1522,7 +1521,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Sets `_valueUpdated` if value is changed. Based on that, highlighted style is shown.
    */
   _setIsValueUpdated() {
-    if(this.valueEqualityChecker) {
+    if (this.valueEqualityChecker) {
       this._valueUpdated = !this.valueEqualityChecker(this.value, this.originalValue);
     } else {
       this._valueUpdated = !this._valueEqualityChecker(this.value, this.originalValue);
