@@ -864,7 +864,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
       ${this.hint || this._error || this._warning || this.charCounter
         ? html` <div class="mdc-text-field-helper-line">
-            ${this._renderHelperLine} ${this.charCounter ? html`<div class="mdc-text-field-character-counter"></div>` : html``}
+            ${this._renderHelperLine} ${this._charCounterTemplate}
           </div>`
         : html``}
     `;
@@ -890,6 +890,12 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     return nothing;
+  }
+
+  get _charCounterTemplate() {
+    if(!this.charCounter) return;
+
+    return html`<div class="mdc-text-field-character-counter"></div>`;
   }
 
   /**
