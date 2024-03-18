@@ -180,6 +180,9 @@ class DwInputDemo extends LitElement {
       <h4>Text field which accepts only Numbers</h4>
       <dw-input label="Phone number" allowedPattern="[0-9]"></dw-input>
 
+      <h4>Text field which accepts only Numbers</h4>
+      <dw-input type="number" label="Number"></dw-input>
+
       <h4>Text field which accepts only Characters</h4>
       <dw-input label="Name" allowedPattern="[a-zA-Z]"></dw-input>
 
