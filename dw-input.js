@@ -712,6 +712,12 @@ export class DwInput extends DwFormElement(LitElement) {
        * [Reference](https://fonts.google.com/icons?icon.set=Material+Symbols)
        */
       symbol: { type: Boolean },
+
+      /**
+       * Specifies the interval between legal numbers in the input field. 
+       * [Reference] https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step
+       */
+      step: { type: Number },
     };
   }
 
@@ -750,6 +756,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconSize = 24;
     this.type = 'text';
     this._showVisibilityIcon = true;
+    this.step = 'any'
 
     let self = this;
     this._tipButtonClickEvent = e => {
@@ -957,6 +964,7 @@ export class DwInput extends DwFormElement(LitElement) {
         minlength=${this.minLength}
         .maxLength="${this.maxLength}"
         ?charCounter="${this.charCounter}"
+        step="${this.step}"
         @keypress="${this._preventInvalidInput}"
         @paste="${this._preventInvalidInput}"
         @keydown="${this._onKeyDown}"
