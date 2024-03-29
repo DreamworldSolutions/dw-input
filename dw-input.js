@@ -792,6 +792,10 @@ export class DwInput extends DwFormElement(LitElement) {
 
   updated(changedProps) {
     super.updated(changedProps);
+    if(changedProps.has('readOnly') && this.readOnly) {
+      this.tabIndex = -1;
+    }
+
     if (changedProps.has('value')) {
       this._setValue(this.value);
       this._updateTextfieldValue();
