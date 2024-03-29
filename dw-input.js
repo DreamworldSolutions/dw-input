@@ -714,7 +714,7 @@ export class DwInput extends DwFormElement(LitElement) {
       symbol: { type: Boolean },
 
       /**
-       * Specifies the interval between legal numbers in the input field. 
+       * Specifies the interval between legal numbers in the input field.
        * [Reference] https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step
        */
       step: { type: Number },
@@ -756,7 +756,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconSize = 24;
     this.type = 'text';
     this._showVisibilityIcon = true;
-    this.step = 'any'
+    this.step = 'any';
 
     let self = this;
     this._tipButtonClickEvent = e => {
@@ -792,8 +792,8 @@ export class DwInput extends DwFormElement(LitElement) {
 
   updated(changedProps) {
     super.updated(changedProps);
-    if(changedProps.has('readOnly') && this.readOnly) {
-      this.tabIndex = -1;
+    if (changedProps.has('readOnly')) {
+      this.tabIndex = this.readOnly ? -1 : 0;
     }
 
     if (changedProps.has('value')) {
@@ -874,9 +874,7 @@ export class DwInput extends DwFormElement(LitElement) {
       </div>
 
       ${this.hint || this._error || this._warning || this.charCounter
-        ? html` <div class="mdc-text-field-helper-line">
-            ${this._renderHelperLine} ${this._charCounterTemplate}
-          </div>`
+        ? html` <div class="mdc-text-field-helper-line">${this._renderHelperLine} ${this._charCounterTemplate}</div>`
         : html``}
     `;
   }
@@ -904,7 +902,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _charCounterTemplate() {
-    if(!this.charCounter) return;
+    if (!this.charCounter) return;
 
     return html`<div class="mdc-text-field-character-counter"></div>`;
   }
