@@ -797,8 +797,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (changedProps.has('value')) {
-      this._setValue(this.value);
-      this._updateTextfieldValue();
+      this._setValue(this.value, changedProps.get('value'));
     }
 
     if (changedProps.has('invalid') && this._textFieldInstance) {
@@ -1357,10 +1356,12 @@ export class DwInput extends DwFormElement(LitElement) {
    * @param {String} value - Value to be set
    * @returns {Boolean} `true` when value is really changed, `false` when value isn't changed.
    */
-  _setValue(value) {
-    if (value === this.value) return false;
+  _setValue(value, prevValue) {
+    if (value === prevValue) return false;
 
     this.value = value || '';
+    
+    this._updateTextfieldValue();
 
     this.dispatchEvent(
       new CustomEvent('value-changed', {
@@ -1415,7 +1416,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     const value = this.parseValue(this._textFieldInstance.value, false);
-    this._setValue(value, true);
+    this._setValue(value, this.value);
     this.dispatchEvent(new CustomEvent('change'));
   }
 
@@ -1428,7 +1429,7 @@ export class DwInput extends DwFormElement(LitElement) {
     const value = this.parseValue(this._textFieldInstance.value, true);
 
     if (value !== undefined) {
-      const changed = this._setValue(value, true);
+      const changed = this._setValue(value, this.value);
       //Don't dispatch 'input' event as it bubbles up.
       // changed && this.dispatchEvent(new CustomEvent('input'));
     }
