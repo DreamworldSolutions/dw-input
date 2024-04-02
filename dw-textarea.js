@@ -340,8 +340,8 @@ export class DwTextarea extends LitElement {
   /**
    * Returns true if `value` is valid
    */
-  validity() {
-    return this._textarea.validity();
+  get validity() {
+    return this._textarea.validity;
   }
 
   /**
