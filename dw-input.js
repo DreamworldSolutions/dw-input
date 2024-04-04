@@ -1357,10 +1357,10 @@ export class DwInput extends DwFormElement(LitElement) {
    * @returns {Boolean} `true` when value is really changed, `false` when value isn't changed.
    */
   _setValue(value, prevValue) {
-    if (value === prevValue) return false;
+    if (value === prevValue || (!value && !prevValue)) return false;
 
     this.value = value || '';
-    
+
     this._updateTextfieldValue();
 
     this.dispatchEvent(
