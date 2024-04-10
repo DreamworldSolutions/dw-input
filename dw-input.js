@@ -792,10 +792,6 @@ export class DwInput extends DwFormElement(LitElement) {
 
   updated(changedProps) {
     super.updated(changedProps);
-    if (changedProps.has('readOnly')) {
-      this.tabIndex = this.readOnly ? -1 : 0;
-    }
-
     if (changedProps.has('value')) {
       this._setValue(this.value, changedProps.get('value'));
     }
@@ -952,6 +948,7 @@ export class DwInput extends DwFormElement(LitElement) {
     return html`
       <input
         .type="${this._type || this.type}"
+        tabindex=${this.readOnly ? -1 : 0 }
         max=${this.maxNumber}
         min=${this.minNumber}
         id="tf-outlined"
