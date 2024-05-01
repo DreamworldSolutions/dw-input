@@ -1110,7 +1110,6 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get _tipIconButtons() {
-    if (this.iconTrailing) return nothing;
     if (this.invalid) {
       return html`
         ${this.errorInTooltip
