@@ -1411,8 +1411,7 @@ export class DwInput extends DwFormElement(LitElement) {
       return;
     }
 
-    const value = this.parseValue(this._textFieldInstance.value, false);
-    this._setValue(value, this.value);
+    this.value = this.parseValue(this._textFieldInstance.value, false);
     this.dispatchEvent(new CustomEvent('change'));
   }
 
@@ -1425,7 +1424,7 @@ export class DwInput extends DwFormElement(LitElement) {
     const value = this.parseValue(this._textFieldInstance.value, true);
 
     if (value !== undefined) {
-      const changed = this._setValue(value, this.value);
+      this.value = value;
       //Don't dispatch 'input' event as it bubbles up.
       // changed && this.dispatchEvent(new CustomEvent('input'));
     }
