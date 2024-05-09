@@ -1068,6 +1068,7 @@ export class DwInput extends DwFormElement(LitElement) {
           ? html`
               <dw-tooltip
                 for="trailingIcon"
+                trigger="mouseenter focus click"	
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._trailingIconTooltipContent}
@@ -1123,6 +1124,7 @@ export class DwInput extends DwFormElement(LitElement) {
               ></dw-icon-button>
               <dw-tooltip
                 for="error"
+                trigger="mouseenter focus click"	
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._errorTooltipContent}
@@ -1145,6 +1147,7 @@ export class DwInput extends DwFormElement(LitElement) {
               ></dw-icon-button>
               <dw-tooltip
                 for="warning"
+                trigger="mouseenter focus click"	
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._warningTooltipContent}
@@ -1166,6 +1169,7 @@ export class DwInput extends DwFormElement(LitElement) {
               ></dw-icon-button>
               <dw-tooltip
                 for="info"
+                trigger="mouseenter focus click"	
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._hintTooltipContent}
