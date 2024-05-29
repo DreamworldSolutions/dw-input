@@ -665,9 +665,7 @@ export const TextfieldStyle = css`
   .mdc-text-field__input:invalid {
     box-shadow: none;
   }
-  .mdc-text-field__input:-webkit-autofill {
-    z-index: auto !important;
-  }
+  
   .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input {
     padding-top: 16px;
     padding-bottom: 16px;
