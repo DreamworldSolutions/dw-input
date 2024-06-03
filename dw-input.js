@@ -1235,7 +1235,7 @@ export class DwInput extends DwFormElement(LitElement) {
   /* Call this to set focus in the input */
   focus() {
     this.updateComplete.then(() => {
-      if (!this.multiline) {
+      if (!this.multiline && !this.readOnly) {
         if (!this._textFieldInstance) {
           console.warn('dw-input : element has been disconnected before focus.');
         }
