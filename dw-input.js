@@ -718,6 +718,11 @@ export class DwInput extends DwFormElement(LitElement) {
        * [Reference] https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step
        */
       step: { type: Number },
+
+      /**
+       * Default is off
+       */
+      autocomplete: { type: String }
     };
   }
 
@@ -757,7 +762,8 @@ export class DwInput extends DwFormElement(LitElement) {
     this.type = 'text';
     this._showVisibilityIcon = true;
     this.step = 'any';
-
+    this.autocomplete = 'off';
+    
     let self = this;
     this._tipButtonClickEvent = e => {
       const action = e.target.getAttribute('action');
@@ -953,6 +959,7 @@ export class DwInput extends DwFormElement(LitElement) {
         min=${this.minNumber}
         id="tf-outlined"
         class="mdc-text-field__input"
+        .autocomplete="${this.autocomplete}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
