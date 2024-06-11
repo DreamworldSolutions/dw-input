@@ -36,6 +36,7 @@ A material input element made with lit-html. For more detail visit https://mater
 - `warningTooltipActions`: way to add tip action while warning text in tip. on action click event named `action` dispatch.
 - `tipPlacement`: Tooltip placement for more see [tippyJs doc](https://atomiks.github.io/tippyjs/v6/all-props/#placement).
 - `autocomplete`: Browser default auto-complete suggestion is shows or not, default is off.
+  - See for more [detail](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
 
 #### tooltipAction
 
