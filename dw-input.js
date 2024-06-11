@@ -720,9 +720,11 @@ export class DwInput extends DwFormElement(LitElement) {
       step: { type: Number },
 
       /**
+       * Browser auto-complete suggestion is shows or not.
        * Default is off
+       * See for more details: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
        */
-      autocomplete: { type: String }
+      autocomplete: { type: String },
     };
   }
 
@@ -992,6 +994,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
         undecorated
+        autocomplete="${this.autocomplete}"
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         .minLength="${this.minLength}"

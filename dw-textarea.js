@@ -166,6 +166,13 @@ export class DwTextarea extends LitElement {
       undecorated: { type: Boolean, reflect: true },
 
       showPlaceholderOnFocusOnly: { type: Boolean, reflect: true },
+
+      /**
+       * Browser auto-complete suggestion is shows or not.
+       * Default is off
+       * See for more details: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+       */
+      autocomplete: { type: String },
     };
   }
 
@@ -210,6 +217,7 @@ export class DwTextarea extends LitElement {
         id="textarea"
         rows="1"
         style=${styleMap(this._textareaStyle())}
+        autocomplete="${this.autocomplete}"
         .value="${this.value}"
         .maxLength="${this.maxLength}"
         .minLength="${this.minLength}"
@@ -241,6 +249,7 @@ export class DwTextarea extends LitElement {
     this.minHeight = 42;
     this.maxLength = 524288;
     this.minLength = 0;
+    this.autocomplete = 'off';
   }
 
   firstUpdated(changeProps) {
