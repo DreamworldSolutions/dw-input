@@ -961,7 +961,7 @@ export class DwInput extends DwFormElement(LitElement) {
         min=${this.minNumber}
         id="tf-outlined"
         class="mdc-text-field__input"
-        .autocomplete="${this.autocomplete}"
+        autocomplete="${this.autocomplete}"
         .name="${this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
@@ -994,7 +994,7 @@ export class DwInput extends DwFormElement(LitElement) {
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
         undecorated
-        autocomplete="${this.autocomplete}"
+        .autocomplete="${this.autocomplete}"
         .placeholder="${this.placeholder}"
         .minHeight="${this.minHeight}"
         .minLength="${this.minLength}"
