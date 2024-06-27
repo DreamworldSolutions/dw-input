@@ -765,7 +765,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this._showVisibilityIcon = true;
     this.step = 'any';
     this.autocomplete = 'off';
-    
+
     let self = this;
     this._tipButtonClickEvent = e => {
       const action = e.target.getAttribute('action');
@@ -1063,30 +1063,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     if (this.iconTrailing) {
-      return html`
-        <dw-icon-button
-          id="trailingIcon"
-          class="mdc-text-field__icon ${classMap(tooltipClass)}"
-          icon="${this.iconTrailing}"
-          .iconSize=${this.iconSize}
-          .buttonSize=${this.iconButtonSize}
-          ?disabled="${this.disabled}"
-          tabindex="${this.clickableIcon ? '' : -1}"
-          .symbol=${this.symbol}
-        ></dw-icon-button>
-        ${this.errorInTooltip || this.warningInTooltip || this.hintInTooltip
-          ? html`
-              <dw-tooltip
-                for="trailingIcon"
-                trigger="mouseenter focus click"	
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-                .content=${this._trailingIconTooltipContent}
-              >
-              </dw-tooltip>
-            `
-          : nothing}
-      `;
+      return html` ${this._getSuffixIconTrailingTemplate} `;
     }
 
     if (this.suffixText) {
@@ -1094,6 +1071,36 @@ export class DwInput extends DwFormElement(LitElement) {
     }
 
     return nothing;
+  }
+
+  get _getSuffixIconTrailingTemplate() {
+    const tooltipClass = {
+      hint: this.hint && this.hintInTooltip && !this._warning && !this.invalid,
+      warning: this._warning && this.warningInTooltip && !this.invalid,
+      error: this.invalid && this.errorInTooltip,
+    };
+    return html`<dw-icon-button
+        id="trailingIcon"
+        class="mdc-text-field__icon ${classMap(tooltipClass)}"
+        icon="${this.iconTrailing}"
+        .iconSize=${this.iconSize}
+        .buttonSize=${this.iconButtonSize}
+        ?disabled="${this.disabled}"
+        tabindex="${this.clickableIcon ? '' : -1}"
+        .symbol=${this.symbol}
+      ></dw-icon-button>
+      ${this.errorInTooltip || this.warningInTooltip || this.hintInTooltip
+        ? html`
+            <dw-tooltip
+              for="trailingIcon"
+              trigger="mouseenter focus click"
+              .extraOptions=${this._extraOptions}
+              .placement="${this.tipPlacement}"
+              .content=${this._trailingIconTooltipContent}
+            >
+            </dw-tooltip>
+          `
+        : nothing}`;
   }
 
   get _trailingIconTooltipContent() {
@@ -1134,7 +1141,7 @@ export class DwInput extends DwFormElement(LitElement) {
               ></dw-icon-button>
               <dw-tooltip
                 for="error"
-                trigger="mouseenter focus click"	
+                trigger="mouseenter focus click"
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._errorTooltipContent}
@@ -1157,7 +1164,7 @@ export class DwInput extends DwFormElement(LitElement) {
               ></dw-icon-button>
               <dw-tooltip
                 for="warning"
-                trigger="mouseenter focus click"	
+                trigger="mouseenter focus click"
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._warningTooltipContent}
@@ -1179,7 +1186,7 @@ export class DwInput extends DwFormElement(LitElement) {
               ></dw-icon-button>
               <dw-tooltip
                 for="info"
-                trigger="mouseenter focus click"	
+                trigger="mouseenter focus click"
                 .extraOptions=${this._extraOptions}
                 .placement="${this.tipPlacement}"
                 .content=${this._hintTooltipContent}
