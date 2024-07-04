@@ -818,6 +818,8 @@ export class DwInput extends DwFormElement(LitElement) {
     if (changedProps.has('value') || changedProps.has('originalValue') || changedProps.has('highlightChanged')) {
       if (this.highlightChanged) {
         this._setIsValueUpdated();
+      } else if (this._valueUpdated) {
+        this._valueUpdated = false;
       }
     }
   }
