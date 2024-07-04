@@ -820,7 +820,7 @@ export class DwInput extends DwFormElement(LitElement) {
         this._setIsValueUpdated();
       } else if (this._valueUpdated) {
         this._valueUpdated = false;
-      }
+      } 
     }
   }
 
