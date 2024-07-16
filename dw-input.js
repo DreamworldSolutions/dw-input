@@ -430,6 +430,11 @@ export class DwInput extends DwFormElement(LitElement) {
       type: { type: String },
 
       /**
+       * Default is "text"
+       */
+      inputmode: { type: String },
+
+      /**
        * When type is `number`, sets max number
        */
       maxNumber: { type: Number },
@@ -762,6 +767,7 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconButtonSize = 24;
     this.iconSize = 24;
     this.type = 'text';
+    this.inputmode = 'text';
     this._showVisibilityIcon = true;
     this.step = 'any';
     this.autocomplete = 'off';
@@ -958,7 +964,8 @@ export class DwInput extends DwFormElement(LitElement) {
     return html`
       <input
         .type="${this._type || this.type}"
-        tabindex=${this.readOnly ? -1 : 0 }
+        inputmode=${this.inputmode}
+        tabindex=${this.readOnly ? -1 : 0}
         max=${this.maxNumber}
         min=${this.minNumber}
         id="tf-outlined"
