@@ -200,7 +200,9 @@ export class DwTextarea extends LitElement {
     }
 
     this.updateComplete.then(() => {
-      this._resize();
+      requestAnimationFrame(() => {
+        this._resize();
+      });
     });
   }
 
