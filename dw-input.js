@@ -767,7 +767,6 @@ export class DwInput extends DwFormElement(LitElement) {
     this.iconButtonSize = 24;
     this.iconSize = 24;
     this.type = 'text';
-    this.inputmode = 'text';
     this._showVisibilityIcon = true;
     this.step = 'any';
     this.autocomplete = 'off';
