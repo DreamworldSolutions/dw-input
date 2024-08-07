@@ -4,6 +4,7 @@ import { MDCTextField } from '@material/textfield/index.js';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter/index.js';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element.js';
+import DeviceInfo from '@dreamworld/device-info';
 import '@dreamworld/dw-icon-button/dw-icon-button.js';
 import './dw-textarea.js';
 import '@dreamworld/dw-tooltip';
@@ -730,6 +731,13 @@ export class DwInput extends DwFormElement(LitElement) {
        * See for more details: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
        */
       autocomplete: { type: String },
+
+      /**
+       * Represents device has virtual keyboard
+       */
+      _vkb: {
+        type: Boolean,
+      },
     };
   }
 
@@ -770,6 +778,8 @@ export class DwInput extends DwFormElement(LitElement) {
     this._showVisibilityIcon = true;
     this.step = 'any';
     this.autocomplete = 'off';
+    this.tipPlacement = 'bottom-end';
+    this._vkb = DeviceInfo.info().vkb;
 
     let self = this;
     this._tipButtonClickEvent = e => {
@@ -825,7 +835,12 @@ export class DwInput extends DwFormElement(LitElement) {
         this._setIsValueUpdated();
       } else if (this._valueUpdated) {
         this._valueUpdated = false;
-      } 
+      }
+    }
+
+    if (changedProps.has('error') && this.error) {
+      const tipElement = this.renderRoot.querySelector('dw-tooltip');
+      tipElement && tipElement.show();
     }
   }
 
@@ -1087,6 +1102,9 @@ export class DwInput extends DwFormElement(LitElement) {
       warning: this._warning && this.warningInTooltip && !this.invalid,
       error: this.invalid && this.errorInTooltip,
     };
+    const shouldOpenTooltipOnHover = !this._vkb && !(this.hint && this.hintInTooltip);
+    const offset = this._extraOptions?.offset ? this._extraOptions.offset : [0, 8];
+
     return html`<dw-icon-button
         id="trailingIcon"
         class="mdc-text-field__icon ${classMap(tooltipClass)}"
@@ -1102,6 +1120,8 @@ export class DwInput extends DwFormElement(LitElement) {
             <dw-tooltip
               for="trailingIcon"
               trigger="mouseenter focus click"
+              .offset=${offset}
+              .forEl=${shouldOpenTooltipOnHover ? this : ``}
               .extraOptions=${this._extraOptions}
               .placement="${this.tipPlacement}"
               .content=${this._trailingIconTooltipContent}
@@ -1137,72 +1157,47 @@ export class DwInput extends DwFormElement(LitElement) {
 
   get _tipIconButtons() {
     if (this.invalid) {
-      return html`
-        ${this.errorInTooltip
-          ? html`<dw-icon-button
-                id="error"
-                class="error"
-                icon="${'error'}"
-                tabindex="-1"
-                .iconFont="${this.iconFont}"
-                .symbol=${this.symbol}
-              ></dw-icon-button>
-              <dw-tooltip
-                for="error"
-                trigger="mouseenter focus click"
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-                .content=${this._errorTooltipContent}
-              >
-              </dw-tooltip>`
-          : nothing}
-      `;
+      if (this.errorInTooltip) {
+        return this._renderIconWithTooltip('error', this._errorTooltipContent);
+      }
     }
 
     if (this._warning) {
-      return html`
-        ${this.warningInTooltip
-          ? html`<dw-icon-button
-                id="warning"
-                class="warning"
-                icon="${'warning'}"
-                tabindex="-1"
-                .iconFont="${this.iconFont}"
-                .symbol=${this.symbol}
-              ></dw-icon-button>
-              <dw-tooltip
-                for="warning"
-                trigger="mouseenter focus click"
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-                .content=${this._warningTooltipContent}
-              ></dw-tooltip>`
-          : nothing}
-      `;
+      if (this.warningInTooltip) {
+        return this._renderIconWithTooltip('warning', this._warningTooltipContent);
+      }
     }
 
     if (this.hint) {
-      return html`
-        ${this.hintInTooltip
-          ? html`<dw-icon-button
-                id="info"
-                class="info"
-                icon="${'info'}"
-                tabindex="-1"
-                .iconFont="${this.iconFont}"
-                .symbol=${this.symbol}
-              ></dw-icon-button>
-              <dw-tooltip
-                for="info"
-                trigger="mouseenter focus click"
-                .extraOptions=${this._extraOptions}
-                .placement="${this.tipPlacement}"
-                .content=${this._hintTooltipContent}
-              >
-              </dw-tooltip>`
-          : nothing}
-      `;
+      if (this.hintInTooltip) {
+        return this._renderIconWithTooltip('info', this._hintTooltipContent);
+      }
     }
+  }
+
+  _renderIconWithTooltip(type, tooltipContent) {
+    const shouldOpenTooltipOnHover = !this._vkb && type !== "info";
+    const offset = this._extraOptions?.offset ? this._extraOptions.offset : [0,8];
+
+    return html`
+      <dw-icon-button
+        id="${type}"
+        class="${type}"
+        icon="${type}"
+        tabindex="-1"
+        .iconFont="${this.iconFonvt}"
+        .symbol=${this.symbol}
+      ></dw-icon-button>
+      <dw-tooltip
+        for="${type}"
+        trigger="mouseenter focus click"
+        .extraOptions=${this._extraOptions}
+        .offset=${offset}
+        .placement="${this.tipPlacement}"
+        .forEl=${shouldOpenTooltipOnHover ? this : ``}
+        .content=${tooltipContent}
+      ></dw-tooltip>
+    `;
   }
 
   _renderTooltipActions(actions) {
@@ -1445,6 +1440,11 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   _onInput() {
+    if (this.error && this.errorInTooltip) {
+      const tipElement = this.renderRoot.querySelector('dw-tooltip');
+      tipElement && tipElement.hide();
+    }
+
     if (!this._textFieldInstance) {
       console.warn('dw-input: Somehow "_onInput" method is triggered after "disconnectedCallback"');
       return;
