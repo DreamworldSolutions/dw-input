@@ -9,6 +9,7 @@ import '@dreamworld/dw-icon-button/dw-icon-button.js';
 import './dw-textarea.js';
 import '@dreamworld/dw-tooltip';
 import '@dreamworld/dw-button';
+import { headline6 } from '@dreamworld/material-styles/typography.js';
 
 const defaultErrorMessages = {
   badInput: 'Bad input',
@@ -390,6 +391,10 @@ export class DwInput extends DwFormElement(LitElement) {
           --dw-icon-color: var(--mdc-theme-text-warning, #ffa726);
           cursor: pointer;
         }
+
+        :host([highlighted-value]) .mdc-text-field__input{
+          ${headline6};
+        }
       `,
     ];
   }
@@ -738,6 +743,15 @@ export class DwInput extends DwFormElement(LitElement) {
       _vkb: {
         type: Boolean,
       },
+
+      /**
+       * When it's `true`, value shows in highlight style
+       */
+      highlightedValue: {
+        type: Boolean,
+        reflect: true,
+        attribute: 'highlighted-value',
+      }
     };
   }
 
