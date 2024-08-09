@@ -9,7 +9,7 @@ import '@dreamworld/dw-icon-button/dw-icon-button.js';
 import './dw-textarea.js';
 import '@dreamworld/dw-tooltip';
 import '@dreamworld/dw-button';
-import { headline6 } from '@dreamworld/material-styles/typography.js';
+import { headline6 } from '@dreamworld/material-styles/typography-literals.js';
 
 const defaultErrorMessages = {
   badInput: 'Bad input',
