@@ -392,7 +392,7 @@ export class DwInput extends DwFormElement(LitElement) {
           cursor: pointer;
         }
 
-        :host([highlighted-value]) .mdc-text-field__input{
+        :host([highlighted-value]) .mdc-text-field__input {
           ${headline6};
         }
       `,
@@ -751,7 +751,7 @@ export class DwInput extends DwFormElement(LitElement) {
         type: Boolean,
         reflect: true,
         attribute: 'highlighted-value',
-      }
+      },
     };
   }
 
@@ -1190,8 +1190,8 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   _renderIconWithTooltip(type, tooltipContent) {
-    const shouldOpenTooltipOnHover = !this._vkb && type !== "info";
-    const offset = this._extraOptions?.offset ? this._extraOptions.offset : [0,8];
+    const shouldOpenTooltipOnHover = !this._vkb && type !== 'info';
+    const offset = this._extraOptions?.offset ? this._extraOptions.offset : [0, 8];
 
     return html`
       <dw-icon-button
@@ -1532,10 +1532,7 @@ export class DwInput extends DwFormElement(LitElement) {
    */
   _onFocus() {
     if (this.autoSelect) {
-      //Set timeout so that we can always get selected text when autoSelect is true
-      setTimeout(() => {
-        this.selectText();
-      });
+      this.selectText();
     }
 
     const tipElement = this.renderRoot.querySelector('dw-tooltip');
