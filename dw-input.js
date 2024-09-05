@@ -708,6 +708,11 @@ export class DwInput extends DwFormElement(LitElement) {
       tipPlacement: { type: String },
 
       /**
+       * Hold extra options of tooltip.
+       */
+      tipExtraOptions: { type: Object },
+
+      /**
        * Custom error messages for default errors.
        *
        */
@@ -1136,7 +1141,7 @@ export class DwInput extends DwFormElement(LitElement) {
               trigger="mouseenter focus click"
               .offset=${offset}
               .forEl=${shouldOpenTooltipOnHover ? this : ``}
-              .extraOptions=${this._extraOptions}
+              .extraOptions=${{ ...this._extraOptions, ...this.tipExtraOptions }}
               .placement="${this.tipPlacement}"
               .content=${this._trailingIconTooltipContent}
             >
@@ -1205,7 +1210,7 @@ export class DwInput extends DwFormElement(LitElement) {
       <dw-tooltip
         for="${type}"
         trigger="mouseenter focus click"
-        .extraOptions=${this._extraOptions}
+        .extraOptions=${{ ...this._extraOptions, ...this.tipExtraOptions }}
         .offset=${offset}
         .placement="${this.tipPlacement}"
         .forEl=${shouldOpenTooltipOnHover ? this : ``}
