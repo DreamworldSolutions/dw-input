@@ -15,7 +15,7 @@ const defaultErrorMessages = {
   badInput: 'Bad input',
   patternMismatch: 'Pattern is mismatched',
   rangeOverflow: 'Range is overflowed',
-  rangeUnderflow: 'Range is underflowed',
+  rangeUnderflow: 'Range is underFlowed',
   stepMismatch: 'Step is mismatched',
   tooLong: 'Too long',
   tooShort: 'Too short',
@@ -523,7 +523,7 @@ export class DwInput extends DwFormElement(LitElement) {
       error: { type: Object },
 
       /**
-       * This is used when `_customError` method is overriden.
+       * This is used when `_customError` method is overridden.
        * When more than 1 custom error is set into `_customError`, this property is used to re-render.
        */
       __customError: { type: String },
@@ -558,7 +558,7 @@ export class DwInput extends DwFormElement(LitElement) {
       hintPersistent: { type: Boolean },
 
       /**
-       * Mininum number of characters.
+       * Minimum number of characters.
        */
       minLength: { type: Number },
 
@@ -630,7 +630,7 @@ export class DwInput extends DwFormElement(LitElement) {
       showAsFilled: { type: Boolean, value: false, reflect: true },
 
       /**
-       * `true` if when to show hint text in oneline. Default hint text is shown in dropdown width area in multiline.
+       * `true` if when to show hint text in one line. Default hint text is shown in dropdown width area in multiline.
        */
       noHintWrap: { type: Boolean, reflect: true },
 
@@ -1204,7 +1204,7 @@ export class DwInput extends DwFormElement(LitElement) {
         class="${type}"
         icon="${type}"
         tabindex="-1"
-        .iconFont="${this.iconFonvt}"
+        .iconFont="${this.iconFont}"
         .symbol=${this.symbol}
       ></dw-icon-button>
       <dw-tooltip
@@ -1323,9 +1323,8 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Performs validatio of input
-   * Returns true if validation is passedisValid
-   */
+   * Performs validation of input
+   * Returns true if validation is succeed
   checkValidity() {
     let isValid = true;
 
@@ -1379,7 +1378,7 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   /**
-   * Intializes textfield
+   * Initializes textfield
    */
   _initMdcTextField() {
     const el = this.shadowRoot.querySelector('.mdc-text-field');
@@ -1430,7 +1429,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
   /**
    * invokes on keys press
-   * If `allowedPattern` is available then checks input validitiy again allowedPattern
+   * If `allowedPattern` is available then checks input validity again allowedPattern
    * If it's invalid, stops propagation of the event
    * `keypress` event is not triggers for pasted value so it's validation will perform on `input` event
    */
@@ -1504,13 +1503,13 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   _onKeyDown(e) {
-    var keyCode = e.keyCode || e.which;
-    if (keyCode === 13) {
+    const key = e.key;
+    if (key === 'Enter') {
       this._dispatchEnter(e);
       return;
     }
 
-    if (keyCode === 27) {
+    if (key === 'Escape') {
       this._dispatchEsc(e);
     }
   }
