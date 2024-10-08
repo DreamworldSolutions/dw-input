@@ -1325,6 +1325,7 @@ export class DwInput extends DwFormElement(LitElement) {
   /**
    * Performs validation of input
    * Returns true if validation is succeed
+   **/
   checkValidity() {
     let isValid = true;
 
