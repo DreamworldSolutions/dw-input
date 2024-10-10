@@ -1021,6 +1021,7 @@ export class DwInput extends DwFormElement(LitElement) {
         @change="${this._onChange}"
         @blur="${this._onInputBlur}"
         @focus="${this._onFocus}"
+        @wheel="${this._onWheel}"
       />
     `;
   }
@@ -1513,6 +1514,10 @@ export class DwInput extends DwFormElement(LitElement) {
     if (key === 'Escape') {
       this._dispatchEsc(e);
     }
+
+    if (this.type === 'number' && (key === 'ArrowUp' || key === 'ArrowDown')) {
+      e.preventDefault();
+    }
   }
 
   _dispatchEnter(e) {
@@ -1544,6 +1549,12 @@ export class DwInput extends DwFormElement(LitElement) {
 
     if ((this.error && this.errorInTooltip) || (this.warning && this.warningInTooltip) || (this.hint && this.hintInTooltip)) {
       tipElement && tipElement.show();
+    }
+  }
+
+  _onWheel() {
+    if (this.type === 'number') {
+      e.preventDefault();
     }
   }
 
