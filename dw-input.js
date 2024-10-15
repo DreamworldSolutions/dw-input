@@ -1552,7 +1552,7 @@ export class DwInput extends DwFormElement(LitElement) {
     }
   }
 
-  _onWheel() {
+  _onWheel(e) {
     if (this.type === 'number') {
       e.preventDefault();
     }
