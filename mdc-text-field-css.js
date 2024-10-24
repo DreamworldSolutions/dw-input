@@ -6,7 +6,6 @@ export const TextfieldStyle = css`
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-size: 1rem;
-    line-height: 1.75rem;
     font-weight: 400;
     letter-spacing: 0.009375em;
     text-decoration: inherit;
@@ -22,7 +21,7 @@ export const TextfieldStyle = css`
     transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1),
       -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
     /* @alternate */
-    line-height: 1.15rem;
+    line-height: var(--mdc-floating-label-line-height, normal);
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
