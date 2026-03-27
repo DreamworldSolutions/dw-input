@@ -403,6 +403,7 @@ export class DwInput extends DwFormElement(LitElement) {
     super.connectedCallback && super.connectedCallback();
 
     this.updateComplete.then(() => {
+      if (!this.isConnected) return;  // element was disconnected before render resolved
       this._initMdcTextField();
       this._updateTextfieldValue();
 
@@ -1282,7 +1283,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
         this._textFieldInstance && this._textFieldInstance.focus();
       } else {
-        const textarea = this.shadowRoot.querySelector('dw-textarea');
+        const textarea = this.renderRoot.querySelector('dw-textarea');
         if (textarea) {
           textarea.value = this.value || '';
           textarea.moveToEnd();
@@ -1383,10 +1384,10 @@ export class DwInput extends DwFormElement(LitElement) {
    * Initializes textfield
    */
   _initMdcTextField() {
-    const el = this.shadowRoot.querySelector('.mdc-text-field');
+    const el = this.renderRoot.querySelector('.mdc-text-field');
+    if (!el) return;  // shadow root not yet rendered; bail out safely
     this._textFieldInstance = new MDCTextField(el);
     this._textFieldInstance.useNativeValidation = false;
-    new MDCTextFieldCharacterCounter(document.querySelector('.mdc-text-field-character-counter'));
   }
 
   /**
