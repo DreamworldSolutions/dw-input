@@ -862,6 +862,13 @@ export class DwInput extends DwFormElement(LitElement) {
       const tipElement = this.renderRoot.querySelector('dw-tooltip');
       tipElement && tipElement.show();
     }
+
+    // The error tooltip is created only when the input turns invalid. If the pointer is already over the input,
+    // its `mouseenter` trigger never fires, so show it here.
+    if ((changedProps.has('invalid') || changedProps.has('errorInTooltip')) && this.invalid && this.errorInTooltip) {
+      const tipElement = this.renderRoot.querySelector('dw-tooltip');
+      !this._vkb && this.matches(':hover') && tipElement && tipElement.show();
+    }
   }
 
   get _errorMessages() {
