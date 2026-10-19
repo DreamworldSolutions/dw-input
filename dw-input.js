@@ -408,13 +408,7 @@ export class DwInput extends DwFormElement(LitElement) {
       this._updateTextfieldValue();
 
       // Setting timeout here for proper label placement
-      setTimeout(() => {
-        if (!this._textFieldInstance) {
-          console.warn('dw-input : Somehow element has been disconnected before finish layout.');
-        }
-
-        this._textFieldInstance && this._textFieldInstance.layout();
-      }, 200);
+      setTimeout(() => this._layoutTextField(), 200);
     });
   }
 
@@ -827,6 +821,7 @@ export class DwInput extends DwFormElement(LitElement) {
 
   disconnectedCallback() {
     super.disconnectedCallback && super.disconnectedCallback();
+    this._disconnectRenderObserver();
     if (this._textFieldInstance) {
       this._textFieldInstance.destroy();
       this._textFieldInstance = null;
@@ -1369,14 +1364,39 @@ export class DwInput extends DwFormElement(LitElement) {
 
   layout() {
     this.updateComplete.then(() => {
-      setTimeout(() => {
-        if (!this._textFieldInstance) {
-          console.warn('dw-input : Somehow element has been disconnected before finish layout.');
-        }
-
-        this._textFieldInstance && this._textFieldInstance.layout();
-      }, 200);
+      setTimeout(() => this._layoutTextField(), 200);
     });
+  }
+
+  /**
+   * Sizes the outline notch to the floating label. While hidden (`display: none` ancestor), MDC
+   * measures a style-less clone of the label outside the shadow root, giving a too narrow notch
+   * that clips the label; so waits until the label is rendered.
+   */
+  _layoutTextField() {
+    if (!this._textFieldInstance) {
+      console.warn('dw-input : Somehow element has been disconnected before finish layout.');
+      return;
+    }
+
+    const label = this.renderRoot.querySelector('.mdc-floating-label');
+    if (!label || label.offsetParent) {
+      this._textFieldInstance.layout();
+      return;
+    }
+
+    if (this._renderObserver) return;
+    this._renderObserver = new ResizeObserver(() => {
+      if (!this.renderRoot.querySelector('.mdc-floating-label')?.offsetParent) return;
+      this._disconnectRenderObserver();
+      this._textFieldInstance && this._textFieldInstance.layout();
+    });
+    this._renderObserver.observe(this);
+  }
+
+  _disconnectRenderObserver() {
+    this._renderObserver && this._renderObserver.disconnect();
+    this._renderObserver = null;
   }
 
   parseValue(text) {
