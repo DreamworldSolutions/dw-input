@@ -8,8 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css } from 'lit-element';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { LitElement, html, css } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 
 /**
  * Behaviors:
@@ -83,14 +83,20 @@ export class DwTextarea extends LitElement {
 
         ::-webkit-input-placeholder { /* Edge */
           color: var(--mdc-theme-text-hint);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         :-ms-input-placeholder { /* Internet Explorer 10-11 */
           color: var(--mdc-theme-text-hint);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         ::placeholder {
           color: var(--mdc-theme-text-hint);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
 
         :host(:not([undecorated])) textarea:focus {
@@ -167,7 +173,32 @@ export class DwTextarea extends LitElement {
       /**
        * When it's `true`. It doesn not show border.
        */
-      undecorated: { type: Boolean, reflect: true}
+      undecorated: { type: Boolean, reflect: true},
+
+      /**
+       * browser auto-complete suggestion is shows or not.
+       * Default is off
+       * See for more details: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+       */
+      autocomplete: { type: String },
+
+      /**
+       * Controls automatic capitalization of text input.
+       * Default is off
+       */
+      autocapitalize: { type: String },
+
+      /**
+       * Controls automatic spelling correction.
+       * Default is off
+       */
+      autocorrect: { type: String },
+
+      /**
+       * Controls spell checking.
+       * Default is false
+       */
+      spellcheck: { type: Boolean },
     };
   }
 
@@ -204,11 +235,15 @@ export class DwTextarea extends LitElement {
   }
 
   get _textarea() {
-    return this.renderRoot.querySelector('#textarea');
+    return this.renderRoot && this.renderRoot.querySelector('#textarea');
   }
 
   render() {
     return html`<textarea id="textarea" rows="1"
+        autocomplete="${this.autocomplete}"
+        autocapitalize="${this.autocapitalize}"
+        autocorrect="${this.autocorrect}"
+        ?spellcheck="${this.spellcheck}"
         style=${styleMap(this._textareaStyle())}
         .value="${this.value}"
         .maxLength="${this.maxLength}"
@@ -240,6 +275,10 @@ export class DwTextarea extends LitElement {
     this.minHeight = 42;
     this.maxLength = 524288;
     this.minLength = 0;
+    this.autocomplete = 'off';
+    this.autocapitalize = 'off';
+    this.autocorrect = 'off';
+    this.spellcheck = false;
   }
 
   firstUpdated(changeProps) {

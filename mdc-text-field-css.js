@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export const TextfieldStyle = css`
   
@@ -629,9 +629,7 @@ export const TextfieldStyle = css`
 .mdc-text-field__input:invalid {
   box-shadow: none;
 }
-.mdc-text-field__input:-webkit-autofill {
-  z-index: auto !important;
-}
+
 .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input {
   padding-top: 16px;
   padding-bottom: 16px;
@@ -1446,7 +1444,43 @@ export const TextfieldStyle = css`
   /* @alternate */
   background-color: #f9f9f9;
 }
-.mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__leading,
+
+  .mdc-text-field__input:-webkit-autofill,
+  .mdc-text-field--textarea:-webkit-autofill {
+    -webkit-text-fill-color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87)) !important;
+    background-color: transparent !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  .mdc-text-field--outlined.mdc-text-field--disabled .mdc-text-field__input:-webkit-autofill,
+  .mdc-text-field--textarea.mdc-text-field--disabled .mdc-text-field__input:-webkit-autofill {
+    -webkit-text-fill-color: var(--mdc-theme-text-disabled ,rgba(0, 0, 0, 0.38)) !important;
+    background-color: transparent !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  .mdc-text-field--outlined.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-text-field__input:-webkit-autofill,
+  .mdc-text-field--textarea.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-text-field__input:-webkit-autofill {
+   -webkit-text-fill-color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87)) !important;
+   border-color: #6200ee;
+   /* @alternate */
+   border-color: var(--mdc-theme-primary, #6200ee);
+   background-color: transparent !important;
+   transition: background-color 5000s ease-in-out 0s;
+  }
+
+  .mdc-text-field--outlined.mdc-text-field--invalid .mdc-text-field__input:-webkit-autofill,
+  .mdc-text-field--textarea.mdc-text-field--invalid .mdc-text-field__input:-webkit-autofill {
+    -webkit-text-fill-color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87)) !important;
+    border-color: #b00020;
+    /* @alternate */
+    border-color: var(--mdc-theme-error, #b00020);
+    background-color: transparent !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+
+  .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__leading,
 .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__notch,
 .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__trailing {
   border-color: rgba(0, 0, 0, 0.06);
