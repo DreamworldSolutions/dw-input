@@ -523,7 +523,7 @@ export class DwInput extends DwFormElement(LitElement) {
       'mdc-text-field--outlined' : !this.showAsFilled
     };
     const labelClasses = {
-      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused_) || this.value || this.value === 0
+      'mdc-floating-label--float-above': (this._textFieldInstance && this._textFieldInstance.foundation.isFocused) || this.value || this.value === 0
     };
 
     const helperTextClasses = {
@@ -849,7 +849,7 @@ export class DwInput extends DwFormElement(LitElement) {
 	  return;
 	}
 
-    this._textFieldInstance.input_.select();
+    this._textFieldInstance.input.select();
   }
 
   /* Call this to perform validation of the input */
@@ -957,7 +957,7 @@ export class DwInput extends DwFormElement(LitElement) {
         const filteredText = this._filterTextByPattern(pastedText);
         
         // Insert the filtered text at cursor position
-        const input = this._textFieldInstance.input_;
+        const input = this._textFieldInstance.input;
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const currentValue = input.value;
@@ -1126,7 +1126,7 @@ export class DwInput extends DwFormElement(LitElement) {
    * Returns true if validation is passed
    */
   _getInputValidity() {
-    let isValid = this._textFieldInstance && this._textFieldInstance.input_.checkValidity();
+    let isValid = this._textFieldInstance && this._textFieldInstance.input.checkValidity();
 
     if (!isValid) {
       return false;

@@ -27,7 +27,7 @@
     "@dreamworld/dw-form": "2.3.2-kerika.1",
     "@dreamworld/dw-icon-button": "2.3.2-kerika.1",
     "@dreamworld/material-styles": "^3.2.4",
-    "@material/textfield": "9.0.0-canary.1c156d69d.0",
+    "@material/textfield": "^14.0.0",
     "lit": "^3.3.0"
   },
   "devDependencies": {
@@ -39,17 +39,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "resolutions": {
-    "tslib": "2.1.0",
-    "@material/base": "9.0.0-canary.1c156d69d.0",
-    "@material/feature-targeting": "9.0.0-canary.1c156d69d.0",
-    "@material/ripple": "9.0.0-canary.1c156d69d.0",
-    "@material/rtl": "9.0.0-canary.1c156d69d.0",
-    "@material/theme": "9.0.0-canary.1c156d69d.0",
-    "@material/typography": "9.0.0-canary.1c156d69d.0",
-    "@material/animation": "9.0.0-canary.1c156d69d.0",
-    "@material/dom": "9.0.0-canary.1c156d69d.0"
   },
   "release": {
     "branches": [
