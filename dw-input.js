@@ -11,12 +11,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { html, css } from 'lit';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldCharacterCounter } from '@material/textfield/character-counter';
 import { TextfieldStyle } from './mdc-text-field-css.js';
 import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
 import '@dreamworld/dw-icon-button/dw-icon-button';
 import './dw-textarea.js';
+
+/**
+ * Inner `<input>` name used when `ignorePasswordManagers` is set. Bitwarden (2026.x) honours
+ * `data-bwignore` only when its user opts in, but always skips a field whose name reads as a search.
+ */
+const IGNORED_BY_PASSWORD_MANAGERS_NAME = 'search';
 
 export class DwInput extends DwFormElement(LitElement) {
   static get styles() {
@@ -645,6 +652,9 @@ export class DwInput extends DwFormElement(LitElement) {
   }
 
   get inputTemplate() {
+    // Password managers check whether these attributes exist, not their value, so they are left
+    // off entirely when not ignoring.
+    const passwordManagerIgnore = this.ignorePasswordManagers ? 'true' : undefined;
     return html`
       <input type="text"
         autocomplete="${this.autocomplete}"
@@ -652,12 +662,12 @@ export class DwInput extends DwFormElement(LitElement) {
         autocorrect="${this.autocorrect}"
         ?spellcheck="${this.spellcheck}"
         type="${this._type || this.type}"
-        data-bwignore="${this.ignorePasswordManagers}"
-        data-lpignore="${this.ignorePasswordManagers}"
-        data-1p-ignore="${this.ignorePasswordManagers}"
+        data-bwignore="${ifDefined(passwordManagerIgnore)}"
+        data-lpignore="${ifDefined(passwordManagerIgnore)}"
+        data-1p-ignore="${ifDefined(passwordManagerIgnore)}"
         id="tf-outlined"
         class="mdc-text-field__input"
-        .name="${this.name}"
+        .name="${this.ignorePasswordManagers ? IGNORED_BY_PASSWORD_MANAGERS_NAME : this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
