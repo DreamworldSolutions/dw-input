@@ -691,7 +691,7 @@ export class DwInput extends DwFormElement(LitElement) {
       <dw-textarea id="tf-outlined"
         class="mdc-text-field__input"
         .value="${this.value}"
-        .name="${this.name}"
+        .name="${this.ignorePasswordManagers ? IGNORED_BY_PASSWORD_MANAGERS_NAME : this.name}"
         ?disabled="${this.disabled}"
         ?required="${this.required}"
         ?readonly="${this.readOnly}"
